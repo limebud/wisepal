@@ -35,8 +35,6 @@
               .then(res => {
                   this.token = res.data.ClientToken
               })
-              .then(() => {
-              })
           }
       }
   }
