@@ -8,12 +8,14 @@
             <TextField row="5" col="1" v-model="password" hint="Lösenord" />
 
             <Button row="6" col="1" @tap="login">Logga in</Button>
+
         </GridLayout>
     </Page>
 </template>
 
 <script>
   import axios from 'axios'
+  import Search from '../Search/Search'
   export default {
       data() {
           return {
@@ -33,15 +35,20 @@
                   }
               })
               .then(res => {
-                  this.token = res.data.ClientToken
+                  this.$store.commit('setToken', res.data.ClientToken)
+                  this.$navigateTo(Search)
               })
           }
       }
   }
 </script>
 
-<style scoped lang="scss">
+<style scoped>
     Page {
-        background-color: #9ec9e2;
+        background-color: #513270;
+    }
+
+    Textfield {
+        color: white;
     }
 </style>

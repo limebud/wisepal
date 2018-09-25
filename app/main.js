@@ -1,7 +1,13 @@
 import Vue from 'nativescript-vue'
-import App from './components/App'
+
+import Login from './components/Login/Login'
+import Search from './components/Search/Search'
 import VueDevtools from 'nativescript-vue-devtools'
+import store from './store';
 import axios from 'axios'
+
+import "./styles.scss";
+
 
 axios.defaults.baseURL = 'https://webapitest.wisetalk.se/api/'
 
@@ -13,5 +19,6 @@ if(TNS_ENV !== 'production') {
 Vue.config.silent = (TNS_ENV === 'production')
 
 new Vue({
-  render: h => h('frame', [h(App)])
+  store,
+  render: h => h('frame', [h(Login)])
 }).$start()
