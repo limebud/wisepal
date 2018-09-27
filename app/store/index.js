@@ -13,23 +13,30 @@ const mutations = {
     setToken(state, token) {
         state.token = token
     },
-    setCustomerData(state, payload) {
-        state.customerData = payload
+    setCustomerDocuments(state, payload) {
+        state.customerDocuments = payload
+    },
+    setCustomerInformation(state, payload) {
+        state.customerInformation = payload
     }
 }
 
 const store = new Vuex.Store({
   state: {
-    token: '',
-    customerData: {}
+    token: null,
+    customerDocuments: null,
+    customerInformation: null
   },
   mutations,
   getters: {
       getToken: state => {
           return state.token
       },
-      getCustomer: state => {
-          return state.customerData
+      getCustomerDocuments: state => {
+          return state.customerDocuments
+      },
+      getCustomerInformation: state => {
+          return state.customerInformation
       }
   },
   // actions,

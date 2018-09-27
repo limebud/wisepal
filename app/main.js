@@ -2,6 +2,8 @@ import Vue from 'nativescript-vue'
 
 import Login from './components/Login/Login'
 import Search from './components/Search/Search'
+import Customer from './components/Customer/Customer'
+
 import VueDevtools from 'nativescript-vue-devtools'
 import store from './store';
 import axios from 'axios'

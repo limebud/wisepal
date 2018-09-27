@@ -1,22 +1,30 @@
 <template>
   <Page loaded="pageLoaded" actionBarHidden="true">
     <StackLayout>
-        <Label text="Hello there" />
+        <TabView>
+          <TabViewItem title="Info">
+              <customer-info />
+          </TabViewItem>
+          <TabViewItem title="Dokument">
+             <customer-documents />
+          </TabViewItem>
+        </TabView>
     </StackLayout>
   </Page>
 </template>
 
 <script>
   import axios from 'axios'
+  import CustomerInfo from './CustomerInfo.vue'
+  import CustomerDocuments from './CustomerDocuments.vue'
   export default {
       data() {
           return {
           }
       },
-      methods: {
-      },
-      created() {
-          console.log(this.$store.getters.getCustomer)
+      components: {
+          'customer-info': CustomerInfo,
+          'customer-documents': CustomerDocuments
       }
   }
 </script>

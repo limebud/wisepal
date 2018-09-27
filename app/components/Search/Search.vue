@@ -3,7 +3,7 @@
       <StackLayout>
       <SearchBar hint="Sök..." @submit="search" v-model="searchQuery" />
       <ScrollView>
-            <ListView class="list-group" for="item in searchResult" @itemTap="onItemTap" style="height:1250px">
+            <ListView v-if="searchResult" class="list-group" for="item in searchResult" @itemTap="onItemTap" style="height:1250px">
               <v-template>
                 <FlexboxLayout flexDirection="row" class="list-group-item">
                   <Label :text="item.Name.Value" class="list-group-item-heading" style="width: 60%"/>
@@ -22,12 +22,12 @@
       data() {
           return {
               searchQuery: '',
-              searchResult: ''
+              searchResult: false,
+              id: ''
           }
       },
       methods: {
           search() {
-              console.log("searching...")
               axios.get('/Broker/SearchParties/', {
                   params: {
                       searchQuery: this.searchQuery
@@ -38,16 +38,41 @@
                   }
               })
               .then(res => {
-                  console.log(res.data.Result)
                   this.searchResult = res.data.Result
               })
           },
           onItemTap(event) {
-              this.$store.commit('setCustomerData', event.item)
-              this.$navigateTo(Customer)
+              this.id = event.item.Id.Value
+
+              axios.all([
+                  axios.get('/Document/GetDocumentsByPartyId/', {
+                      params: {
+                          Id: this.id
+                      },
+                      headers: {
+                          'Authorization': this.$store.getters.getToken,
+                          'Culture': 'sv-se'
+                      }
+                  }),
+                  axios.get('/person/Get/', {
+                      params: {
+                          Id: this.id
+                      },
+                      headers: {
+                          'Authorization': this.$store.getters.getToken,
+                          'Culture': 'sv-se'
+                      }
+                  })
+              ])
+              .then(axios.spread((documentRes, personRes) => {
+                  this.$store.commit('setCustomerDocuments', documentRes.data.Result)
+                  this.$store.commit('setCustomerInformation', personRes.data.Result)
+                  this.$navigateTo(Customer)
+              }))
+              .catch(error => console.log(error))
+            }
           }
-      }
-  }
+         }
 </script>
 
 <style scoped lang="scss">
