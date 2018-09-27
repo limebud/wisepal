@@ -12,6 +12,7 @@
   </StackLayout>
 </template>
 
+
 <script>
   export default {
       name: "customer-documents",
