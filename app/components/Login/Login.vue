@@ -2,10 +2,6 @@
     <Page loaded="pageLoaded" actionBarHidden="true">
         <StackLayout>
 
-            <StackLayout v-if="this.$store.getters.getToken">
-                <Label text="Banan" />
-            </StackLayout>
-
             <StackLayout class="header">
                 <Image  src="res://logo" class="logo" />
                 <Label text="Welcome" class="welcome" />
