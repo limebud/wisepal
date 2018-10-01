@@ -1,28 +1,50 @@
 <template>
     <Page loaded="pageLoaded" actionBarHidden="true">
-        <GridLayout columns="*, 5*, *" rows="*, 4*, *, *, *, *, *, *">
-            <Image row="1" col="1" src="~/images/logo.png" class="logo" />
+        <StackLayout>
 
-            <TextField row="3" col="1" v-model="pin" hint="PIN" />
-            <TextField row="4" col="1" v-model="username" hint="Användarnamn" />
-            <TextField row="5" col="1" v-model="password" hint="Lösenord" />
+            <StackLayout v-if="this.$store.getters.getToken">
+                <Label text="Banan" />
+            </StackLayout>
 
-            <Button row="6" col="1" @tap="login">Logga in</Button>
+            <StackLayout class="header">
+                <Image  src="res://logo" class="logo" />
+                <Label text="Welcome" class="welcome" />
+                <Label textWrap="true" text="See what's going on today" class="msg" />
+            </StackLayout>
 
-        </GridLayout>
+            <StackLayout class="form">
+                <TextField v-model="pin" hint="PIN" />
+                <TextField v-model="username" hint="Username" />
+                <TextField v-model="password" hint="Password" />
+            </StackLayout>
+
+            <GridLayout columns="*, *" rows="auto">
+                <Label class="h3 m-15" text="Remember me" col="0"/>
+                <Switch class="m-15" v-model="rememberMe" col="1"/>
+            </GridLayout >
+
+            <StackLayout class="buttons">
+                <Button @tap="login">Log in</Button>
+                <Label text="Lost your password?" class="forgotPassword" @tap="forgotPassword" />
+            </StackLayout>
+
+        </StackLayout>
     </Page>
 </template>
 
 <script>
   import axios from 'axios'
   import Search from '../Search/Search'
+  import * as Toast from 'nativescript-toast';
+  import * as appSettings from 'tns-core-modules/application-settings'
+
   export default {
       data() {
           return {
               pin: '',
               username: '',
               password: '',
-              token: ''
+              rememberMe: false
           }
       },
       methods: {
@@ -35,20 +57,64 @@
                   }
               })
               .then(res => {
-                  this.$store.commit('setToken', res.data.ClientToken)
-                  this.$navigateTo(Search)
+                  if (res.data.Success) {
+                      this.$store.commit('setToken', res.data.ClientToken)
+
+                      if(this.rememberMe) {
+                          appSettings.setString("token", res.data.ClientToken)
+                      } else {
+                          appSettings.clear()
+                      }
+
+                      this.$navigateTo(Search)
+                  } else {
+                      Toast.makeText(res.data.Messages[0], "long").show()
+                  }
               })
+              .catch(err => { console.log(err )})
+          },
+          forgotPassword() {
+              console.log("Password forgotten")
           }
       }
   }
 </script>
 
+
 <style scoped>
     Page {
         background-color: #513270;
+        padding: 30%;
+        text-align: center;
     }
 
     Textfield {
+        text-align: left;
         color: white;
     }
+
+
+    Label {
+        color: white;
+    }
+
+    .logo {
+        width: 40%;
+        margin: 5% auto 8%;
+    }
+
+    .welcome {
+        font-size: 36vw;
+        font-weight: bold;
+    }
+
+    .msg {
+        font-size: 22vw;
+        margin-bottom: 7%;
+    }
+
+    .forgotPassword {
+        margin: 10%;
+    }
+
 </style>

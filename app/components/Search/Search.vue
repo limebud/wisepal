@@ -40,6 +40,7 @@
               .then(res => {
                   this.searchResult = res.data.Result
               })
+              .catch(error => { console.log(error)})
           },
           onItemTap(event) {
               this.id = event.item.Id.Value
@@ -71,8 +72,8 @@
               }))
               .catch(error => console.log(error))
             }
-          }
-         }
+        }
+    }
 </script>
 
 <style scoped lang="scss">

@@ -1,8 +1,6 @@
 import Vue from 'nativescript-vue'
 
-import Login from './components/Login/Login'
-import Search from './components/Search/Search'
-import Customer from './components/Customer/Customer'
+import App from './App'
 
 import VueDevtools from 'nativescript-vue-devtools'
 import store from './store';
@@ -22,5 +20,5 @@ Vue.config.silent = (TNS_ENV === 'production')
 
 new Vue({
   store,
-  render: h => h('frame', [h(Login)])
+  render: h => h('frame', [h(App)])
 }).$start()
