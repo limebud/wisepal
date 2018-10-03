@@ -10,6 +10,8 @@ import "./styles.scss";
 
 axios.defaults.baseURL = 'https://webapitest.wisetalk.se/api/'
 
+Vue.registerElement('RadSideDrawer', () => require('nativescript-ui-sidedrawer').RadSideDrawer)
+
 if(TNS_ENV !== 'production') {
   Vue.use(VueDevtools)
 }

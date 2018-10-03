@@ -1,24 +1,37 @@
 <template>
-  <Page loaded="pageLoaded" actionBarHidden="true">
-    <GridLayout rows="auto, *, auto">
-        <SearchBar row="0" hint="Search" @submit="search" v-model="searchQuery" />
+  <Page loaded="pageLoaded" >
+      <ActionBar>
+          <GridLayout width="100%" columns="*, 5*">
+              <Button col="0" text="MENY" @tap="openDrawer"/>
+              <SearchBar col="1" hint="Search" @submit="search" v-model="searchQuery" />
+          </GridLayout>
+      </ActionBar>
 
-      <ScrollView row="2">
-            <ListView v-if="searchResult" class="list-group" for="item in searchResult" @itemTap="onItemTap" style="height:1250px">
-              <v-template>
-                <FlexboxLayout flexDirection="row" class="list-group-item">
-                  <Label :text="item.Name.Value" class="lalala" style="width: 60%"/>
-                </FlexboxLayout>
-              </v-template>
-            </ListView>
-      </ScrollView>
-    </GridLayout>
+    <RadSideDrawer ref="drawer">
+        <StackLayout ~drawerContent class="sideStackLayout">
+            <Button text="Logga ut" @tap="logout" />
+            <Label text="Close Drawer" color="lightgray" padding="10" style="horizontal-align: center" @tap="onCloseDrawerTap"></Label>
+        </StackLayout>
+
+        <StackLayout ~mainContent class="mainStackLayout">
+            <ScrollView row="1">
+                <ListView v-if="searchResult" class="list-group" for="item in searchResult" @itemTap="onItemTap" style="height:1250px">
+                    <v-template>
+                      <FlexboxLayout flexDirection="row" class="list-group-item">
+                        <Label :text="item.Name.Value" class="list-item" style="width: 60%"/>
+                      </FlexboxLayout>
+                    </v-template>
+                </ListView>
+            </ScrollView>
+        </StackLayout>
+    </RadSideDrawer>
   </Page>
 </template>
 
 <script>
   import axios from 'axios'
   import Customer from '../Customer/Customer'
+  import Login from '../Login/Login'
   export default {
       data() {
           return {
@@ -81,7 +94,19 @@
                   this.$navigateTo(Customer)
               }))
               .catch(error => console.log(error))
-            }
+          },
+          openDrawer() {
+            this.$refs.drawer.nativeView.showDrawer();
+          },
+          onCloseDrawerTap() {
+              this.$refs.drawer.nativeView.closeDrawer();
+          },
+          logout() {
+              this.$store.commit('setToken', '')
+              this.$navigateTo(Login, {
+                  clearHistory: true
+              })
+          }
         }
     }
 </script>
@@ -89,7 +114,6 @@
 <style scoped>
     Page {
         background: #9068b9;
-        padding: 30%;
         color: #fff;
     }
 
@@ -106,7 +130,7 @@
         margin-bottom: 10%;
     }
 
-    .lalala {
+    .list-item {
         color: white;
         padding-left: 0;
     }
