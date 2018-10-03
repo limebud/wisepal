@@ -31,6 +31,7 @@
 <script>
   import axios from 'axios'
   import Search from '../Search/Search'
+  import Password from './Password'
   import * as Toast from 'nativescript-toast';
   import * as appSettings from 'tns-core-modules/application-settings'
 
@@ -76,7 +77,7 @@
               .catch(err => { console.log(err )})
           },
           forgotPassword() {
-              console.log("Password forgotten")
+              this.$navigateTo(Password)
           }
       }
   }
