@@ -11,7 +11,7 @@
             <StackLayout class="form">
                 <TextField v-model="pin" hint="PIN" />
                 <TextField v-model="username" hint="Username" />
-                <TextField v-model="password" hint="Password" />
+                <TextField v-model="password" hint="Password" secure="true" />
             </StackLayout>
 
             <GridLayout columns="*, *" rows="auto">
@@ -34,13 +34,17 @@
   import * as Toast from 'nativescript-toast';
   import * as appSettings from 'tns-core-modules/application-settings'
 
+  let $savedPin = appSettings.getString("pin") ? appSettings.getString("pin") : ''
+  let $savedUsername = appSettings.getString("username") ? appSettings.getString("username") : ''
+  let $savedPassword = appSettings.getString("password") ? appSettings.getString("password") : ''
+
   export default {
       data() {
           return {
-              pin: '',
-              username: '',
-              password: '',
-              rememberMe: false
+              pin: $savedPin,
+              username: $savedUsername,
+              password: $savedPassword,
+              rememberMe: true
           }
       },
       methods: {
@@ -57,7 +61,9 @@
                       this.$store.commit('setToken', res.data.ClientToken)
 
                       if(this.rememberMe) {
-                          appSettings.setString("token", res.data.ClientToken)
+                          appSettings.setString("pin", this.pin)
+                          appSettings.setString("username", this.username)
+                          appSettings.setString("password", this.password)
                       } else {
                           appSettings.clear()
                       }

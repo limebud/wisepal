@@ -7,14 +7,13 @@ import * as getters from './getters'
 
 Vue.use(Vuex);
 
-var testToken = appSettings.getString("token") ? appSettings.getString("token") : null
 
 const debug = process.env.NODE_ENV !== 'production';
 
 
 const store = new Vuex.Store({
   state: {
-    token: testToken,
+    token: null,
     customerDocuments: null,
     customerInformation: null
   },
