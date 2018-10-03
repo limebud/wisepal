@@ -1,7 +1,7 @@
 <template>
   <Page loaded="pageLoaded" actionBarHidden="true">
     <StackLayout>
-        <TabView>
+        <TabView androidTabsPosition="bottom">
           <TabViewItem title="Info">
               <customer-info />
           </TabViewItem>

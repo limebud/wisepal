@@ -8,9 +8,7 @@ import axios from 'axios'
 
 import "./styles.scss";
 
-
 axios.defaults.baseURL = 'https://webapitest.wisetalk.se/api/'
-
 
 if(TNS_ENV !== 'production') {
   Vue.use(VueDevtools)

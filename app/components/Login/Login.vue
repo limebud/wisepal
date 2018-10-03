@@ -4,8 +4,7 @@
 
             <StackLayout class="header">
                 <Image  src="res://logo" class="logo" />
-                <Label text="Welcome" class="welcome" />
-                <Label textWrap="true" text="See what's going on today" class="msg" />
+                <Label text="Välkommen" class="welcome" />
             </StackLayout>
 
             <StackLayout class="form">
@@ -14,14 +13,8 @@
                 <TextField v-model="password" hint="Password" secure="true" />
             </StackLayout>
 
-            <GridLayout columns="*, *" rows="auto">
-                <Label class="h3 m-15" text="Remember me" col="0"/>
-                <Switch class="m-15" v-model="rememberMe" col="1"/>
-            </GridLayout >
-
             <StackLayout class="buttons">
-                <Button @tap="login">Log in</Button>
-                <Label text="Lost your password?" class="forgotPassword" @tap="forgotPassword" />
+                <Button @tap="login">Logga in</Button>
             </StackLayout>
 
         </StackLayout>
@@ -30,21 +23,19 @@
 
 <script>
   import axios from 'axios'
-  import Search from '../Search/Search'
-  import Password from './Password'
+  import Startview from '../Startview/Startview'
   import * as Toast from 'nativescript-toast';
   import * as appSettings from 'tns-core-modules/application-settings'
 
-  let $savedPin = appSettings.getString("pin") ? appSettings.getString("pin") : ''
-  let $savedUsername = appSettings.getString("username") ? appSettings.getString("username") : ''
-  let $savedPassword = appSettings.getString("password") ? appSettings.getString("password") : ''
+  let $savedPin = appSettings.getString("pin") || ''
+  let $savedUsername = appSettings.getString("username") || ''
 
   export default {
       data() {
           return {
               pin: $savedPin,
               username: $savedUsername,
-              password: $savedPassword,
+              password: '',
               rememberMe: true
           }
       },
@@ -61,23 +52,18 @@
                   if (res.data.Success) {
                       this.$store.commit('setToken', res.data.ClientToken)
 
-                      if(this.rememberMe) {
-                          appSettings.setString("pin", this.pin)
-                          appSettings.setString("username", this.username)
-                          appSettings.setString("password", this.password)
-                      } else {
-                          appSettings.clear()
-                      }
+                      appSettings.setString("pin", this.pin)
+                      appSettings.setString("username", this.username)
+                      appSettings.setString("token", res.data.ClientToken)
 
-                      this.$navigateTo(Search)
+                      this.$navigateTo(Startview, {
+                          clearHistory: true
+                      })
                   } else {
                       Toast.makeText(res.data.Messages[0], "long").show()
                   }
               })
               .catch(err => { console.log(err )})
-          },
-          forgotPassword() {
-              this.$navigateTo(Password)
           }
       }
   }
@@ -101,6 +87,10 @@
         color: white;
     }
 
+    .header {
+        margin-bottom: 10%;
+    }
+
     .logo {
         width: 40%;
         margin: 5% auto 8%;
@@ -109,11 +99,6 @@
     .welcome {
         font-size: 36vw;
         font-weight: bold;
-    }
-
-    .msg {
-        font-size: 22vw;
-        margin-bottom: 7%;
     }
 
     .forgotPassword {

@@ -1,12 +1,9 @@
 <template>
   <Page loaded="pageLoaded" actionBarHidden="true">
     <GridLayout rows="auto, *, auto">
-        <GridLayout row="0" columns="auto,*,auto" class="header">
-            <Image col="0" src="~/images/settings.png"/>
-            <Label col="1" text="Latest" class="date" />
-            <Image col="2" src="~/images/calendar.png"/>
-        </GridLayout>
-      <ScrollView row="1">
+        <SearchBar row="0" hint="Search" @submit="search" v-model="searchQuery" />
+
+      <ScrollView row="2">
             <ListView v-if="searchResult" class="list-group" for="item in searchResult" @itemTap="onItemTap" style="height:1250px">
               <v-template>
                 <FlexboxLayout flexDirection="row" class="list-group-item">
@@ -15,7 +12,6 @@
               </v-template>
             </ListView>
       </ScrollView>
-      <SearchBar row="2" hint="Search" @submit="search" v-model="searchQuery" />
     </GridLayout>
   </Page>
 </template>
@@ -27,25 +23,34 @@
       data() {
           return {
               searchQuery: '',
-              searchResult: null,
+              searchResult: '',
               id: ''
+          }
+      },
+      watch: {
+          searchQuery(newSearch, oldSearch) {
+              this.search()
           }
       },
       methods: {
           search() {
-              axios.get('/Broker/SearchParties/', {
-                  params: {
-                      searchQuery: this.searchQuery
-                  },
-                  headers: {
-                      'Authorization': this.$store.getters.getToken,
-                      'Culture': 'sv-se'
-                  }
-              })
-              .then(res => {
-                  this.searchResult = res.data.Result
-              })
-              .catch(error => { console.log(error)})
+              if (this.searchQuery.length > 1) {
+                  axios.get('/Broker/SearchParties/', {
+                      params: {
+                          searchQuery: this.searchQuery
+                      },
+                      headers: {
+                          'Authorization': this.$store.getters.getToken,
+                          'Culture': 'sv-se'
+                      }
+                  })
+                  .then(res => {
+                      this.searchResult = res.data.Result
+                  })
+                  .catch(error => { console.log(error)})
+              } else {
+                  this.searchResult = ''
+              }
           },
           onItemTap(event) {
               this.id = event.item.Id.Value
@@ -77,7 +82,7 @@
               }))
               .catch(error => console.log(error))
             }
-        },
+        }
     }
 </script>
 
