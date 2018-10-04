@@ -40,7 +40,6 @@
 
 .name {
     text-align: center;
-    margin-bottom: 10%;
     padding: 10%;
     font-size: 30vw;
     font-weight: bold;

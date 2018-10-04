@@ -16,13 +16,13 @@
           <StackLayout ~mainContent class="mainStackLayout">
               <StackLayout>
                   <TabView androidTabsPosition="bottom">
-                    <TabViewItem title="Info" iconSource="~/assets/images/personal-icon.png" >
+                    <TabViewItem title="Info" iconSource="~/assets/images/personal_icon.png" >
                         <customer-info />
                     </TabViewItem>
-                    <TabViewItem title="Dokument" iconSource="~/assets/images/file-icon.png">
+                    <TabViewItem title="Dokument" iconSource="~/assets/images/file_icon.png">
                        <customer-documents />
                     </TabViewItem>
-                    <TabViewItem title="Möte" iconSource="~/assets/images/meeting-icon.png">
+                    <TabViewItem title="Möte" iconSource="~/assets/images/meeting_icon.png">
                        <meeting />
                     </TabViewItem>
                   </TabView>
