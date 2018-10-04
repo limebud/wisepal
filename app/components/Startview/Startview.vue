@@ -14,15 +14,13 @@
         </StackLayout>
 
         <StackLayout ~mainContent class="mainStackLayout">
-            <ScrollView row="1">
-                <ListView v-if="searchResult" class="list-group" for="item in searchResult" @itemTap="onItemTap" style="height:1250px">
-                    <v-template>
-                      <FlexboxLayout flexDirection="row" class="list-group-item">
-                        <Label :text="item.Name.Value" class="list-item" style="width: 60%"/>
-                      </FlexboxLayout>
-                    </v-template>
-                </ListView>
-            </ScrollView>
+            <ListView row="1" separatorColor="transparent" v-if="searchResult" class="list-group" for="item in searchResult" @itemTap="onItemTap">
+                <v-template>
+                  <GridLayout columns="*, 10*, *" class="list-group-item">
+                    <Label :text="item.Name.Value" class="list-item" col="1"/>
+                </GridLayout>
+                </v-template>
+            </ListView>
         </StackLayout>
     </RadSideDrawer>
   </Page>
@@ -109,6 +107,9 @@
               this.$navigateTo(Login, {
                   clearHistory: true
               })
+          },
+          fastCall() {
+              alert("Ja / Nej?")
           }
 
         }
@@ -131,16 +132,22 @@
 
     Page {
         color: #fff;
-        background: #9068b9;
+        background: #513270;
     }
 
     SearchBar {
         color: white;
     }
 
+    ListView {
+        background: #9068b9;
+    }
+
     .list-item {
+        font-size: 20vw;
         color: white;
-        padding-left: 0;
+        padding: 2vw;
+        margin-bottom: 1vw;
     }
 
 </style>
