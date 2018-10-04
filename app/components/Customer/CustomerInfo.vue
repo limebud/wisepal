@@ -1,5 +1,11 @@
 <template>
   <StackLayout>
+      <ScrollView>
+          <StackLayout>
+        <GridLayout v-if="customerInfo.SocialSecurityNumber.Value" columns="*, auto" rows="auto, auto" class="info phonenr">
+            <Label :text="customerInfo.SocialSecurityNumber.Label" col="0" row="0" class="label"/>
+            <Label :text="customerInfo.SocialSecurityNumber.Value" col="0" row="1" class="value"/>
+        </GridLayout>
 
         <GridLayout v-if="customerInfo.PhoneNumber.Value" columns="*, auto" rows="auto, auto" class="info phonenr">
             <Label :text="customerInfo.PhoneNumber.Label" col="0" row="0" class="label"/>
@@ -24,7 +30,8 @@
             <Label :text="customerInfo.EmailAddress.Label" col="0" row="0" class="label"/>
             <Label :text="customerInfo.EmailAddress.Value" col="0" row="1" class="value" />
         </GridLayout>
-
+    </StackLayout>
+</ScrollView>
 
     </StackLayout>
 </template>

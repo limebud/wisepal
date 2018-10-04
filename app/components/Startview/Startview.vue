@@ -1,8 +1,8 @@
 <template>
   <Page loaded="pageLoaded" >
       <ActionBar>
-          <GridLayout width="100%" columns="5*, *">
-              <SearchBar col="0" hint="Sök..." @submit="search" v-model="searchQuery" />
+          <GridLayout width="100%" columns="auto, *">
+              <SearchBar col="0" hint="Sök..." @submit="search" v-model="searchQuery" style="width: 90%"/>
               <Label class="fa" :text="'fa-bars' | fonticon" @tap="openDrawer" col="1" />
           </GridLayout>
       </ActionBar>
@@ -125,7 +125,7 @@
     .fa {
       font-family: FontAwesome, fontawesome-webfont;
       color: white;
-      font-size: 30vw;
+      font-size: 25vw;
       vertical-align: center;
       text-align: center;
     }

@@ -3,7 +3,7 @@
 
       <ActionBar>
           <GridLayout width="100%" columns="*, auto, *">
-              <Label col="0" class="fa" :text="'fa-arrow-left' | fonticon" @tap="backToStartview" />
+              <Label col="0" class="fa" :text="'fa-arrow-left' | fonticon" @tap="backToStartview" style="text-alignment: left"/>
               <Label col="1" :text="customerInfo.Name.Value" class="name" />
               <Label col="2" class="fa" :text="'fa-bars' | fonticon" @tap="openDrawer"/>
           </GridLayout>
