@@ -1,9 +1,9 @@
 <template>
   <Page loaded="pageLoaded" >
       <ActionBar>
-          <GridLayout width="100%" columns="*, 5*">
-              <Button col="0" text="MENY" @tap="openDrawer"/>
-              <SearchBar col="1" hint="Search" @submit="search" v-model="searchQuery" />
+          <GridLayout width="100%" columns="5*, *">
+              <SearchBar col="0" hint="Sök..." @submit="search" v-model="searchQuery" />
+              <Label class="fa" :text="'fa-bars' | fonticon" @tap="openDrawer" col="1" />
           </GridLayout>
       </ActionBar>
 
@@ -42,7 +42,10 @@
       },
       watch: {
           searchQuery(newSearch, oldSearch) {
-              this.search()
+              var vm = this
+              setTimeout(() => {
+                  vm.search()
+              }, 200)
           }
       },
       methods: {
@@ -96,7 +99,7 @@
               .catch(error => console.log(error))
           },
           openDrawer() {
-            this.$refs.drawer.nativeView.showDrawer();
+              this.$refs.drawer.nativeView.showDrawer();
           },
           onCloseDrawerTap() {
               this.$refs.drawer.nativeView.closeDrawer();
@@ -107,27 +110,32 @@
                   clearHistory: true
               })
           }
+
         }
     }
 </script>
 
 <style scoped>
-    Page {
+    .fa {
+      font-family: FontAwesome, fontawesome-webfont;
+      color: white;
+      font-size: 30vw;
+      vertical-align: center;
+      text-align: center;
+    }
+
+    ActionBar {
         background: #9068b9;
         color: #fff;
     }
 
-    SearchBar {
-        background: #eee;
-        color: black;
+    Page {
+        color: #fff;
+        background: #9068b9;
     }
 
-    .header {
-        height: 7%;
-        font-size: 30vw;
-        font-weight: bold;
-        text-align: center;
-        margin-bottom: 10%;
+    SearchBar {
+        color: white;
     }
 
     .list-item {

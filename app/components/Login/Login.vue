@@ -41,6 +41,7 @@
       },
       methods: {
           login() {
+              console.log("login in")
               axios.get('/Account/BrokerLogin/', {
                   params: {
                       pin: this.pin,

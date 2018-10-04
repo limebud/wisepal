@@ -1,12 +1,22 @@
 import Vue from 'nativescript-vue'
 
 import Login from './components/Login/Login'
-
+import Startview from './components/Startview/Startview'
 import VueDevtools from 'nativescript-vue-devtools'
 import store from './store';
 import axios from 'axios'
 
+import {TNSFontIcon, fonticon} from 'nativescript-fonticon';
+
+TNSFontIcon.debug = true;
+TNSFontIcon.paths = {
+  'fa': './assets/font-awesome.css'
+};
+TNSFontIcon.loadCss();
+Vue.filter('fonticon', fonticon);
+
 import "./styles.scss";
+
 
 axios.defaults.baseURL = 'https://webapitest.wisetalk.se/api/'
 
