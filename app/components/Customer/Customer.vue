@@ -2,9 +2,9 @@
   <Page loaded="pageLoaded">
 
       <ActionBar>
-          <GridLayout width="100%" columns="*, 5*, *">
+          <GridLayout width="100%" columns="*, auto, *">
               <Label col="0" class="fa" :text="'fa-arrow-left' | fonticon" @tap="backToStartview" />
-              <Label col="1" v-if="typeof customerInfo.Name.Value != 'undefined'" :text="customerInfo.Name.Value" class="name" /> -->
+              <Label col="1" :text="customerInfo.Name.Value" class="name" />
               <Label col="2" class="fa" :text="'fa-bars' | fonticon" @tap="openDrawer"/>
           </GridLayout>
       </ActionBar>
@@ -97,6 +97,7 @@
 
     .name {
         text-align: center;
+        width: 80%;
     }
 
 </style>
