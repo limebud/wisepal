@@ -39,7 +39,7 @@
           }
       },
       watch: {
-          searchQuery(newSearch, oldSearch) {
+          searchQuery() {
               var vm = this
               setTimeout(() => {
                   vm.search()
@@ -69,32 +69,37 @@
           onItemTap(event) {
               this.id = event.item.Id.Value
 
-              axios.all([
-                  axios.get('/Document/GetDocumentsByPartyId/', {
-                      params: {
-                          Id: this.id
-                      },
-                      headers: {
-                          'Authorization': this.$store.getters.getToken,
-                          'Culture': 'sv-se'
-                      }
-                  }),
-                  axios.get('/person/Get/', {
-                      params: {
-                          Id: this.id
-                      },
-                      headers: {
-                          'Authorization': this.$store.getters.getToken,
-                          'Culture': 'sv-se'
-                      }
-                  })
-              ])
-              .then(axios.spread((documentRes, personRes) => {
-                  this.$store.commit('setCustomerDocuments', documentRes.data.Result)
-                  this.$store.commit('setCustomerInformation', personRes.data.Result)
-                  this.$navigateTo(Customer)
-              }))
-              .catch(error => console.log(error))
+              if (event.item.PartyType.Value === "Person") {
+                  axios.all([
+                      axios.get('/Document/GetDocumentsByPartyId/', {
+                          params: {
+                              Id: this.id
+                          },
+                          headers: {
+                              'Authorization': this.$store.getters.getToken,
+                              'Culture': 'sv-se'
+                          }
+                      }),
+                      axios.get('/person/Get/', {
+                          params: {
+                              Id: this.id
+                          },
+                          headers: {
+                              'Authorization': this.$store.getters.getToken,
+                              'Culture': 'sv-se'
+                          }
+                      })
+                  ])
+                  .then(axios.spread((documentRes, personRes) => {
+                      this.$store.commit('setCustomerDocuments', documentRes.data.Result)
+                      this.$store.commit('setCustomerInformation', personRes.data.Result)
+                      this.$navigateTo(Customer)
+                  }))
+                  .catch(error => console.log(error))
+              } else {
+                  alert("Company")
+              }
+
           },
           openDrawer() {
               this.$refs.drawer.nativeView.showDrawer();
@@ -132,7 +137,6 @@
 
     Page {
         color: #fff;
-        background: #513270;
     }
 
     SearchBar {

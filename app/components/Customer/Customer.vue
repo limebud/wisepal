@@ -2,8 +2,10 @@
   <Page loaded="pageLoaded">
 
       <ActionBar>
-          <GridLayout width="100%" columns="5*, *">
-              <Label  col="1" class="fa" :text="'fa-bars' | fonticon" @tap="openDrawer"/>
+          <GridLayout width="100%" columns="*, 5*, *">
+              <Label col="0" class="fa" :text="'fa-arrow-left' | fonticon" @tap="backToStartview" />
+              <Label col="1" v-if="typeof customerInfo.Name.Value != 'undefined'" :text="customerInfo.Name.Value" class="name" /> -->
+              <Label col="2" class="fa" :text="'fa-bars' | fonticon" @tap="openDrawer"/>
           </GridLayout>
       </ActionBar>
 
@@ -38,9 +40,12 @@
   import CustomerDocuments from './CustomerDocuments.vue'
   import Meeting from './Meeting.vue'
   import Login from '../Login/Login.vue'
+  import Startview from '../Startview/Startview.vue'
+
   export default {
       data() {
           return {
+              customerInfo: []
           }
       },
       components: {
@@ -60,7 +65,15 @@
               this.$navigateTo(Login, {
                   clearHistory: true
               })
+          },
+          backToStartview() {
+              this.$navigateTo(Startview, {
+                  clearHistory: true
+              })
           }
+      },
+      created() {
+          this.customerInfo = this.$store.getters.getCustomerInformation
       }
   }
 </script>
@@ -73,14 +86,17 @@
     ActionBar {
         background: #9068b9;
         color: #fff;
+        font-size: 25vw;
     }
 
     .fa {
       font-family: FontAwesome, fontawesome-webfont;
-      color: white;
-      font-size: 30vw;
       vertical-align: center;
       text-align: center;
+    }
+
+    .name {
+        text-align: center;
     }
 
 </style>
