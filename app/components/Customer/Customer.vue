@@ -90,7 +90,6 @@
     }
 
     .fa {
-      font-family: FontAwesome, fontawesome-webfont;
       vertical-align: center;
       text-align: center;
     }

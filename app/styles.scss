@@ -8,3 +8,19 @@
 
 // Global SCSS styling
 // @see https://docs.nativescript.org/ui/styling
+
+.fa {
+    font-family: FontAwesome, fontawesome-webfont;
+}
+
+.fas {
+    font-family: FontAwesome, fa-solid-900;
+}
+
+.fab {
+    font-family: FontAwesome, fa-brands-400;
+}
+
+.far {
+    font-family: FontAwesome, fa-regular-400;
+}

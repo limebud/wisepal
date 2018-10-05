@@ -28,7 +28,7 @@
     }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
     ListView {
         margin-top: 1vw;
     }

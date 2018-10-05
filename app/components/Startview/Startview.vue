@@ -121,9 +121,8 @@
     }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
     .fa {
-      font-family: FontAwesome, fontawesome-webfont;
       color: white;
       font-size: 25vw;
       vertical-align: center;

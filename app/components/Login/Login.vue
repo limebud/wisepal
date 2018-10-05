@@ -71,7 +71,7 @@
 </script>
 
 
-<style scoped>
+<style scoped lang="scss">
     Page {
         background-color: #513270;
         padding: 30%;
