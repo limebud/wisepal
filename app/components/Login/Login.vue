@@ -23,9 +23,9 @@
 
 <script>
   import axios from 'axios'
-  import Startview from '../Startview/Startview'
   import * as Toast from 'nativescript-toast';
   import * as appSettings from 'tns-core-modules/application-settings'
+  import Startview from '../Startview/Startview'
 
   let $savedPin = appSettings.getString("pin") || ''
   let $savedUsername = appSettings.getString("username") || ''
@@ -41,30 +41,17 @@
       },
       methods: {
           login() {
-              console.log("login in")
-              axios.get('/Account/BrokerLogin/', {
-                  params: {
-                      pin: this.pin,
-                      username: this.username,
-                      password: this.password
-                  }
-              })
-              .then(res => {
-                  if (res.data.Success) {
-                      this.$store.commit('setToken', res.data.ClientToken)
-
-                      appSettings.setString("pin", this.pin)
-                      appSettings.setString("username", this.username)
-                      appSettings.setString("token", res.data.ClientToken)
-
+              let pin = this.pin
+              let username = this.username
+              let password = this.password
+              this.$store.dispatch('authRequest', { pin, username, password }).
+              then(() => {
+                  if (this.$store.getters.getToken) {
                       this.$navigateTo(Startview, {
                           clearHistory: true
                       })
-                  } else {
-                      Toast.makeText(res.data.Messages[0], "long").show()
                   }
               })
-              .catch(err => { console.log(err )})
           }
       }
   }
