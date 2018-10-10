@@ -15,16 +15,18 @@ const debug = process.env.NODE_ENV !== 'production';
 const store = new Vuex.Store({
   state: {
     token: null,
+    searchFocused: false,
     customerDocuments: null,
     customerInformation: null,
+    searchResults: [],
     playFile: null,
-    recordedFiles: []
+    recordedFiles: [],
+    recentVisit: [],
   },
   mutations,
   getters,
   actions: {
       authRequest: async ({commit}, auth) => {
-
           await axios.get('https://webapitest.wisetalk.se/api/Account/BrokerLogin/', {
               params: {
                   pin: auth.pin,
@@ -45,6 +47,23 @@ const store = new Vuex.Store({
               }
           })
           .catch(err => { console.log("Error: " + err )})
+          },
+          recentVisit: async ({commit, state}) => {
+              await axios.get('https://webapitest.wisetalk.se/api/Broker/GetRecentVisit', {
+                  headers: {
+                      'Authorization': state.token,
+                      'Culture': 'sv-se'
+                  }
+              }).
+              then(res => {
+                  if (res.data.Success) {
+                      commit('setRecentVisit', res.data.Result)
+                      console.log("Recent visit har hämtats.")
+                  } else {
+                      console.log(res.data.Messages[0])
+                  }
+              })
+              .catch(err => console.log("Error: " + err))
           }
       },
   strict: debug

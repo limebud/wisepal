@@ -9,14 +9,14 @@ import axios from 'axios'
 import {TNSFontIcon, fonticon} from 'nativescript-fonticon';
 import "./styles.scss";
 
-TNSFontIcon.debug = true;
+// TNSFontIcon.debug = true;
 TNSFontIcon.paths = {
   'fa': './assets/font-awesome.css'
 };
 TNSFontIcon.loadCss();
 Vue.filter('fonticon', fonticon);
 
-axios.defaults.baseURL = 'https://webapitest.wisetalk.se/api/'
+axios.defaults.baseURL = 'https://webapitest.wisetalk.se/api'
 
 Vue.registerElement('RadSideDrawer', () => require('nativescript-ui-sidedrawer').RadSideDrawer)
 

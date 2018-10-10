@@ -2,7 +2,7 @@
   <Page loaded="pageLoaded" >
       <ActionBar>
           <GridLayout width="100%" columns="auto, *">
-              <SearchBar col="0" hint="Sök..." @submit="search" v-model="searchQuery" style="width: 90%"/>
+              <SearchBar col="0" hint="Sök..." @submit="search" v-model="searchQuery" style="width: 90%" />
               <Label class="fa" :text="'fa-bars' | fonticon" @tap="openDrawer" col="1" />
           </GridLayout>
       </ActionBar>
@@ -14,7 +14,17 @@
         </StackLayout>
 
         <StackLayout ~mainContent class="mainStackLayout">
-            <SearchResults :searchResult="searchResult" />
+            <SearchResults/>
+
+            <StackLayout class="recent">
+                <Label text="Senast besökta (test)" color="black"/>
+                <ListView col="1" row="1" if="this.$store.getters.getSearchFocused" separatorColor="transparent" class="list-group" for="item in this.$store.getters.getRecentVisit">
+                    <v-template>
+                        <Label :text="item.Name.Value" class="list-item" col="1"/>
+                    </v-template>
+                </ListView>
+            </StackLayout>
+
         </StackLayout>
     </RadSideDrawer>
   </Page>
@@ -31,7 +41,7 @@
       data() {
           return {
               searchQuery: '',
-              searchResult: [],
+              searchResults: this.$store.getters.getSearchResults,
               id: ''
           }
       },
@@ -44,6 +54,9 @@
           }
       },
       methods: {
+          showRecent() {
+            console.log(this.$store.getters.getRecentVisit)
+          },
           search() {
               if (this.searchQuery.length > 1) {
                   axios.get('/Broker/SearchParties/', {
@@ -56,11 +69,11 @@
                       }
                   })
                   .then(res => {
-                      this.searchResult = res.data.Result
+                      this.$store.commit('setSearchResults', res.data.Result)
                   })
                   .catch(error => { console.log(error)})
               } else {
-                  this.searchResult = ''
+                  this.$store.commit('setSearchResults', [])
               }
           },
           openDrawer() {
@@ -78,6 +91,9 @@
       },
       components: {
           SearchResults: SearchResults
+      },
+      created() {
+          this.$store.dispatch('recentVisit')
       }
     }
 </script>
@@ -103,10 +119,6 @@
         color: white;
     }
 
-    ListView {
-        background: #9068b9;
-    }
-
     .list-item {
         font-size: 20vw;
         color: white;
@@ -114,4 +126,11 @@
         margin-bottom: 1vw;
     }
 
+    ListView {
+        background: #9068b9;
+    }
+
+    .recent {
+        margin: 20vh 20vw;
+    }
 </style>

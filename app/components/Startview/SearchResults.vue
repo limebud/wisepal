@@ -1,5 +1,5 @@
 <template>
-    <ListView row="1" separatorColor="transparent" v-if="searchResult" class="list-group" for="item in searchResult" @itemTap="onItemTap">
+    <ListView separatorColor="transparent" class="list-group" for="item in this.$store.getters.getSearchResults" @itemTap="onItemTap">
         <v-template>
           <GridLayout columns="*, 10*, *" class="list-group-item">
             <Label :text="item.Name.Value" class="list-item" col="1"/>
@@ -16,8 +16,10 @@
 
   export default {
       name: "searchResults",
-      props: {
-          searchResult: Array
+      data() {
+          return {
+            searchResults: this.$store.getters.getSearchResults
+          }
       },
       methods: {
           onItemTap(event) {
@@ -40,16 +42,26 @@
                           },
                           headers: {
                               'Authorization': this.$store.getters.getToken,
-                              'Culture': 'sv-se'
+                              'Culture': 'sv-se',
+                          }
+                      }),
+                      axios.post('/Broker/SaveRecentVisit/?partyId=' + this.id, {}, {
+                          headers: {
+                              'Authorization': this.$store.getters.getToken,
+                              'Culture': 'sv-se',
                           }
                       })
                   ])
                   .then(axios.spread((documentRes, personRes) => {
                       this.$store.commit('setCustomerDocuments', documentRes.data.Result)
                       this.$store.commit('setCustomerInformation', personRes.data.Result)
+                      this.$store.dispatch('recentVisit')
+                      
                       this.$navigateTo(Customer)
                   }))
-                  .catch(error => console.log(error))
+                  .catch(error => {
+                      console.log("Error: " + error.response.data.Message)
+                  })
               } else {
                   alert("Company")
               }
