@@ -1,30 +1,34 @@
 <template>
   <StackLayout>
-      <GridLayout columns="*, auto, *" rows="15vw, auto, auto" class="tasks">
-          <Label col="1" row="0" v-if="isRecording" text="Tryck på mikrofonen igen för att sluta spela in" style="font-size: 12vw; color: red" />
-          <FlexboxLayout col="1" row="1">
-              <Label class="fas" :text="'fa-pen' | fonticon" />
-              <Label class="fa" :text="'fa-camera' | fonticon" @tap="useCamera"/>
-              <Label v-bind:class="{ fa: fa, recording: isRecording }" :text="'fa-microphone' | fonticon" @tap="useRecorder" />
-          </FlexboxLayout>
-          <FlexboxLayout v-if="haveRecorded" row="2" col="1" >
-              <Label  class="fas" :text="'fa-play-circle' | fonticon" @tap="spela" color="green" fontSize="28vw"/>
-              <Label class="fas" :text="'fa-pause-circle' | fonticon" color="blue" fontSize="28vw"/>
-              <Label class="fas" :text="'fa-stop-circle' | fonticon" color="red" fontSize="28vw"/>
-              <Label class="fas" :text="'fa-save' | fonticon" color="green" fontSize="28vw"/>
-              <Label class="fas" :text="'fa-trash' | fonticon" color="grey" fontSize="28vw"/>
-          </FlexboxLayout>
-      </GridLayout>
+      <FlexboxLayout justifyContent="space-around">
+          <Label class="fas" :text="'fa-pen' | fonticon" />
+          <Label class="fa" :text="'fa-camera' | fonticon" @tap="useCamera"/>
+          <Label class="fa" :text="'fa-microphone' | fonticon" @tap="useRecorder" />
+      </FlexboxLayout>
+      <StackLayout >
+          <Label text="Inspelningar" fontSize="20vw"/>
+          <ScrollView orientation="horizontal" scrollBarIndicatorVisible="false">
+              <StackLayout orientation="horizontal">
+                  <StackLayout v-for="recording in recordings" height="100vw">
+                      <Label :text="recording.split('-')[3]" class="file" @tap="playRecording(recording)"/>
+                  </StackLayout>
+              </StackLayout>
+          </ScrollView>
+
+      </StackLayout>
 
   </StackLayout>
 </template>
 
 
 <script>
-  import { File, knownFolders } from 'tns-core-modules/file-system';
+  import * as fs from 'tns-core-modules/file-system'
   import * as camera from "nativescript-camera"
   import { AudioPlayerOptions, AudioRecorderOptions, TNSPlayer, TNSRecorder } from 'nativescript-audio'
   import { Image } from "ui/image"
+  import Recorder from './Recorder.vue'
+  import Player from './Player.vue'
+
 
 
   export default {
@@ -32,13 +36,8 @@
       data() {
           return {
               image: null,
-              isRecording: false,
-              haveRecorded: false,
               fa: true,
-              folder: knownFolders.currentApp().getFolder('temp_files'),
-              audioMeter: 0,
-              meterInterval: null,
-              recorder: new TNSRecorder()
+              recordings: this.$store.getters.getRecordedFiles,
           }
       },
       methods: {
@@ -60,72 +59,29 @@
                 });
               }
           },
-          async useRecorder() {
-            if (!this.isRecording) {
-                let recordingPath = this.folder.path + '/recording'
-                let recorderOptions = {
-                    filename: recordingPath,
-                    metering: true,
-
-                    infoCallback: infoObject => {
-                      console.log(JSON.stringify(infoObject));
-                    },
-
-                    errorCallback: errorObject => {
-                      console.log(JSON.stringify(errorObject));
-                    }
-                }
-
-
-                if (TNSRecorder.CAN_RECORD()) {
-                    this.isRecording = true
-                    this.recorder.start(recorderOptions)
-                    this.meterInterval = setInterval(() => {
-                        this.audioMeter = this.recorder.getMeters();
-                        console.log(this.audioMeter);
-                    }, 300);
-                } else {
-                    alert("Enheten kan inte spela in ljud")
-                }
-            } else {
-                this.isRecording = false
-                this.recorder.stop()
-                this.haveRecorded = true
-
-                clearInterval(this.meterInterval)
-                this.meterInterval = null
-                this.audioMeter= 0
-            }
-
-        },
-        spela() {
-            var player = new TNSPlayer()
-
-            var playerOptions = {
-                audioFile: this.folder.path + '/recording',
-                loop: false,
-                completeCallback: function() {
-                    console.log('finished playing')
-                },
-                errorCallback: function() {
-                    console.log(JSON.stringify(errorObject))
-                },
-                infoCallback: function() {
-                    console.log(JSON.stringify(args))
-
-                }
-            }
-
-            player.playFromUrl(playerOptions)
-            .then((res) => {
-                console.log(res)
-            })
-            .catch((err) => {
-                console.log('Error -> ' + err)
-            })
-        }
+          useRecorder() {
+              this.$navigateTo(Recorder)
+          },
+          playRecording(filename) {
+              this.$store.commit('setPlayFile', filename)
+              this.$navigateTo(Player)
+          },
+          getFiles() {
+              return
+          }
     },
-        }
+    created() {
+        let folder = fs.knownFolders.currentApp().getFolder('recordings')
+        folder.getEntities()
+        .then(entities => {
+            entities.forEach(entity => {
+                if (entity.name.split("-")[0] == this.$store.getters.getCustomerInformation.Id.Value) {
+                    this.$store.commit('appendRecordedFiles', entity.name)
+                }
+            })
+        })
+    }
+}
 </script>
 
 <style scoped lang="scss">
@@ -143,11 +99,14 @@
     color: red;
 }
 
-.invisible {
-    color: green;
-}
-
 .audioRec {
     font-size: 2vw;
+}
+
+.file {
+    height: 100vw;
+    width: 100vw;
+    background: #509aaf;
+    margin: 0 4vw
 }
 </style>

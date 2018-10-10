@@ -16,7 +16,9 @@ const store = new Vuex.Store({
   state: {
     token: null,
     customerDocuments: null,
-    customerInformation: null
+    customerInformation: null,
+    playFile: null,
+    recordedFiles: []
   },
   mutations,
   getters,
@@ -42,7 +44,7 @@ const store = new Vuex.Store({
                   Toast.makeText(res.data.Messages[0], "long").show()
               }
           })
-          .catch(err => { console.log("EERRRROOORRR:" + err )})
+          .catch(err => { console.log("Error: " + err )})
           }
       },
   strict: debug

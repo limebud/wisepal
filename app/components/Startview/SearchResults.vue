@@ -15,7 +15,7 @@
   import Customer from '../Customer/Customer'
 
   export default {
-      name: "search",
+      name: "searchResults",
       props: {
           searchResult: Array
       },
@@ -59,4 +59,7 @@
 </script>
 
 <style scoped lang="scss">
+    Label {
+        color: white;
+    }
 </style>

@@ -14,7 +14,7 @@
         </StackLayout>
 
         <StackLayout ~mainContent class="mainStackLayout">
-            <Search :searchResult="searchResult" />
+            <SearchResults :searchResult="searchResult" />
         </StackLayout>
     </RadSideDrawer>
   </Page>
@@ -24,7 +24,7 @@
   import axios from 'axios'
   import Customer from '../Customer/Customer'
   import Login from '../Login/Login'
-  import Search from './Search'
+  import SearchResults from './SearchResults'
 
 
   export default {
@@ -77,7 +77,7 @@
           }
       },
       components: {
-          Search: Search
+          SearchResults: SearchResults
       }
     }
 </script>

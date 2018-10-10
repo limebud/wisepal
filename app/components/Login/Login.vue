@@ -10,7 +10,7 @@
             <StackLayout class="form">
                 <TextField v-model="pin" hint="PIN" />
                 <TextField v-model="username" hint="Username" />
-                <TextField v-model="password" hint="Password" secure="true" />
+                <TextField v-model="password" hint="Password" secure="true" @returnPress="login"/>
             </StackLayout>
 
             <StackLayout class="buttons">
@@ -36,7 +36,6 @@
               pin: $savedPin,
               username: $savedUsername,
               password: '',
-              rememberMe: true
           }
       },
       methods: {
