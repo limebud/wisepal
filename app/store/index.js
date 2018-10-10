@@ -22,6 +22,7 @@ const store = new Vuex.Store({
     playFile: null,
     recordedFiles: [],
     recentVisit: [],
+    partyType: ''
   },
   mutations,
   getters,

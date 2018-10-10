@@ -28,3 +28,7 @@ export const setRecentVisit = (state, payload) => {
 export const setSearchFocused = (state, payload) => {
     state.searchFocused = payload
 }
+
+export const setPartyType = (state, payload) => {
+    state.partyType = payload
+}

@@ -18,7 +18,8 @@
       name: "searchResults",
       data() {
           return {
-            searchResults: this.$store.getters.getSearchResults
+            searchResults: this.$store.getters.getSearchResults,
+            url: ''
           }
       },
       methods: {
@@ -26,45 +27,49 @@
               this.id = event.item.Id.Value
 
               if (event.item.PartyType.Value === "Person") {
-                  axios.all([
-                      axios.get('/Document/GetDocumentsByPartyId/', {
-                          params: {
-                              Id: this.id
-                          },
-                          headers: {
-                              'Authorization': this.$store.getters.getToken,
-                              'Culture': 'sv-se'
-                          }
-                      }),
-                      axios.get('/person/Get/', {
-                          params: {
-                              Id: this.id
-                          },
-                          headers: {
-                              'Authorization': this.$store.getters.getToken,
-                              'Culture': 'sv-se',
-                          }
-                      }),
-                      axios.post('/Broker/SaveRecentVisit/?partyId=' + this.id, {}, {
-                          headers: {
-                              'Authorization': this.$store.getters.getToken,
-                              'Culture': 'sv-se',
-                          }
-                      })
-                  ])
-                  .then(axios.spread((documentRes, personRes) => {
-                      this.$store.commit('setCustomerDocuments', documentRes.data.Result)
-                      this.$store.commit('setCustomerInformation', personRes.data.Result)
-                      this.$store.dispatch('recentVisit')
-                      
-                      this.$navigateTo(Customer)
-                  }))
-                  .catch(error => {
-                      console.log("Error: " + error.response.data.Message)
-                  })
+                  this.url = '/person/Get/'
+                  this.$store.commit('setPartyType', 'person')
               } else {
-                  alert("Company")
+                  this.url = '/company/Get'
+                  this.$store.commit('setPartyType', 'company')
               }
+
+              axios.all([
+                  axios.get('/Document/GetDocumentsByPartyId/', {
+                      params: {
+                          Id: this.id
+                      },
+                      headers: {
+                          'Authorization': this.$store.getters.getToken,
+                          'Culture': 'sv-se'
+                      }
+                  }),
+                  axios.get(this.url, {
+                      params: {
+                          Id: this.id
+                      },
+                      headers: {
+                          'Authorization': this.$store.getters.getToken,
+                          'Culture': 'sv-se',
+                      }
+                  }),
+                  axios.post('/Broker/SaveRecentVisit/?partyId=' + this.id, {}, {
+                      headers: {
+                          'Authorization': this.$store.getters.getToken,
+                          'Culture': 'sv-se',
+                      }
+                  })
+              ])
+              .then(axios.spread((documentRes, personRes) => {
+                  this.$store.commit('setCustomerDocuments', documentRes.data.Result)
+                  this.$store.commit('setCustomerInformation', personRes.data.Result)
+                  this.$store.dispatch('recentVisit')
+
+                  this.$navigateTo(Customer)
+              }))
+              .catch(error => {
+                  console.log("Error: " + error.response.data.Message)
+              })
           },
       }
   }

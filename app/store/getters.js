@@ -29,3 +29,7 @@ export const getRecentVisit = (state) => {
 export const getSearchFocused = (state) => {
     return state.searchFocused
 }
+
+export const getPartyType = (state) => {
+    return state.partyType
+}
