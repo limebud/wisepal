@@ -1,20 +1,22 @@
 <template>
   <StackLayout>
-      <FlexboxLayout justifyContent="space-around">
+      <FlexboxLayout justifyContent="space-around" class="icons">
+          <Label class="fa" :text="'fa-camera' | fonticon" @tap="useCamera" />
           <Label class="fas" :text="'fa-pen' | fonticon" />
-          <Label class="fa" :text="'fa-camera' | fonticon" @tap="useCamera"/>
-          <Label class="fa" :text="'fa-microphone' | fonticon" @tap="useRecorder" />
+          <Label class="fa" :text="'fa-microphone' | fonticon" @tap="useRecorder"/>
       </FlexboxLayout>
       <StackLayout >
           <Label text="Inspelningar" fontSize="20vw"/>
-          <ScrollView orientation="horizontal" scrollBarIndicatorVisible="false">
-              <StackLayout orientation="horizontal">
-                  <StackLayout v-for="recording in recordings" height="100vw">
-                      <Label :text="recording.split('-')[3]" class="file" @tap="playRecording(recording)"/>
-                  </StackLayout>
-              </StackLayout>
-          </ScrollView>
-
+          <ListView separatorColor="transparent" for="recording in recordings">
+            <v-template>
+              <GridLayout columns="*, auto, *">
+                <GridLayout col="1" columns="auto, *" class="document">
+                  <Label class="fa" :text="'fa-file-alt' | fonticon" col="0" fontSize="20vw"/>
+                  <Label :text="recording.split('-')[3]" @tap="playRecording(recording)" col="1" class="filename"/>
+                </GridLayout>
+              </GridLayout>
+            </v-template>
+          </ListView>
       </StackLayout>
 
   </StackLayout>
@@ -85,28 +87,27 @@
 </script>
 
 <style scoped lang="scss">
-.fa,
-.fas {
+.icons {
     padding: 20vw;
     font-size: 60vw;
 }
 
-.tasks {
-    margin-top: 10vh;
+ListView {
+    margin-top: 1vw;
 }
 
-.recording {
-    color: red;
+.document {
+    width: 95%;
+    font-size: 20vw;
+    padding: 20vw;
+    border-radius: 3%;
+    border-width: 3px;
+    border-color: #ddd;
+    margin-top: 10vw;
+    vertical-align: center;
 }
 
-.audioRec {
-    font-size: 2vw;
-}
-
-.file {
-    height: 100vw;
-    width: 100vw;
-    background: #509aaf;
-    margin: 0 4vw
+.filename {
+    padding-left: 10vw;
 }
 </style>

@@ -16,13 +16,15 @@
         <StackLayout ~mainContent class="mainStackLayout">
             <SearchResults/>
 
-            <StackLayout class="recent">
-                <Label text="Senast besökta (test)" color="black"/>
-                <ListView col="1" row="1" if="this.$store.getters.getSearchFocused" separatorColor="transparent" class="list-group" for="item in this.$store.getters.getRecentVisit">
-                    <v-template>
-                        <Label :text="item.Name.Value" class="list-item" col="1"/>
-                    </v-template>
-                </ListView>
+            <StackLayout>
+                <Label text="De du senast besökt" class="infoRecent"/>
+                <ScrollView orientation="horizontal" scrollBarIndicatorVisible="false">
+                    <StackLayout orientation="horizontal">
+                        <StackLayout v-for="item in this.$store.getters.getRecentVisit">
+                            <Label :text="item.Name.Value" class="recent" textWrap="true"/>
+                        </StackLayout>
+                    </StackLayout>
+                </ScrollView>
             </StackLayout>
 
         </StackLayout>
@@ -106,31 +108,28 @@
       text-align: center;
     }
 
-    ActionBar {
-        background: #9068b9;
-        color: #fff;
-    }
-
-    Page {
-        color: #fff;
-    }
-
     SearchBar {
+        background: #9068b9;
         color: white;
     }
 
     .list-item {
         font-size: 20vw;
-        color: white;
+        color: #492645;
         padding: 2vw;
         margin-bottom: 1vw;
     }
 
-    ListView {
-        background: #9068b9;
+    .infoRecent {
+        text-align: center;
+        font-size: 20vw;
     }
 
     .recent {
-        margin: 20vh 20vw;
+        height: 100vw;
+        width: 100vw;
+        margin: 10vw;
+        border-width: 10px;
+        border-color: black;
     }
 </style>

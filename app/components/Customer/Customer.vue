@@ -12,12 +12,12 @@
       <RadSideDrawer ref="drawer">
           <StackLayout ~drawerContent class="sideStackLayout">
               <Button text="Logga ut" @tap="logout" />
-              <Label text="Close Drawer" color="lightgray" padding="10" style="horizontal-align: center" @tap="onCloseDrawerTap"></Label>
+              <Label text="Close Drawer" padding="10" style="horizontal-align: center" @tap="onCloseDrawerTap"></Label>
           </StackLayout>
 
           <StackLayout ~mainContent class="mainStackLayout">
               <StackLayout>
-                  <TabView androidTabsPosition="bottom">
+                  <TabView androidTabsPosition="bottom" tabBackgroundColor="#513270">
                     <TabViewItem title="Info" iconSource="~/assets/images/personal_icon.png" >
                         <customer-info />
                     </TabViewItem>
@@ -79,15 +79,6 @@
 </script>
 
 <style scoped lang="scss">
-    Page {
-        color: #513270;
-    }
-
-    ActionBar {
-        background: #9068b9;
-        color: #fff;
-        font-size: 25vw;
-    }
 
     .fa {
       vertical-align: center;

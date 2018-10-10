@@ -1,23 +1,23 @@
 <template>
     <Page loaded="pageLoaded" actionBarHidden="true">
-        <StackLayout>
+        <GridLayout rows="*, *, 2*">
 
-            <StackLayout class="header">
+            <StackLayout row="0" class="header">
                 <Image  src="res://logo" class="logo" />
+            </StackLayout>
+
+            <StackLayout row="1">
                 <Label text="Välkommen" class="welcome" />
             </StackLayout>
 
-            <StackLayout class="form">
+            <StackLayout row="2" class="form">
                 <TextField v-model="pin" hint="PIN" />
                 <TextField v-model="username" hint="Username" />
                 <TextField v-model="password" hint="Password" secure="true" @returnPress="login"/>
-            </StackLayout>
-
-            <StackLayout class="buttons">
                 <Button @tap="login">Logga in</Button>
             </StackLayout>
 
-        </StackLayout>
+        </GridLayout>
     </Page>
 </template>
 
@@ -60,7 +60,7 @@
 <style scoped lang="scss">
     Page {
         background-color: #513270;
-        padding: 30%;
+        padding: 30vw;
         text-align: center;
     }
 
@@ -69,27 +69,20 @@
         color: white;
     }
 
+    StackLayout {
+        vertical-align: center;
+    }
 
     Label {
         color: white;
     }
 
-    .header {
-        margin-bottom: 10%;
-    }
-
     .logo {
-        width: 40%;
-        margin: 5% auto 8%;
+        width: 100vw;
     }
 
     .welcome {
         font-size: 36vw;
         font-weight: bold;
     }
-
-    .forgotPassword {
-        margin: 10%;
-    }
-
 </style>

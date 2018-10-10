@@ -77,6 +77,6 @@
 
 <style scoped lang="scss">
     Label {
-        color: white;
+        color: #492645;
     }
 </style>
