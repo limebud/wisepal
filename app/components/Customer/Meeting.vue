@@ -1,20 +1,33 @@
 <template>
-  <GridLayout rows="*, 3*">
-      <FlexboxLayout row="0" justifyContent="space-around" class="icons">
-          <Label class="fa" :text="'fa-camera' | fonticon" @tap="useCamera" />
-          <Label class="fas" :text="'fa-pen' | fonticon" />
-          <Label class="fa" :text="'fa-microphone' | fonticon" @tap="useRecorder"/>
+  <StackLayout >
+      <FlexboxLayout row="0" class="icons">
+          <StackLayout class="icon">
+              <Label class="fa" :text="'fa-camera' | fonticon" @tap="useCamera" />
+          </StackLayout>
+          <StackLayout class="icon">
+              <Label class="fas" :text="'fa-pen' | fonticon" />
+          </StackLayout>
+          <StackLayout class="icon">
+              <Label class="fa" :text="'fa-microphone' | fonticon" @tap="useRecorder"/>
+          </StackLayout>
       </FlexboxLayout>
 
+      <StackLayout class="header">
+          <Label text="Sparade filer" color="gray" fontSize="20"/>
+          <Label class="hr-light" />
+      </StackLayout>
+
       <StackLayout row="2">
-          <ListView for="recording in recordings" class="list-group">
+          <ListView for="recording in recordings" separatorColor="transparent">
             <v-template>
-              <Label :text="recording.split('-')[3]" @tap="playRecording(recording)" class="list-group-item" />
+                <GridLayout columns="*, 8*, *">
+                    <Label col="1" :text="recording.split('-')[3]" @tap="playRecording(recording)" textAlignment="left" class="listItem"/>
+                </GridLayout>
             </v-template>
           </ListView>
       </StackLayout>
 
-  </GridLayout>
+  </StackLayout>
 </template>
 
 
@@ -83,13 +96,28 @@
 
 <style scoped lang="scss">
 .icons {
+    margin: 20 0;
+    justify-content: space-around;
     font-size: 40;
-    padding: 10;
-    vertical-align: center;
+    color: #fff;
 }
 
-ListView {
-    text-align: left;
+.icon {
+    width: 110;
+    height: 110;
+    vertical-align: center;
+    text-align: center;
+    background: linear-gradient(45deg, #509aaf, #7dd8c7);
+    border-radius: 5;
+}
+
+.header {
+    margin-bottom: 20;
+}
+
+.listItem {
+    font-size: 20;
+
 }
 
 </style>

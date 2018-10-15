@@ -35,7 +35,7 @@
           return {
               pin: $savedPin,
               username: $savedUsername,
-              password: '',
+              password: 'admin',
           }
       },
       methods: {

@@ -1,12 +1,12 @@
 <template>
   <Page loaded="pageLoaded" >
       <ActionBar>
-          <GridLayout columns="auto, *, *">
-              <GridLayout col="0" class="searchBar" columns="*, auto">
+          <GridLayout columns="*, auto, *">
+              <GridLayout col="1" class="searchBar" columns="*, auto">
                   <TextField col="0" hint="Sök..." @submit="search" v-model="searchQuery" @focus="onFocus" @blur="onBlur" class="inputField"/>
                   <TextField col="1" v-if="searchQuery.length > 0" class="fas emptyQuery" :text="'fa-times-circle' | fonticon" @tap="emptySearchQuery" />
               </GridLayout>
-              <Label class="fa menu" :text="'fa-bars' | fonticon" @tap="openDrawer" col="2" />
+              <Label class="fa menu" :text="'fa-bars' | fonticon" @tap="openDrawer" col="0" />
           </GridLayout>
       </ActionBar>
 
@@ -104,7 +104,7 @@
 <style scoped lang="scss">
     .fa {
       vertical-align: center;
-      text-align: center;
+      text-align: left;
       font-size: 25;
     }
 

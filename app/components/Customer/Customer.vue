@@ -3,9 +3,8 @@
 
       <ActionBar>
           <GridLayout width="100%" columns="*, auto, *">
-              <Label col="0" class="fa" :text="'fa-arrow-left' | fonticon" @tap="backToStartview" style="text-alignment: left"/>
+              <Label col="0" class="fa" :text="'fa-bars' | fonticon" @tap="openDrawer"/>
               <Label col="1" :text="customerInfo.Name.Value" class="name" />
-              <Label col="2" class="fa" :text="'fa-bars' | fonticon" @tap="openDrawer"/>
           </GridLayout>
       </ActionBar>
 
@@ -64,17 +63,15 @@
               this.$navigateTo(Login, {
                   clearHistory: true
               })
-          },
-          backToStartview() {
-              this.$navigateTo(Startview, {
-                  clearHistory: true
-              })
           }
       },
       destroyed() {
           this.$store.commit('emptyRecordedFiles')
           this.$store.commit('setCustomerInformation', [])
           this.$store.commit('setCustomerDocuments', [])
+      },
+      updated() {
+          console.log("Updated")
       }
   }
 </script>
@@ -83,7 +80,7 @@
 
     .fa {
       vertical-align: center;
-      text-align: center;
+      text-align: left;
       font-size: 25;
     }
 

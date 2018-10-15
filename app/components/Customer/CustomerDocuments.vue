@@ -14,7 +14,7 @@
       name: "customer-documents",
       data() {
           return {
-              documents: null
+              documents: this.$store.getters.getCustomerDocuments ? this.$store.getters.getCustomerDocuments : null
           }
       },
       created() {
