@@ -21,12 +21,16 @@ export const appendRecordedFiles = (state, payload) => {
     state.recordedFiles.push(payload)
 }
 
+export const emptyRecordedFiles = (state) => {
+    state.recordedFiles = []
+}
+
 export const setRecentVisit = (state, payload) => {
     state.recentVisit = payload
 }
 
-export const setSearchFocused = (state, payload) => {
-    state.searchFocused = payload
+export const setSearchBarActive = (state, payload) => {
+    state.searchBarActive = payload
 }
 
 export const setPartyType = (state, payload) => {

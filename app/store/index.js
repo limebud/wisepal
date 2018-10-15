@@ -15,14 +15,14 @@ const debug = process.env.NODE_ENV !== 'production';
 const store = new Vuex.Store({
   state: {
     token: null,
-    searchFocused: false,
-    customerDocuments: null,
-    customerInformation: null,
+    customerDocuments: [],
+    customerInformation: [],
     searchResults: [],
     playFile: null,
     recordedFiles: [],
     recentVisit: [],
-    partyType: ''
+    partyType: '',
+    searchBarActive: false,
   },
   mutations,
   getters,
@@ -59,7 +59,6 @@ const store = new Vuex.Store({
               then(res => {
                   if (res.data.Success) {
                       commit('setRecentVisit', res.data.Result)
-                      console.log("Recent visit har hämtats.")
                   } else {
                       console.log(res.data.Messages[0])
                   }

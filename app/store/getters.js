@@ -26,8 +26,8 @@ export const getRecentVisit = (state) => {
     return state.recentVisit
 }
 
-export const getSearchFocused = (state) => {
-    return state.searchFocused
+export const getSearchBarActive = (state) => {
+    return state.searchBarActive
 }
 
 export const getPartyType = (state) => {

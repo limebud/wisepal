@@ -31,7 +31,8 @@ Page {
 }
 
 ActionBar {
-    background: #513270;
-    color: #fff;
+    border-bottom-color: #513270;
+    border-bottom-width: 4;
+    color: #333;
     font-size: 20vh;
 }

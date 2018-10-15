@@ -11,9 +11,9 @@
       <Label row="1"  v-else-if="status === 'recording'" class="fas" :text="'fa-stop' | fonticon" color="red" fontSize="50vw" @tap="stopRecording" />
 
       <FlexboxLayout row="1" v-else-if="status === 'recorded'" justifyContent="space-around">
-          <Label class="fas" :text="'fa-save' | fonticon" color="green" fontSize="28vw" @tap="saveRecording" />
-          <Label class="fas" :text="'fa-play-circle' | fonticon" color="green" fontSize="28vw" @tap="playRecording" />
-          <Label class="fas" :text="'fa-trash' | fonticon" color="gray" fontSize="28vw" @tap="deleteRecording" />
+          <Label class="fas" :text="'fa-save' | fonticon" color="green" fontSize="32vw" @tap="saveRecording" />
+          <Label class="fas" :text="'fa-play-circle' | fonticon" color="green" fontSize="32vw" @tap="playRecording" />
+          <Label class="fas" :text="'fa-trash' | fonticon" color="gray" fontSize="32vw" @tap="deleteRecording" />
       </FlexboxLayout>
 
 

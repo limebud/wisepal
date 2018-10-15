@@ -12,14 +12,13 @@
       <RadSideDrawer ref="drawer">
           <StackLayout ~drawerContent class="sideStackLayout">
               <Button text="Logga ut" @tap="logout" />
-              <Label text="Close Drawer" padding="10" style="horizontal-align: center" @tap="onCloseDrawerTap"></Label>
           </StackLayout>
 
           <StackLayout ~mainContent class="mainStackLayout">
               <StackLayout>
-                  <TabView androidTabsPosition="bottom" tabBackgroundColor="#513270">
+                  <TabView androidTabsPosition="bottom" tabBackgroundColor="#509aaf"  selectedTabTextColor="#fff">
                     <TabViewItem title="Info" iconSource="~/assets/images/personal_icon.png" >
-                        <customer-info />
+                        <customer-info :customerInfo="customerInfo"/>
                     </TabViewItem>
                     <TabViewItem title="Dokument" iconSource="~/assets/images/file_icon.png">
                        <customer-documents />
@@ -45,7 +44,7 @@
   export default {
       data() {
           return {
-              customerInfo: []
+              customerInfo: this.$store.getters.getCustomerInformation
           }
       },
       components: {
@@ -72,8 +71,10 @@
               })
           }
       },
-      created() {
-          this.customerInfo = this.$store.getters.getCustomerInformation
+      destroyed() {
+          this.$store.commit('emptyRecordedFiles')
+          this.$store.commit('setCustomerInformation', [])
+          this.$store.commit('setCustomerDocuments', [])
       }
   }
 </script>
@@ -83,6 +84,7 @@
     .fa {
       vertical-align: center;
       text-align: center;
+      font-size: 25;
     }
 
     .name {

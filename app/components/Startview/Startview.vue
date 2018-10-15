@@ -1,32 +1,22 @@
 <template>
   <Page loaded="pageLoaded" >
       <ActionBar>
-          <GridLayout width="100%" columns="auto, *">
-              <SearchBar col="0" hint="Sök..." @submit="search" v-model="searchQuery" style="width: 90%" />
-              <Label class="fa" :text="'fa-bars' | fonticon" @tap="openDrawer" col="1" />
+          <GridLayout columns="auto, *, *">
+              <GridLayout col="0" class="searchBar" columns="*, auto">
+                  <TextField col="0" hint="Sök..." @submit="search" v-model="searchQuery" @focus="onFocus" @blur="onBlur" class="inputField"/>
+                  <TextField col="1" v-if="searchQuery.length > 0" class="fas emptyQuery" :text="'fa-times-circle' | fonticon" @tap="emptySearchQuery" />
+              </GridLayout>
+              <Label class="fa menu" :text="'fa-bars' | fonticon" @tap="openDrawer" col="2" />
           </GridLayout>
       </ActionBar>
 
     <RadSideDrawer ref="drawer">
         <StackLayout ~drawerContent class="sideStackLayout">
             <Button text="Logga ut" @tap="logout" />
-            <Label text="Close Drawer" color="lightgray" padding="10" style="horizontal-align: center" @tap="onCloseDrawerTap"></Label>
         </StackLayout>
 
         <StackLayout ~mainContent class="mainStackLayout">
-            <SearchResults/>
-
-            <StackLayout>
-                <Label text="De du senast besökt" class="infoRecent"/>
-                <ScrollView orientation="horizontal" scrollBarIndicatorVisible="false">
-                    <StackLayout orientation="horizontal">
-                        <StackLayout v-for="item in this.$store.getters.getRecentVisit">
-                            <Label :text="item.Name.Value" class="recent" textWrap="true"/>
-                        </StackLayout>
-                    </StackLayout>
-                </ScrollView>
-            </StackLayout>
-
+            <SearchResults :searchQuery="searchQuery"/>
         </StackLayout>
     </RadSideDrawer>
   </Page>
@@ -37,6 +27,7 @@
   import Customer from '../Customer/Customer'
   import Login from '../Login/Login'
   import SearchResults from './SearchResults'
+
 
 
   export default {
@@ -56,8 +47,8 @@
           }
       },
       methods: {
-          showRecent() {
-            console.log(this.$store.getters.getRecentVisit)
+          emptySearchQuery() {
+              this.searchQuery = ''
           },
           search() {
               if (this.searchQuery.length > 1) {
@@ -89,47 +80,59 @@
               this.$navigateTo(Login, {
                   clearHistory: true
               })
+          },
+          onFocus() {
+              this.$store.commit('setSearchBarActive', true)
+          },
+          onBlur() {
+              this.$store.commit('setSearchBarActive', false)
           }
       },
       components: {
-          SearchResults: SearchResults
+          SearchResults: SearchResults,
       },
       created() {
           this.$store.dispatch('recentVisit')
+      },
+      mounted() {
+          this.emptySearchQuery()
       }
+
     }
 </script>
 
 <style scoped lang="scss">
     .fa {
-      color: white;
-      font-size: 25vw;
       vertical-align: center;
       text-align: center;
+      font-size: 25;
     }
 
-    SearchBar {
-        background: #9068b9;
-        color: white;
+    .searchBar {
+        width: 80%;
+        height: 40;
+        font-size: 16;
+        border-radius: 10;
+        background: #fff;
+        color: black;
     }
 
     .list-item {
-        font-size: 20vw;
+        font-size: 18;
         color: #492645;
-        padding: 2vw;
-        margin-bottom: 1vw;
     }
 
     .infoRecent {
         text-align: center;
-        font-size: 20vw;
+        font-size: 20;
     }
 
-    .recent {
-        height: 100vw;
-        width: 100vw;
-        margin: 10vw;
-        border-width: 10px;
-        border-color: black;
+    .inputField {
+        background: #fff;
     }
+
+    .emptyQuery {
+        background: #fff;
+    }
+
 </style>

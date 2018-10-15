@@ -1,25 +1,20 @@
 <template>
-  <StackLayout>
-      <FlexboxLayout justifyContent="space-around" class="icons">
+  <GridLayout rows="*, 3*">
+      <FlexboxLayout row="0" justifyContent="space-around" class="icons">
           <Label class="fa" :text="'fa-camera' | fonticon" @tap="useCamera" />
           <Label class="fas" :text="'fa-pen' | fonticon" />
           <Label class="fa" :text="'fa-microphone' | fonticon" @tap="useRecorder"/>
       </FlexboxLayout>
-      <StackLayout >
-          <Label text="Inspelningar" fontSize="20vw"/>
-          <ListView separatorColor="transparent" for="recording in recordings">
+
+      <StackLayout row="2">
+          <ListView for="recording in recordings" class="list-group">
             <v-template>
-              <GridLayout columns="*, auto, *">
-                <GridLayout col="1" columns="auto, *" class="document">
-                  <Label class="fa" :text="'fa-file-alt' | fonticon" col="0" fontSize="20vw"/>
-                  <Label :text="recording.split('-')[3]" @tap="playRecording(recording)" col="1" class="filename"/>
-                </GridLayout>
-              </GridLayout>
+              <Label :text="recording.split('-')[3]" @tap="playRecording(recording)" class="list-group-item" />
             </v-template>
           </ListView>
       </StackLayout>
 
-  </StackLayout>
+  </GridLayout>
 </template>
 
 
@@ -54,7 +49,7 @@
                     console.log("Result is an image asset instance");
                     var image = new Image();
                     image.src = imageAsset;
-                    console.log("IMAGE SOURCE: " + image)
+                    console.log("Source: " + image)
                     this.image = image.src
                 }).catch((err) => {
                     console.log("Error -> " + err.message);
@@ -88,26 +83,13 @@
 
 <style scoped lang="scss">
 .icons {
-    padding: 20vw;
-    font-size: 60vw;
-}
-
-ListView {
-    margin-top: 1vw;
-}
-
-.document {
-    width: 95%;
-    font-size: 20vw;
-    padding: 20vw;
-    border-radius: 3%;
-    border-width: 3px;
-    border-color: #ddd;
-    margin-top: 10vw;
+    font-size: 40;
+    padding: 10;
     vertical-align: center;
 }
 
-.filename {
-    padding-left: 10vw;
+ListView {
+    text-align: left;
 }
+
 </style>
