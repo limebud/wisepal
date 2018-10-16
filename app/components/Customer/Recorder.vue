@@ -1,5 +1,5 @@
 <template>
-<Page actionBarHidden="true">
+<Page>
   <GridLayout rows="*, *">
 
       <Label row="0" :text="clock" />

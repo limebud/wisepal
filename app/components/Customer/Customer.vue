@@ -13,21 +13,28 @@
               <Button text="Logga ut" @tap="logout" />
           </StackLayout>
 
-          <StackLayout ~mainContent class="mainStackLayout">
-              <StackLayout>
-                  <TabView androidTabsPosition="bottom" tabBackgroundColor="#509aaf"  selectedTabTextColor="#fff">
-                    <TabViewItem title="Info" iconSource="~/assets/images/personal_icon.png" >
-                        <customer-info :customerInfo="customerInfo"/>
-                    </TabViewItem>
-                    <TabViewItem title="Dokument" iconSource="~/assets/images/file_icon.png">
-                       <customer-documents />
-                    </TabViewItem>
-                    <TabViewItem title="Möte" iconSource="~/assets/images/meeting_icon.png">
-                       <meeting />
-                    </TabViewItem>
-                  </TabView>
+          <GridLayout rows="*, 60" ~mainContent class="mainStackLayout">
+              <StackLayout row="0">
+                  <customer-info v-if="component == 'info'" :customerInfo="customerInfo" />
+                  <customer-documents v-else-if="component == 'documents'" />
+                  <meeting v-else-if="component == 'meeting'" />
+
               </StackLayout>
-          </StackLayout>
+              <GridLayout row="1" columns="*, *, *">
+                  <StackLayout col="0" @tap="component = 'info'">
+                      <Label class="fas icon" :text="'fa-address-card' | fonticon" />
+                      <Label text="Info" textAlignment="center" fontSize="12"/>
+                  </StackLayout>
+                  <StackLayout col="1" @tap="component = 'documents'">
+                      <Label class="fas icon" :text="'fa-file' | fonticon" />
+                      <Label text="Dokument" textAlignment="center" fontSize="12"/>
+                  </StackLayout>
+                  <StackLayout col="2" @tap="component = 'meeting'">
+                      <Label class="fas icon" :text="'fa-users' | fonticon" />
+                      <Label text="Möte" textAlignment="center" fontSize="12"/>
+                  </StackLayout>
+              </GridLayout>
+          </GridLayout>
       </RadSideDrawer>
   </Page>
 </template>
@@ -43,7 +50,8 @@
   export default {
       data() {
           return {
-              customerInfo: this.$store.getters.getCustomerInformation
+              customerInfo: this.$store.getters.getCustomerInformation,
+              component: 'info'
           }
       },
       components: {
@@ -78,6 +86,14 @@
 </script>
 
 <style scoped lang="scss">
+
+    .icon {
+        text-align: center;
+        vertical-align: center;
+        font-size: 24;
+        border-top-width: 1;
+        border-top-color: #ddd;
+    }
 
     .fa {
       vertical-align: center;

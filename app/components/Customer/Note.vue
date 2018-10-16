@@ -1,14 +1,11 @@
 <template>
-<Page actionBarHidden="true">
+<Page >
   <GridLayout rows="*, 8*, 2*" columns="*, 8*, *" >
       <TextView v-model="text" row="1", col="1" class="textbox" verticalAlignment="center"/>
 
-      <StackLayout v-if="!file" row="2" col="1">
-          <Label class="fas" :text="'fa-save' | fonticon" color="green" fontSize="40" @tap="saveText" verticalAlignment="center"/>
-      </StackLayout>
-      <FlexboxLayout v-else row="2" col="1" justifyContent="space-around" verticalAlignment="center">
-          <Label col="0" class="fas" :text="'fa-save' | fonticon" color="green" fontSize="40" @tap="saveText" />
-          <Label col="1" class="fas" :text="'fa-trash' | fonticon" color="gray" fontSize="40" @tap="deleteFile" />
+      <FlexboxLayout row="2" col="1" justifyContent="space-around" class="icons">
+          <Label col="0" class="fas icon" :text="'fa-save' | fonticon" fontSize="40" @tap="saveText" />
+          <Label v-if="file" col="1" class="fas icon" :text="'fa-trash' | fonticon" fontSize="40" @tap="deleteFile" />
       </FlexboxLayout>
   </GridLayout>
 </Page>
@@ -102,8 +99,24 @@
 </script>
 
 <style scoped lang="scss">
+    .icons {
+        margin: 20 0;
+        justify-content: space-around;
+        font-size: 40;
+        color: #aaa;
+    }
+
+
+
     TextView {
         height: 100%;
+    }
+
+    .icon {
+        width: 30%;
+        vertical-align: center;
+        text-align: center;
+        border-radius: 5;
     }
 
     .textbox {

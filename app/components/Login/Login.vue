@@ -59,7 +59,7 @@
 
 <style scoped lang="scss">
     Page {
-        background-color: #513270;
+        background: #513270;
         padding: 30;
         text-align: center;
     }
