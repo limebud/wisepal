@@ -22,6 +22,14 @@ export const getRecordedFiles = (state) => {
     return state.recordedFiles
 }
 
+export const getNotes = (state) => {
+    return state.notes
+}
+
+export const getReadFile = (state) => {
+    return state.readFile
+}
+
 export const getRecentVisit = (state) => {
     return state.recentVisit
 }

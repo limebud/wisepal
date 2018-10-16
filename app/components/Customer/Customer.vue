@@ -67,6 +67,7 @@
       },
       destroyed() {
           this.$store.commit('emptyRecordedFiles')
+          this.$store.commit('emptyNotes')
           this.$store.commit('setCustomerInformation', [])
           this.$store.commit('setCustomerDocuments', [])
       },

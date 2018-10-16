@@ -19,10 +19,32 @@
       data() {
           return {
               clock: '00:00:00',
-              filename: fs.knownFolders.currentApp().getFolder('recordings').path + '/' + this.$store.getters.getPlayFile,
+              id: this.$store.getters.getCustomerInformation.Id.Value,
+              folder: '',
+              filename: '',
               trackDuration: null,
               player: new TNSPlayer(),
           }
+      },
+      created() {
+          this.folder = fs.knownFolders.currentApp().getFolder('recordings/' + this.id)
+          this.filename = this.folder.path + '/' + this.$store.getters.getPlayFile
+          
+          this.player.initFromFile({
+              audioFile: this.filename,
+              loop: false,
+              completeCallback: function() {
+                  console.log('finished playing')
+              },
+              errorCallback: function() {
+                  console.log("Error callback: " + JSON.stringify(errorObject))
+              },
+              infoCallback: function() {
+                  console.log("Info callback: " + JSON.stringify(args))
+              }
+          })
+
+
       },
       methods: {
           playRecording() {
@@ -34,21 +56,6 @@
               }
           },
       },
-      created() {
-          this.player.initFromFile({
-            audioFile: this.filename,
-            loop: false,
-              completeCallback: function() {
-                  console.log('finished playing')
-              },
-              errorCallback: function() {
-                  console.log("Error callback: " + JSON.stringify(errorObject))
-              },
-              infoCallback: function() {
-                  console.log("Info callback: " + JSON.stringify(args))
-              }
-          })
-      }
   }
 </script>
 

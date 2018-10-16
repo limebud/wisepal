@@ -1,5 +1,5 @@
 <template>
-<Page>
+<Page actionBarHidden="true">
   <GridLayout rows="*, *">
 
       <Label row="0" :text="clock" />
@@ -11,10 +11,11 @@
       <Label row="1"  v-else-if="status === 'recording'" class="fas" :text="'fa-stop' | fonticon" color="red" fontSize="50vw" @tap="stopRecording" />
 
       <FlexboxLayout row="1" v-else-if="status === 'recorded'" justifyContent="space-around">
-          <Label class="fas" :text="'fa-save' | fonticon" color="green" fontSize="32vw" @tap="saveRecording" />
-          <Label class="fas" :text="'fa-play-circle' | fonticon" color="green" fontSize="32vw" @tap="playRecording" />
-          <Label class="fas" :text="'fa-trash' | fonticon" color="gray" fontSize="32vw" @tap="deleteRecording" />
+          <Label class="fas" :text="'fa-save' | fonticon" color="green" fontSize="40" @tap="saveRecording" />
+          <Label class="fas" :text="'fa-play-circle' | fonticon" color="green" fontSize="40" @tap="playRecording" />
+          <Label class="fas" :text="'fa-trash' | fonticon" color="gray" fontSize="40" @tap="deleteRecording" />
       </FlexboxLayout>
+
 
 
   </GridLayout>
@@ -26,18 +27,20 @@
   import * as fs from 'tns-core-modules/file-system'
   import { AudioPlayerOptions, AudioRecorderOptions, TNSPlayer, TNSRecorder } from 'nativescript-audio'
   import { Image } from "ui/image"
-  import * as Toast from 'nativescript-toast';
-  import * as application from "tns-core-modules/application";
-  const dialogs = require('tns-core-modules/ui/dialogs')
+  import * as Toast from 'nativescript-toast'
+  import * as application from "tns-core-modules/application"
+  import * as dialogs from 'tns-core-modules/ui/dialogs'
 
   export default {
       data() {
           return {
               status: null,
+              id: this.$store.getters.getCustomerInformation.Id.Value,
               timer: null,
               audioMeter: 0,
               meterInterval: null,
-              filename: fs.knownFolders.currentApp().getFolder('recordings').path + '/recording',
+              folder: '',
+              filename: '',
               recorder: new TNSRecorder(),
               seconds: 0,
               minutes: 0,
@@ -45,6 +48,10 @@
               clock: '00:00:00',
               saveFileName: ''
           }
+      },
+      created() {
+          this.folder = fs.knownFolders.currentApp().getFolder('recordings/' + this.id)
+          this.filename = this.folder.path + '/recording'
       },
       methods: {
           addTime() {
@@ -149,15 +156,13 @@
                   cancelButtonText: "Nej"
                 }).then(res => {
                     if (res) {
-                        let folder = fs.knownFolders.currentApp().getFolder('recordings')
-                        let file = folder.getFile("recording")
+                        let file = this.folder.getFile("recording")
                         file.remove()
                         this.reset()
                     }
                 });
           },
           saveRecording() {
-              let id = this.$store.getters.getCustomerInformation.Id.Value
               let random = Math.floor(Math.random() * 999999999) + 1;
 
               prompt({
@@ -168,10 +173,9 @@
                   inputType: dialogs.inputType.text
                 }).then(res => {
                   if (res.result) {
-                      this.saveFileName = id + '-recording-' + random + '-' + res.text
+                      this.saveFileName = this.id + '-recording-' + random + '-' + res.text
 
-                      let folder = fs.knownFolders.currentApp().getFolder('recordings')
-                      let saveFile = folder.getFile("recording")
+                      let saveFile = this.folder.getFile("recording")
 
                       saveFile.rename(this.saveFileName)
                       .then((res) => {
@@ -196,14 +200,13 @@
               this.minutes = 0
               this.hours = 0
           }
-
-      }
+      },
   }
 </script>
 
 <style scoped lang="scss">
 Page {
-    font-size: 40vw;
+    font-size: 40;
     text-align: center;
 }
 
@@ -217,8 +220,5 @@ FlexboxLayout {
     text-align: center;
 }
 
-.time {
-    background: #41a7b3;
-}
 
 </style>

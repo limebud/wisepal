@@ -1,6 +1,7 @@
 import Vue from 'nativescript-vue';
 import Vuex from 'vuex';
 import axios from 'axios';
+import * as fs from 'tns-core-modules/file-system'
 
 import * as Toast from 'nativescript-toast';
 import * as appSettings from 'tns-core-modules/application-settings'
@@ -19,7 +20,9 @@ const store = new Vuex.Store({
     customerInformation: [],
     searchResults: [],
     playFile: null,
+    readFile: null,
     recordedFiles: [],
+    notes: [],
     recentVisit: [],
     partyType: '',
     searchBarActive: false,
@@ -64,6 +67,22 @@ const store = new Vuex.Store({
                   }
               })
               .catch(err => console.log("Error: " + err))
+          },
+          getFiles: ({commit}, payload) => {
+              let folder = fs.knownFolders.currentApp().getFolder(payload.folder + '/' + payload.id)
+              folder.getEntities()
+              .then(entities => {
+                  entities.forEach(entity => {
+                      if (payload.folder === 'recordings') {
+                          commit('appendRecordedFiles', entity.name)
+                      } else if (payload.folder === 'notes') {
+                          commit('appendNotes', entity.name)
+                      }
+                  })
+              })
+          },
+          getNotes: ({commit}, id) => {
+              let folder = fs.knownFolders.currentApp().getFolder('notes')
           }
       },
   strict: debug

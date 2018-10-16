@@ -1,33 +1,44 @@
 <template>
-  <StackLayout >
+  <GridLayout rows="*, 2*" >
       <FlexboxLayout row="0" class="icons">
           <StackLayout class="icon">
               <Label class="fa" :text="'fa-camera' | fonticon" @tap="useCamera" />
           </StackLayout>
           <StackLayout class="icon">
-              <Label class="fas" :text="'fa-pen' | fonticon" />
+              <Label class="fas" :text="'fa-pen' | fonticon" @tap="addNote" />
           </StackLayout>
           <StackLayout class="icon">
               <Label class="fa" :text="'fa-microphone' | fonticon" @tap="useRecorder"/>
           </StackLayout>
       </FlexboxLayout>
-
+<!--
       <StackLayout class="header">
           <Label text="Sparade filer" color="gray" fontSize="20"/>
           <Label class="hr-light" />
-      </StackLayout>
+      </StackLayout> -->
 
-      <StackLayout row="2">
-          <ListView for="recording in recordings" separatorColor="transparent">
-            <v-template>
-                <GridLayout columns="*, 8*, *">
-                    <Label col="1" :text="recording.split('-')[3]" @tap="playRecording(recording)" textAlignment="left" class="listItem"/>
-                </GridLayout>
-            </v-template>
-          </ListView>
-      </StackLayout>
+      <ScrollView row="1">
+          <StackLayout >
+              <Label text="Anteckningar" fontSize="20" color="gray" />
+              <Label class="hr-light" />
+              <GridLayout v-if="notes.length > 0" columns="*, 8*, *" v-for="note in notes">
+                  <Label col="1" :text="note.split('-')[1].split('.')[0]" @tap="readNote(note)" textAlignment="left" class="listItem"/>
+              </GridLayout>
+              <StackLayout v-else columns="*, 8*, *">
+                  <Label text="Inga anteckningar" textAlignment="center" margin="5" fontAttributes="Italic" color="#ccc"/>
+              </StackLayout>
+              <Label text="Inspelningar" fontSize="20" color="gray" />
+              <Label class="hr-light" />
+              <GridLayout v-if="recordings.length > 0" columns="*, 8*, *" v-for="recording in recordings">
+                  <Label col="1" :text="recording.split('-')[3]" @tap="playRecording(recording)" textAlignment="left" class="listItem"/>
+              </GridLayout>
+              <StackLayout v-else columns="*, 8*, *">
+                  <Label text="Inga anteckningar" textAlignment="center" margin="5" fontAttributes="Italic" color="#ccc"/>
+              </StackLayout>
+          </StackLayout>
 
-  </StackLayout>
+  </ScrollView>
+  </GridLayout>
 </template>
 
 
@@ -38,16 +49,16 @@
   import { Image } from "ui/image"
   import Recorder from './Recorder.vue'
   import Player from './Player.vue'
-
-
+  import Note from './Note.vue'
 
   export default {
       name: "meeting",
       data() {
           return {
               image: null,
-              fa: true,
               recordings: this.$store.getters.getRecordedFiles,
+              notes: this.$store.getters.getNotes,
+              id: this.$store.getters.getCustomerInformation.Id.Value
           }
       },
       methods: {
@@ -76,21 +87,21 @@
               this.$store.commit('setPlayFile', filename)
               this.$navigateTo(Player)
           },
+          addNote() {
+              this.$navigateTo(Note)
+          },
           getFiles() {
               return
+          },
+          readNote(filename) {
+              this.$store.commit('setReadFile', filename)
+              this.$navigateTo(Note)
           }
     },
     created() {
-        let folder = fs.knownFolders.currentApp().getFolder('recordings')
-        folder.getEntities()
-        .then(entities => {
-            entities.forEach(entity => {
-                if (entity.name.split("-")[0] == this.$store.getters.getCustomerInformation.Id.Value) {
-                    this.$store.commit('appendRecordedFiles', entity.name)
-                }
-            })
-        })
-    }
+        this.$store.dispatch('getFiles', { id: this.id , folder: 'recordings' })
+        this.$store.dispatch('getFiles', { id: this.id, folder: 'notes' })
+    },
 }
 </script>
 
@@ -103,8 +114,7 @@
 }
 
 .icon {
-    width: 110;
-    height: 110;
+    width: 30%;
     vertical-align: center;
     text-align: center;
     background: linear-gradient(45deg, #509aaf, #7dd8c7);

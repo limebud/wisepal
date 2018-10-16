@@ -1,3 +1,4 @@
+
 export const setToken = (state, token) => {
     state.token = token
 }
@@ -17,12 +18,31 @@ export const setPlayFile = (state, payload) => {
     state.playFile = payload
 }
 
+export const setReadFile = (state, payload) => {
+    state.readFile = payload
+}
+
 export const appendRecordedFiles = (state, payload) => {
     state.recordedFiles.push(payload)
 }
 
+export const appendNotes = (state, payload) => {
+    if (!state.notes.includes(payload)) {
+        state.notes.push(payload)
+    }
+}
+
 export const emptyRecordedFiles = (state) => {
     state.recordedFiles = []
+}
+
+export const emptyNotes = (state) => {
+    state.notes = []
+}
+
+export const removeNote = (state, payload) => {
+    let index = state.notes.indexOf(payload)
+    state.notes.splice(index, 1)
 }
 
 export const setRecentVisit = (state, payload) => {
