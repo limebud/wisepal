@@ -80,9 +80,6 @@ const store = new Vuex.Store({
                       }
                   })
               })
-          },
-          getNotes: ({commit}, id) => {
-              let folder = fs.knownFolders.currentApp().getFolder('notes')
           }
       },
   strict: debug

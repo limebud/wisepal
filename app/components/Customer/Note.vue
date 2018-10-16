@@ -4,7 +4,7 @@
       <TextView v-model="text" row="1", col="1" class="textbox" verticalAlignment="center"/>
 
       <StackLayout v-if="!file" row="2" col="1">
-      <Button text="Spara" @tap="saveText" verticalAlignment="center"/>
+          <Label class="fas" :text="'fa-save' | fonticon" color="green" fontSize="40" @tap="saveText" verticalAlignment="center"/>
       </StackLayout>
       <FlexboxLayout v-else row="2" col="1" justifyContent="space-around" verticalAlignment="center">
           <Label col="0" class="fas" :text="'fa-save' | fonticon" color="green" fontSize="40" @tap="saveText" />
@@ -39,16 +39,33 @@
                   defaultText: defText,
                   inputType: dialogs.inputType.text
                 })
-                .then(res => {
-                  this.file = this.folder.getFile(this.id + '-' + res.text + '.txt')
-                  this.file.writeText(this.text)
+                .then(async (res) => {
+                    this.file = this.folder.getFile(this.id + '-' + res.text + '.txt')
+                    this.checkDuplicate()
                 })
-                .then((res) => {
+          },
+          checkDuplicate() {
+              if (this.$store.getters.getNotes.includes(this.file.name)) {
+                  confirm({
+                      message: "Skriver över anteckning",
+                      okButtonText: "OK",
+                      cancelButtonText: "Ångra"
+                  })
+                  .then(res => {
+                      if (res) {
+                          this.file.writeText(this.text)
+                          this.$store.dispatch('getFiles', { id: this.id, folder: 'notes' })
+                          this.$navigateBack()
+                      } else {
+                          return false
+                      }
+                    });
+                } else {
+                    this.file.writeText(this.text)
                     this.$store.dispatch('getFiles', { id: this.id, folder: 'notes' })
                     this.$navigateBack()
-                })
-                .catch(err => console.log("Error: " + err))
-          },
+                }
+            },
           deleteFile() {
               confirm({
                   message: "Tar bort anteckningen",

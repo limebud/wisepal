@@ -25,7 +25,7 @@
 
 <style scoped lang="scss">
     ListView {
-        margin-top: 1vw;
+        margin-top: 1;
     }
 
 </style>

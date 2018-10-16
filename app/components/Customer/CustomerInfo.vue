@@ -67,16 +67,16 @@
 .fa,
 .fas {
     padding: 10%;
-    font-size: 40vh;
+    font-size: 40;
     color: #007AFF;
     vertical-align: center;
 }
 
 .info {
-    font-size: 20vw;
+    font-size: 20;
     width: 90%;
     padding: 10%;
-    border-bottom-width: 2px;
+    border-bottom-width: 2;
     border-color: #9068b9;
 
 }
@@ -91,17 +91,17 @@
 }
 
 .id {
-    font-size: 15vw;
+    font-size: 15;
 }
 
 .label {
-    font-size: 15vw;
+    font-size: 15;
     margin: 0;
     padding: 0;
 }
 
 .value {
-    font-size: 25vw;
+    font-size: 25;
     font-weight: bold;
     margin: 0;
     padding: 0;

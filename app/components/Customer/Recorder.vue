@@ -4,11 +4,11 @@
 
       <Label row="0" :text="clock" />
 
-      <Label row="1" v-if="!status" class="fas" :text="'fa-circle' | fonticon" color="#fefafb" fontSize="200vw"/>
-      <Label row="1" v-if="!status" class="fas" :text="'fa-circle' | fonticon" color="#f6d9dE" fontSize="125vw"/>
-      <Label row="1" v-if="!status" class="fas" :text="'fa-circle' | fonticon" color="#ee3962" fontSize="50vw" @tap="startRecording"/>
+      <Label row="1" v-if="!status" class="fas" :text="'fa-circle' | fonticon" color="#fefafb" fontSize="200"/>
+      <Label row="1" v-if="!status" class="fas" :text="'fa-circle' | fonticon" color="#f6d9dE" fontSize="125"/>
+      <Label row="1" v-if="!status" class="fas" :text="'fa-circle' | fonticon" color="#ee3962" fontSize="50" @tap="startRecording"/>
 
-      <Label row="1"  v-else-if="status === 'recording'" class="fas" :text="'fa-stop' | fonticon" color="red" fontSize="50vw" @tap="stopRecording" />
+      <Label row="1"  v-else-if="status === 'recording'" class="fas" :text="'fa-stop' | fonticon" color="red" fontSize="50" @tap="stopRecording" />
 
       <FlexboxLayout row="1" v-else-if="status === 'recorded'" justifyContent="space-around">
           <Label class="fas" :text="'fa-save' | fonticon" color="green" fontSize="40" @tap="saveRecording" />

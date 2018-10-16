@@ -60,7 +60,7 @@
 <style scoped lang="scss">
     Page {
         background-color: #513270;
-        padding: 30vw;
+        padding: 30;
         text-align: center;
     }
 
@@ -73,16 +73,17 @@
         vertical-align: center;
     }
 
+
     Label {
         color: white;
     }
 
     .logo {
-        width: 100vw;
+        width: 100;
     }
 
     .welcome {
-        font-size: 36vw;
+        font-size: 36;
         font-weight: bold;
     }
 </style>
