@@ -1,8 +1,8 @@
 <template>
 <Page>
   <StackLayout>
-      <Button text="Spela upp" @tap="playRecording" />
-
+      <Label class="fas" :text="'fa-play-circle' | fonticon" color="green" fontSize="40" @tap="playRecording" />
+      <Label class="fas" :text="'fa-trash' | fonticon" color="gray" fontSize="40" @tap="deleteRecording" />
   </StackLayout>
 </Page>
 </template>
@@ -13,7 +13,7 @@
   import { AudioPlayerOptions, AudioRecorderOptions, TNSPlayer, TNSRecorder } from 'nativescript-audio'
   import * as Toast from 'nativescript-toast';
   import * as application from "tns-core-modules/application";
-  const dialogs = require('tns-core-modules/ui/dialogs')
+  import * as dialogs from 'tns-core-modules/ui/dialogs'
 
   export default {
       data() {
@@ -21,17 +21,18 @@
               clock: '00:00:00',
               id: this.$store.getters.getCustomerInformation.Id.Value,
               folder: '',
-              filename: '',
+              filepath: '',
+              filename: this.$store.getters.getPlayFile,
               trackDuration: null,
               player: new TNSPlayer(),
           }
       },
       created() {
           this.folder = fs.knownFolders.currentApp().getFolder('recordings/' + this.id)
-          this.filename = this.folder.path + '/' + this.$store.getters.getPlayFile
-          
+          this.filepath = this.folder.path + '/' + this.filename
+
           this.player.initFromFile({
-              audioFile: this.filename,
+              audioFile: this.filepath,
               loop: false,
               completeCallback: function() {
                   console.log('finished playing')
@@ -49,12 +50,25 @@
       methods: {
           playRecording() {
               if (this.player.isAudioPlaying()) {
-
                 this.player.pause();
               } else {
                 this.player.play();
               }
           },
+          deleteRecording() {
+                confirm({
+                  message: "Tar bort inspelningen",
+                  okButtonText: "OK",
+                  cancelButtonText: "Ångra"
+                }).then(res => {
+                    if (res) {
+                        let file = this.folder.getFile(this.$store.getters.getPlayFile)
+                        file.remove()
+                        this.$store.commit('removeRecordingFromArray', this.filename)
+                        this.$navigateBack()
+                    }
+                })
+          }
       },
   }
 </script>

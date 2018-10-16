@@ -77,7 +77,7 @@
               })
               .then(res => {
                   if (res) {
-                      this.$store.commit('removeNote', this.file.name)
+                      this.$store.commit('removeNoteFromArray', this.file.name)
                       this.file.remove()
                       this.$navigateBack()
                   }

@@ -40,9 +40,14 @@ export const emptyNotes = (state) => {
     state.notes = []
 }
 
-export const removeNote = (state, payload) => {
+export const removeNoteFromArray = (state, payload) => {
     let index = state.notes.indexOf(payload)
     state.notes.splice(index, 1)
+}
+
+export const removeRecordingFromArray = (state, payload) => {
+    let index = state.recordedFiles.indexOf(payload)
+    state.recordedFiles.splice(index, 1)
 }
 
 export const setRecentVisit = (state, payload) => {
