@@ -163,8 +163,6 @@
                 });
           },
           saveRecording() {
-              let random = Math.floor(Math.random() * 999999999) + 1;
-
               prompt({
                   message: "Spara som...",
                   okButtonText: "OK",
@@ -173,22 +171,24 @@
                   inputType: dialogs.inputType.text
                 }).then(res => {
                   if (res.result) {
-                      this.saveFileName = this.id + '-recording-' + random + '-' + res.text
+                      this.saveFileName = this.id + '-recording-' + res.text
 
                       let saveFile = this.folder.getFile("recording")
 
-                      saveFile.rename(this.saveFileName)
-                      .then((res) => {
+                      console.log(this.saveFileName)
+                      if (this.$store.getters.getRecordedFiles.includes(this.saveFileName)) {
+                          alert("Det finns redan en inspelning med det namnet")
+                      } else {
+                          saveFile.rename(this.saveFileName)
                           this.$store.commit('appendRecordedFiles', saveFile.name)
                           Toast.makeText("Inspelningen sparad", "long").show()
                           this.reset()
-                      })
-                      .catch((err) => {
-                          console.log(err)
-                      })
-                  }
-
-                });
+                      }
+                    }
+                })
+                .catch((err) => {
+                    console.log("Error: " + err)
+                })
           },
           reset() {
               application.android.off(application.AndroidApplication.activityBackPressedEvent)

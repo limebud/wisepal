@@ -39,9 +39,11 @@
                   defaultText: defText,
                   inputType: dialogs.inputType.text
                 })
-                .then(async (res) => {
-                    this.file = this.folder.getFile(this.id + '-' + res.text + '.txt')
-                    this.checkDuplicate()
+                .then(res => {
+                    if (res.result) {
+                        this.file = this.folder.getFile(this.id + '-' + res.text + '.txt')
+                        this.checkDuplicate()
+                    }
                 })
           },
           checkDuplicate() {
@@ -53,18 +55,19 @@
                   })
                   .then(res => {
                       if (res) {
-                          this.file.writeText(this.text)
-                          this.$store.dispatch('getFiles', { id: this.id, folder: 'notes' })
-                          this.$navigateBack()
+                          this.saveAndExit()
                       } else {
-                          return false
+                          return
                       }
-                    });
+                    })
                 } else {
-                    this.file.writeText(this.text)
-                    this.$store.dispatch('getFiles', { id: this.id, folder: 'notes' })
-                    this.$navigateBack()
+                    this.saveAndExit()
                 }
+            },
+            saveAndExit() {
+                this.file.writeText(this.text)
+                this.$store.dispatch('getFiles', { id: this.id, folder: 'notes' })
+                this.$navigateBack()
             },
           deleteFile() {
               confirm({

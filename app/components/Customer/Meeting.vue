@@ -11,11 +11,6 @@
               <Label class="fa" :text="'fa-microphone' | fonticon" @tap="useRecorder"/>
           </StackLayout>
       </FlexboxLayout>
-<!--
-      <StackLayout class="header">
-          <Label text="Sparade filer" color="gray" fontSize="20"/>
-          <Label class="hr-light" />
-      </StackLayout> -->
 
       <ScrollView row="1">
           <StackLayout >
@@ -30,7 +25,7 @@
               <Label text="Inspelningar" fontSize="20" color="gray" />
               <Label class="hr-light" />
               <GridLayout v-if="recordings.length > 0" columns="*, 8*, *" v-for="recording in recordings">
-                  <Label col="1" :text="recording.split('-')[3]" @tap="playRecording(recording)" textAlignment="left" class="listItem"/>
+                  <Label col="1" :text="recording.split('-')[2]" @tap="playRecording(recording)" textAlignment="left" class="listItem"/>
               </GridLayout>
               <StackLayout v-else columns="*, 8*, *">
                   <Label text="Inga anteckningar" textAlignment="center" margin="5" fontAttributes="Italic" color="#ccc"/>
