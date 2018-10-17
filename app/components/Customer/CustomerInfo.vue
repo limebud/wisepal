@@ -3,24 +3,25 @@
         <ScrollView>
             <StackLayout >
                 <GridLayout v-if="idNumber" columns="*, auto" rows="auto, auto" class="info top">
-                    <Label :text="customerInfo.SocialSecurityNumber.Label" col="0" row="0" class="label"/>
+                    <Label text="Personnummer" col="0" row="0" class="label"/>
                     <Label :text="idNumber" col="0" row="1" class="value"/>
                 </GridLayout>
                 <GridLayout v-if="phoneNr" columns="*, auto" rows="auto, auto" class="info">
-                    <Label :text="customerInfo.PhoneNumber.Label" col="0" row="0" class="label"/>
+                    <Label text="Telefon" col="0" row="0" class="label"/>
                     <Label :text="phoneNr" col="0" row="1" class="value"/>
                     <Label class="fa" :text="'fa-phone' | fonticon" col="1" row="0" rowSpan="2" @tap="doCall(customerInfo.PhoneNumber.Value)" />
                 </GridLayout>
                 <GridLayout v-if="phoneNrWork" columns="*, auto" rows="auto, auto" class="info ">
-                    <Label :text="customerInfo.PhoneNumberWork.Label" col="0" row="0" class="label"/>
+                    <Label text="Telefon, arbete" col="0" row="0" class="label"/>
                     <Label :text="phoneNrWork" col="0" row="1" class="value"/>
                     <Label class="fa" :text="'fa-phone' | fonticon" col="1" row="0" rowSpan="2" @tap="doCall(customerInfo.PhoneNumberWork.Value)" />
                 </GridLayout>
-                <GridLayout v-if="streetAddress" columns="*, auto" rows="auto, auto, auto" class="info ">
-                    <Label :text="streetAddress" row="0" col="0" />
-                    <Label :text="postort" row="1" col="0" />
-                    <Label :text="postnummer" row="2" col="0" />
-                    <Label class="fas" :text="'fa-map-marker-alt' | fonticon" col="1" row="0" rowSpan="3" />
+                <GridLayout v-if="streetAddress" columns="*, auto" rows="auto, auto, auto, auto" class="info ">
+                    <Label text="Adress" row="0" col="0" />
+                    <Label :text="streetAddress" row="1" col="0" />
+                    <Label :text="postort" row="2" col="0" />
+                    <Label :text="postnummer" row="3" col="0" />
+                    <Label class="fas" :text="'fa-map-marker-alt' | fonticon" col="1" row="0" rowSpan="4" />
                 </GridLayout>
                 <GridLayout v-if="email" columns="*, auto" rows="auto, auto" class="info last">
                     <Label :text="customerInfo.EmailAddress.Label" col="0" row="0" class="label"/>
@@ -61,7 +62,7 @@
 
 <style scoped lang="scss">
 .img  {
-    margin: 30px;
+    margin: 30;
 }
 
 .fa,
@@ -73,16 +74,15 @@
 }
 
 .info {
-    font-size: 20;
+    font-size: 16;
     width: 90%;
-    padding: 10%;
-    border-bottom-width: 2;
-    border-color: #9068b9;
+    border-bottom-width: 1;
+    border-color: #ddd;
 
 }
 
 .top {
-    margin-top: 20vh;
+    margin-top: 20;
 }
 
 .last {

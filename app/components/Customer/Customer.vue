@@ -14,26 +14,28 @@
           </StackLayout>
 
           <GridLayout rows="*, 60" ~mainContent class="mainStackLayout">
+
               <StackLayout row="0">
                   <customer-info v-if="component == 'info'" :customerInfo="customerInfo" />
                   <customer-documents v-else-if="component == 'documents'" />
                   <meeting v-else-if="component == 'meeting'" />
-
               </StackLayout>
-              <GridLayout row="1" columns="*, *, *">
-                  <StackLayout col="0" @tap="component = 'info'">
-                      <Label class="fas icon" :text="'fa-address-card' | fonticon" />
-                      <Label text="Info" textAlignment="center" fontSize="12"/>
-                  </StackLayout>
-                  <StackLayout col="1" @tap="component = 'documents'">
-                      <Label class="fas icon" :text="'fa-file' | fonticon" />
-                      <Label text="Dokument" textAlignment="center" fontSize="12"/>
-                  </StackLayout>
-                  <StackLayout col="2" @tap="component = 'meeting'">
-                      <Label class="fas icon" :text="'fa-users' | fonticon" />
-                      <Label text="Möte" textAlignment="center" fontSize="12"/>
-                  </StackLayout>
+
+              <GridLayout row="1" columns="*, *, *" class="tabs">
+                  <FlexboxLayout flexDirection="column" justifyContent="center" col="0" @tap="component = 'info'" :class="[component == 'info' ? 'active' : 'none']" >
+                      <Label class="fas icon" :text="'fa-address-card' | fonticon" verticalAlignment="center" />
+                      <Label v-if="component == 'info'" text="Info" textAlignment="center" fontSize="12" verticalAlignment="center"/>
+                  </FlexboxLayout>
+                  <FlexboxLayout flexDirection="column" justifyContent="center" col="1"  @tap="component = 'documents'" :class="[component == 'documents' ? 'active' : 'none']" >
+                      <Label class="fas icon" :text="'fa-file' | fonticon" verticalAlignment="center" />
+                      <Label v-if="component == 'documents'" text="Dokument" textAlignment="center" fontSize="12" verticalAlignment="center"/>
+                  </FlexboxLayout>
+                  <FlexboxLayout flexDirection="column" justifyContent="center" col="2"  @tap="component = 'meeting'" :class="[component == 'meeting' ? 'active' : 'none']" >
+                      <Label class="fas icon" :text="'fa-users' | fonticon" verticalAlignment="center" />
+                      <Label v-if="component == 'meeting'" text="Möte" textAlignment="center" fontSize="12" verticalAlignment="center"/>
+                  </FlexboxLayout>
               </GridLayout>
+
           </GridLayout>
       </RadSideDrawer>
   </Page>
@@ -51,7 +53,8 @@
       data() {
           return {
               customerInfo: this.$store.getters.getCustomerInformation,
-              component: 'info'
+              component: 'info',
+              activeClass: 'info'
           }
       },
       components: {
@@ -86,17 +89,18 @@
 </script>
 
 <style scoped lang="scss">
+    .active {
+        color: #ff9c00;
+        // border-top-color: #ff9c00;
+        // border-top-width: 2;
+    }
 
     .icon {
         text-align: center;
-        vertical-align: center;
         font-size: 24;
-        border-top-width: 1;
-        border-top-color: #ddd;
     }
 
     .fa {
-      vertical-align: center;
       text-align: left;
       font-size: 25;
     }
@@ -104,6 +108,11 @@
     .name {
         text-align: center;
         width: 80%;
+    }
+
+    .tabs {
+        background: #513270;
+        color: #fff;
     }
 
 </style>
