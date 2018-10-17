@@ -1,5 +1,11 @@
 <template>
 <Page>
+    <ActionBar>
+        <GridLayout width="100%" columns="*, auto, *">
+            <Label col="1" :text="this.$store.getters.getCustomerInformation.Name.Value" class="name" />
+        </GridLayout>
+    </ActionBar>
+
   <GridLayout rows="*, *">
 
       <Label row="0" :text="clock" />
@@ -10,7 +16,7 @@
 
       <Label row="1"  v-else-if="status === 'recording'" class="fas" :text="'fa-stop' | fonticon" color="red" fontSize="50" @tap="stopRecording" />
 
-      <FlexboxLayout row="1" v-else-if="status === 'recorded'" justifyContent="space-around">
+      <FlexboxLayout row="1" v-else-if="status === 'recorded'" justifyContent="space-around" color="#aaa">
           <Label class="fas" :text="'fa-save' | fonticon" @tap="saveRecording" />
           <Label class="fas" :text="'fa-play-circle' | fonticon" @tap="playRecording" />
           <Label class="fas" :text="'fa-trash' | fonticon" @tap="deleteRecording" />
@@ -198,6 +204,9 @@
               this.hours = 0
           }
       },
+      destroyed() {
+          this.recorder.dispose()
+      }
   }
 </script>
 

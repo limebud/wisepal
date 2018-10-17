@@ -14,7 +14,7 @@
 
       <ScrollView row="1">
           <StackLayout >
-              <Label text="Anteckningar" fontSize="20" color="gray" />
+              <Label text="Anteckningar" fontSize="20" color="#333" />
               <Label class="hr-light" />
               <GridLayout v-if="notes.length == 0" columns="*, 8*, *">
                   <Label text="Inga anteckningar" col="1" textWrap="true" margin="5" color="#ccc"/>
@@ -22,7 +22,7 @@
               <GridLayout v-else columns="*, 8*, *" v-for="note in notes">
                   <Label col="1" :text="note.split('-')[1].split('.')[0]" @tap="readNote(note)" textAlignment="left" class="listItem"/>
               </GridLayout>
-              <Label text="Inspelningar" fontSize="20" color="gray" />
+              <Label text="Inspelningar" fontSize="20" color="#333" />
               <Label class="hr-light" />
               <GridLayout v-if="recordings.length == 0" columns="*, 8*, *">
                   <Label text="Inga inspelningar" col="1" textWrap="true" margin="5" color="#ccc"/>

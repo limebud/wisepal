@@ -16,19 +16,19 @@
           <GridLayout rows="*, 60" ~mainContent class="mainStackLayout">
 
               <StackLayout row="0">
-                  <customer-info v-if="component == 'info'" :customerInfo="customerInfo" />
-                  <customer-documents v-else-if="component == 'documents'" />
-                  <meeting v-else-if="component == 'meeting'" />
+                  <keep-alive>
+                      <component :is="component" :customerInfo="customerInfo"/>
+                  </keep-alive>
               </StackLayout>
 
               <GridLayout row="1" columns="*, *, *" class="tabs">
-                  <FlexboxLayout flexDirection="column" justifyContent="center" col="0" @tap="component = 'info'" :class="[component == 'info' ? 'active' : 'none']" >
+                  <FlexboxLayout flexDirection="column" justifyContent="center" col="0" @tap="component = 'customer-info'" :class="[component == 'customer-info' ? 'active' : 'none']" >
                       <Label class="fas icon" :text="'fa-address-card' | fonticon" verticalAlignment="center" />
-                      <Label v-if="component == 'info'" text="Info" textAlignment="center" fontSize="12" verticalAlignment="center"/>
+                      <Label v-if="component == 'customer-info'" text="Info" textAlignment="center" fontSize="12" verticalAlignment="center"/>
                   </FlexboxLayout>
-                  <FlexboxLayout flexDirection="column" justifyContent="center" col="1"  @tap="component = 'documents'" :class="[component == 'documents' ? 'active' : 'none']" >
+                  <FlexboxLayout flexDirection="column" justifyContent="center" col="1"  @tap="component = 'customer-documents'" :class="[component == 'customer-documents' ? 'active' : 'none']" >
                       <Label class="fas icon" :text="'fa-file' | fonticon" verticalAlignment="center" />
-                      <Label v-if="component == 'documents'" text="Dokument" textAlignment="center" fontSize="12" verticalAlignment="center"/>
+                      <Label v-if="component == '-customer-documents'" text="Dokument" textAlignment="center" fontSize="12" verticalAlignment="center"/>
                   </FlexboxLayout>
                   <FlexboxLayout flexDirection="column" justifyContent="center" col="2"  @tap="component = 'meeting'" :class="[component == 'meeting' ? 'active' : 'none']" >
                       <Label class="fas icon" :text="'fa-users' | fonticon" verticalAlignment="center" />
@@ -53,7 +53,7 @@
       data() {
           return {
               customerInfo: this.$store.getters.getCustomerInformation,
-              component: 'info',
+              component: 'customer-info',
               activeClass: 'info'
           }
       },

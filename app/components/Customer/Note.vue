@@ -1,5 +1,11 @@
 <template>
 <Page >
+    <ActionBar>
+        <GridLayout width="100%" columns="*, auto, *">
+            <Label col="1" :text="this.$store.getters.getCustomerInformation.Name.Value" class="name" />
+        </GridLayout>
+    </ActionBar>
+
   <GridLayout rows="*, 8*, 2*" columns="*, 8*, *" >
       <TextView v-model="text" row="1", col="1" class="textbox" verticalAlignment="center"/>
 

@@ -1,11 +1,19 @@
 <template>
 <Page>
+
+    <ActionBar>
+        <GridLayout width="100%" columns="*, auto, *">
+            <Label col="1" :text="this.$store.getters.getCustomerInformation.Name.Value" class="name" />
+        </GridLayout>
+    </ActionBar>
+
   <GridLayout rows="*, *">
       <Label row="0" :text="clock + ' / ' + trackDuration"  fontSize="30"/>
-      <FlexboxLayout row="1" justifyContent="space-around" verticalAlignment="center">
-          <Label v-if="!playing" class="fas" :text="'fa-play-circle' | fonticon" color="green" fontSize="40" @tap="playRecording" />
-          <Label v-else class="fas" :text="'fa-pause-circle' | fonticon" color="green" fontSize="40" @tap="playRecording" />
-          <Label class="fas" :text="'fa-trash' | fonticon" color="gray" fontSize="40" @tap="deleteRecording" />
+      <FlexboxLayout row="1" justifyContent="space-around" verticalAlignment="center" color="#aaa">
+          <Label v-if="!playing" class="fas" :text="'fa-play-circle' | fonticon" fontSize="40" @tap="togglePlay" />
+          <Label v-else class="fas" :text="'fa-pause-circle' | fonticon" fontSize="40" @tap="togglePlay" />
+          <Label  class="fas" :text="'fa-stop' | fonticon" fontSize="40" @tap="stopRecording" />
+          <Label class="fas" :text="'fa-trash' | fonticon" fontSize="40" @tap="deleteRecording" />
       </FlexboxLayout>
   </GridLayout>
 </Page>
@@ -101,7 +109,7 @@
                   }
             }, 1000)
           },
-          playRecording() {
+          togglePlay() {
               if (this.player.isAudioPlaying()) {
                 this.playing = false
                 clearInterval(this.timer)
@@ -111,6 +119,12 @@
                 this.startTimer()
                 this.player.play()
               }
+          },
+          stopRecording() {
+              clearInterval(this.timer)
+              this.player.pause()
+              this.player.seekTo(0)
+              this.reset()
           },
           deleteRecording() {
                 confirm({
@@ -128,6 +142,7 @@
           },
           reset() {
               this.playing = false
+              this.playtimeInSec = 0
               this.timer = null
               this.clock = '00:00:00'
               this.seconds = 0
@@ -135,6 +150,9 @@
               this.hours = 0
           }
       },
+      destroyed() {
+          this.player.dispose()
+      }
   }
 </script>
 
