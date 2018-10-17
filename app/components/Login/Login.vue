@@ -27,14 +27,11 @@
   import * as appSettings from 'tns-core-modules/application-settings'
   import Startview from '../Startview/Startview'
 
-  let $savedPin = appSettings.getString("pin") || ''
-  let $savedUsername = appSettings.getString("username") || ''
-
   export default {
       data() {
           return {
-              pin: $savedPin,
-              username: $savedUsername,
+              pin: appSettings.getString("pin") || '',
+              username: appSettings.getString("username") || '',
               password: 'admin',
           }
       },
@@ -52,6 +49,14 @@
                   }
               })
           }
+      },
+      async beforeCreate() {
+          await this.$store.dispatch('recentVisit')
+          .then(() => {
+              if (this.$store.getters.getRecentVisit.length > 0) {
+                  this.$navigateTo(Startview)
+              }
+          })
       }
   }
 </script>

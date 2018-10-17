@@ -16,7 +16,7 @@ const debug = process.env.NODE_ENV !== 'production';
 
 const store = new Vuex.Store({
   state: {
-    token: null,
+    token: appSettings.getString("token") || '',
     customerDocuments: [],
     customerInformation: [],
     searchResults: [],

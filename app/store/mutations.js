@@ -1,7 +1,15 @@
+import * as appSettings from 'tns-core-modules/application-settings'
 
 export const setToken = (state, token) => {
     state.token = token
 }
+
+export const deleteToken = (state) => {
+    state.token = ''
+    appSettings.setString("token", "")
+    state.recentVisit = []
+}
+
 export const setCustomerDocuments = (state, payload) => {
     state.customerDocuments = payload
 }

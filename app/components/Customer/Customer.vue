@@ -70,7 +70,7 @@
               this.$refs.drawer.nativeView.closeDrawer();
           },
           logout() {
-              this.$store.commit('setToken', '')
+              this.$store.commit('deleteToken')
               this.$navigateTo(Login, {
                   clearHistory: true
               })
@@ -82,9 +82,6 @@
           this.$store.commit('setCustomerInformation', [])
           this.$store.commit('setCustomerDocuments', [])
       },
-      updated() {
-          console.log("Updated")
-      }
   }
 </script>
 
