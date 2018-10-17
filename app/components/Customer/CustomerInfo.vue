@@ -21,7 +21,7 @@
                     <Label :text="streetAddress" row="1" col="0" />
                     <Label :text="postort" row="2" col="0" />
                     <Label :text="postnummer" row="3" col="0" />
-                    <Label class="fas" :text="'fa-map-marker-alt' | fonticon" col="1" row="0" rowSpan="4" />
+                    <Label class="fas" :text="'fa-map-marker-alt' | fonticon" col="1" row="0" rowSpan="4" @tap="showMap"/>
                 </GridLayout>
                 <GridLayout v-if="email" columns="*, auto" rows="auto, auto" class="info last">
                     <Label :text="customerInfo.EmailAddress.Label" col="0" row="0" class="label"/>
@@ -35,6 +35,7 @@
 
 <script>
   import phone from 'nativescript-phone'
+  import * as utilsModule from 'tns-core-modules/utils/utils'
 
   export default {
       data() {
@@ -56,6 +57,9 @@
           doCall(nr) {
               phone.dial(nr, true)
           },
+          showMap() {
+              utilsModule.openUrl("https://www.google.com/maps/dir/?api=1&destination=" + this.streetAddress + "+" + this.postort)
+          }
       }
   }
 </script>

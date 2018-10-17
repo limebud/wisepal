@@ -51,6 +51,7 @@
           }
       },
       async beforeCreate() {
+          // Skippar inloggning om token är giltig
           await this.$store.dispatch('recentVisit')
           .then(() => {
               if (this.$store.getters.getRecentVisit.length > 0) {
