@@ -1,9 +1,13 @@
 <template>
 <Page>
-  <StackLayout>
-      <Label class="fas" :text="'fa-play-circle' | fonticon" color="green" fontSize="40" @tap="playRecording" />
-      <Label class="fas" :text="'fa-trash' | fonticon" color="gray" fontSize="40" @tap="deleteRecording" />
-  </StackLayout>
+  <GridLayout rows="*, *">
+      <Label row="0" :text="clock + ' / ' + trackDuration"  fontSize="30"/>
+      <FlexboxLayout row="1" justifyContent="space-around" verticalAlignment="center">
+          <Label v-if="!playing" class="fas" :text="'fa-play-circle' | fonticon" color="green" fontSize="40" @tap="playRecording" />
+          <Label v-else class="fas" :text="'fa-pause-circle' | fonticon" color="green" fontSize="40" @tap="playRecording" />
+          <Label class="fas" :text="'fa-trash' | fonticon" color="gray" fontSize="40" @tap="deleteRecording" />
+      </FlexboxLayout>
+  </GridLayout>
 </Page>
 </template>
 
@@ -18,13 +22,20 @@
   export default {
       data() {
           return {
+              seconds: 0,
+              minutes: 0,
+              hours: 0,
               clock: '00:00:00',
+              done: false,
+              durationInSec: 0,
+              playtimeInSec: 0,
               id: this.$store.getters.getCustomerInformation.Id.Value,
               folder: '',
               filepath: '',
               filename: this.$store.getters.getPlayFile,
               trackDuration: null,
               player: new TNSPlayer(),
+              playing: false,
           }
       },
       created() {
@@ -36,23 +47,69 @@
               loop: false,
               completeCallback: function() {
                   console.log('finished playing')
-              },
-              errorCallback: function() {
-                  console.log("Error callback: " + JSON.stringify(errorObject))
-              },
-              infoCallback: function() {
-                  console.log("Info callback: " + JSON.stringify(args))
               }
           })
 
-
+          this.player.getAudioTrackDuration()
+          .then(res => {
+              this.calcDurationTime(res)
+          })
       },
       methods: {
+          calcDurationTime(res) {
+              this.durationInSec = Math.round(res / 1000)
+              let d = Math.round(res / 1000)
+              var h = Math.floor(d / 3600);
+              var m = Math.floor(d % 3600 / 60);
+              var s = Math.floor(d % 3600 % 60);
+
+              if (s < 10) {
+                  s = "0" + s
+              }
+              if (m < 10) {
+                  m = "0" + m
+              }
+              if (h < 10) {
+                  h = "0" + h
+              }
+
+              this.trackDuration = h + ":" + m + ":" + s
+          },
+          addTime() {
+              this.playtimeInSec++
+              this.seconds++
+              if (this.seconds >= 60) {
+                  this.seconds = 0;
+                  this.minutes++;
+                  if (this.minutes >= 60) {
+                      this.minutes = 0;
+                      this.hours++;
+                  }
+              }
+
+              this.clock = (this.hours ? (this.hours > 9 ? this.hours : "0" + this.hours) : "00") + ":" +
+                           (this.minutes ? (this.minutes > 9 ? this.minutes : "0" + this.minutes) : "00") + ":" +
+                           (this.seconds > 9 ? this.seconds : "0" + this.seconds);
+          },
+          startTimer() {
+              this.timer = setInterval(() => {
+                  if (this.playtimeInSec < this.durationInSec) {
+                      this.addTime()
+                  } else {
+                      clearInterval(this.timer)
+                      this.reset()
+                  }
+            }, 1000)
+          },
           playRecording() {
               if (this.player.isAudioPlaying()) {
-                this.player.pause();
+                this.playing = false
+                clearInterval(this.timer)
+                this.player.pause()
               } else {
-                this.player.play();
+                this.playing = true
+                this.startTimer()
+                this.player.play()
               }
           },
           deleteRecording() {
@@ -68,11 +125,27 @@
                         this.$navigateBack()
                     }
                 })
+          },
+          reset() {
+              this.playing = false
+              this.timer = null
+              this.clock = '00:00:00'
+              this.seconds = 0
+              this.minutes = 0
+              this.hours = 0
           }
       },
   }
 </script>
 
 <style scoped lang="scss">
+Page {
+    font-size: 40;
+    text-align: center;
+}
 
+Label {
+    vertical-align: center;
+    text-align: center;
+}
 </style>

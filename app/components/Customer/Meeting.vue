@@ -16,20 +16,20 @@
           <StackLayout >
               <Label text="Anteckningar" fontSize="20" color="gray" />
               <Label class="hr-light" />
-              <GridLayout v-if="notes.length > 0" columns="*, 8*, *" v-for="note in notes">
+              <GridLayout v-if="notes.length == 0" columns="*, 8*, *">
+                  <Label text="Inga anteckningar" col="1" textWrap="true" margin="5" color="#ccc"/>
+              </GridLayout>
+              <GridLayout v-else columns="*, 8*, *" v-for="note in notes">
                   <Label col="1" :text="note.split('-')[1].split('.')[0]" @tap="readNote(note)" textAlignment="left" class="listItem"/>
               </GridLayout>
-              <StackLayout v-else columns="*, 8*, *">
-                  <Label text="Inga anteckningar" textAlignment="center" margin="5" fontAttributes="Italic" color="#ccc"/>
-              </StackLayout>
               <Label text="Inspelningar" fontSize="20" color="gray" />
               <Label class="hr-light" />
-              <GridLayout v-if="recordings.length > 0" columns="*, 8*, *" v-for="recording in recordings">
+              <GridLayout v-if="recordings.length == 0" columns="*, 8*, *">
+                  <Label text="Inga inspelningar" col="1" textWrap="true" margin="5" color="#ccc"/>
+              </GridLayout>
+              <GridLayout v-else columns="*, 8*, *" v-for="recording in recordings">
                   <Label col="1" :text="recording.split('-')[2]" @tap="playRecording(recording)" textAlignment="left" class="listItem"/>
               </GridLayout>
-              <StackLayout v-else columns="*, 8*, *">
-                  <Label text="Inga anteckningar" textAlignment="center" margin="5" fontAttributes="Italic" color="#ccc"/>
-              </StackLayout>
           </StackLayout>
 
   </ScrollView>
@@ -97,6 +97,9 @@
         this.$store.dispatch('getFiles', { id: this.id , folder: 'recordings' })
         this.$store.dispatch('getFiles', { id: this.id, folder: 'notes' })
     },
+    mounted() {
+        console.log(this.recordings.length)
+    }
 }
 </script>
 

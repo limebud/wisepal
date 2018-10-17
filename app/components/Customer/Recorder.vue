@@ -11,12 +11,10 @@
       <Label row="1"  v-else-if="status === 'recording'" class="fas" :text="'fa-stop' | fonticon" color="red" fontSize="50" @tap="stopRecording" />
 
       <FlexboxLayout row="1" v-else-if="status === 'recorded'" justifyContent="space-around">
-          <Label class="fas" :text="'fa-save' | fonticon" color="green" fontSize="40" @tap="saveRecording" />
-          <Label class="fas" :text="'fa-play-circle' | fonticon" color="green" fontSize="40" @tap="playRecording" />
-          <Label class="fas" :text="'fa-trash' | fonticon" color="gray" fontSize="40" @tap="deleteRecording" />
+          <Label class="fas" :text="'fa-save' | fonticon" @tap="saveRecording" />
+          <Label class="fas" :text="'fa-play-circle' | fonticon" @tap="playRecording" />
+          <Label class="fas" :text="'fa-trash' | fonticon" @tap="deleteRecording" />
       </FlexboxLayout>
-
-
 
   </GridLayout>
 </Page>
@@ -175,7 +173,6 @@
 
                       let saveFile = this.folder.getFile("recording")
 
-                      console.log(this.saveFileName)
                       if (this.$store.getters.getRecordedFiles.includes(this.saveFileName)) {
                           alert("Det finns redan en inspelning med det namnet")
                       } else {
