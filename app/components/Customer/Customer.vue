@@ -28,7 +28,7 @@
                   </FlexboxLayout>
                   <FlexboxLayout flexDirection="column" justifyContent="center" col="1"  @tap="component = 'customer-documents'" :class="[component == 'customer-documents' ? 'active' : 'none']" >
                       <Label class="fas icon" :text="'fa-file' | fonticon" verticalAlignment="center" />
-                      <Label v-if="component == '-customer-documents'" text="Dokument" textAlignment="center" fontSize="12" verticalAlignment="center"/>
+                      <Label v-if="component == 'customer-documents'" text="Dokument" textAlignment="center" fontSize="12" verticalAlignment="center"/>
                   </FlexboxLayout>
                   <FlexboxLayout flexDirection="column" justifyContent="center" col="2"  @tap="component = 'meeting'" :class="[component == 'meeting' ? 'active' : 'none']" >
                       <Label class="fas icon" :text="'fa-users' | fonticon" verticalAlignment="center" />

@@ -1,5 +1,6 @@
 import axios from 'axios'
 import * as fs from 'tns-core-modules/file-system'
+import * as appSettings from 'tns-core-modules/application-settings'
 
 
 export const authRequest = async ({commit}, auth) => {

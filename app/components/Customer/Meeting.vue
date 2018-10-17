@@ -39,6 +39,7 @@
 
 <script>
   import * as fs from 'tns-core-modules/file-system'
+  import * as Toast from 'nativescript-toast';
   import * as camera from "nativescript-camera"
   import { AudioPlayerOptions, AudioRecorderOptions, TNSPlayer, TNSRecorder } from 'nativescript-audio'
   import { Image } from "ui/image"
@@ -53,8 +54,14 @@
               image: null,
               recordings: this.$store.getters.getRecordedFiles,
               notes: this.$store.getters.getNotes,
-              id: this.$store.getters.getCustomerInformation.Id.Value
+              id: this.$store.getters.getCustomerInformation.Id.Value,
+              cameraFolder: '',
           }
+      },
+      created() {
+          this.cameraFolder = fs.knownFolders.currentApp().getFolder('images/' + this.id)
+          this.$store.dispatch('getFiles', { id: this.id , folder: 'recordings' })
+          this.$store.dispatch('getFiles', { id: this.id, folder: 'notes' })
       },
       methods: {
           useCamera() {
@@ -63,16 +70,13 @@
                 camera.requestPermissions()
                 .then(() => {
                     camera.takePicture()
+                    .then((imageAsset) => {
+                        Toast.makeText("Fotot sparat i telefonens kameraalbum", "long").show()
+                    }).catch((err) => {
+                        console.log("Error -> " + err.message);
+                    });
                 })
-                .then((imageAsset) => {
-                    console.log("Result is an image asset instance");
-                    var image = new Image();
-                    image.src = imageAsset;
-                    console.log("Source: " + image)
-                    this.image = image.src
-                }).catch((err) => {
-                    console.log("Error -> " + err.message);
-                });
+
               }
           },
           useRecorder() {
@@ -93,13 +97,6 @@
               this.$navigateTo(Note)
           }
     },
-    created() {
-        this.$store.dispatch('getFiles', { id: this.id , folder: 'recordings' })
-        this.$store.dispatch('getFiles', { id: this.id, folder: 'notes' })
-    },
-    mounted() {
-        console.log(this.recordings.length)
-    }
 }
 </script>
 
