@@ -2,9 +2,12 @@
   <Page loaded="pageLoaded">
 
       <ActionBar>
-          <GridLayout width="100%" columns="*, auto, *">
-              <Label col="0" class="fa" :text="'fa-bars' | fonticon" @tap="openDrawer"/>
-              <Label col="1" :text="customerInfo.Name.Value" class="name" />
+          <GridLayout width="100%" columns="*, auto, *" rows=*, *>
+              <Label col="0" row="0" rowspan="2" class="fa" :text="'fa-bars' | fonticon" @tap="openDrawer"/>
+              <StackLayout col="1" row="0">
+                  <Label :text="customerInfo.Name.Value" class="name" />
+                  <Label v-if="customerInfo.SocialSecurityNumber" :text="customerInfo.SocialSecurityNumber.Value" fontSize="12" textAlignment="center"/>
+              </StackLayout>
           </GridLayout>
       </ActionBar>
 
@@ -99,6 +102,7 @@
 
     .fa {
       text-align: left;
+      vertical-align: center;
       font-size: 25;
     }
 

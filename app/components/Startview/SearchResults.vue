@@ -11,7 +11,7 @@
         </StackLayout>
         <StackLayout v-if="this.$store.getters.getSearchBarActive && searchQuery.length <= 1">
             <Label text="Senast besökta" color="gray" textAlignment="center"/>
-            <ListView  separatorColor="transparent" class="list-group" for="item in this.$store.getters.getRecentVisit" @itemTap="goToRecent">
+            <ListView  separatorColor="transparent" class="list-group" for="item in this.$store.getters.getRecentVisit" @itemTap="goToRecent" >
                 <v-template>
                   <GridLayout columns="*, 10*, *" class="list-group-item">
                     <Label :text="item.Name.Value" class="list-item" col="1"/>

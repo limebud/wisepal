@@ -12,8 +12,8 @@
           </StackLayout>
       </FlexboxLayout>
 
-      <ScrollView row="1">
-          <StackLayout >
+      <ScrollView row="1" >
+          <StackLayout class="files">
               <Label text="Anteckningar" fontSize="20" color="#333" />
               <Label class="hr-light" />
               <GridLayout v-if="notes.length == 0" columns="*, 8*, *">
@@ -31,8 +31,7 @@
                   <Label col="1" :text="recording.split('-')[2]" @tap="playRecording(recording)" textAlignment="left" class="listItem"/>
               </GridLayout>
           </StackLayout>
-
-  </ScrollView>
+      </ScrollView>
   </GridLayout>
 </template>
 
@@ -123,6 +122,10 @@
 .listItem {
     font-size: 20;
 
+}
+
+.files {
+    padding: 10;
 }
 
 </style>
