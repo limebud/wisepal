@@ -1,16 +1,13 @@
 <template>
 <Page>
-
     <ActionBar>
         <GridLayout width="100%" columns="*, auto, *" rows=*, *>
-            <Label col="0" row="0" rowspan="2" class="fa" :text="'fa-bars' | fonticon" @tap="openDrawer"/>
             <StackLayout col="1" row="0">
-                <Label :text="customerInfo.Name.Value" class="name" />
-                <Label v-if="customerInfo.SocialSecurityNumber" :text="customerInfo.SocialSecurityNumber.Value" fontSize="12"/>
+                <Label :text="this.$store.getters.getCustomerInformation.Name.Value" class="name" />
+                <Label v-if="this.$store.getters.getCustomerInformation.SocialSecurityNumber" :text="this.$store.getters.getCustomerInformation.SocialSecurityNumber.Value" fontSize="12"/>
             </StackLayout>
         </GridLayout>
     </ActionBar>
-
   <GridLayout rows="*, *">
       <Label row="0" :text="clock + ' / ' + trackDuration"  fontSize="30"/>
       <FlexboxLayout row="1" justifyContent="space-around" verticalAlignment="center" color="#aaa">
