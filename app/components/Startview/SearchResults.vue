@@ -1,21 +1,25 @@
 <template>
     <StackLayout>
         <StackLayout>
-            <ListView separatorColor="transparent" class="list-group" for="item in this.$store.getters.getSearchResults" @itemTap="goToSearch">
+            <ListView class="list-group" for="item in this.$store.getters.getSearchResults" @itemTap="goToSearch">
                 <v-template>
-                  <GridLayout columns="*, 10*, *" class="list-group-item">
+                  <GridLayout columns="*, 4*" class="list-group-item">
+                    <Label v-if="item.PartyType.Value == 'Person'" class="fas person" :text="'fa-user' | fonticon" col="0"/>
+                    <Label v-else class="fas company" :text="'fa-industry' | fonticon" col="0" />
                     <Label :text="item.Name.Value" class="list-item" col="1"/>
                 </GridLayout>
                 </v-template>
             </ListView>
         </StackLayout>
         <StackLayout v-if="this.$store.getters.getSearchBarActive && searchQuery.length <= 1">
-            <Label text="Senast besökta" color="gray" textAlignment="center"/>
-            <ListView  separatorColor="transparent" class="list-group" for="item in this.$store.getters.getRecentVisit" @itemTap="goToRecent" >
+            <Label text="Senast besökta" color="gray" background="#eee" textAlignment="center"/>
+            <ListView class="list-group" for="item in this.$store.getters.getRecentVisit" @itemTap="goToRecent" >
                 <v-template>
-                  <GridLayout columns="*, 10*, *" class="list-group-item">
-                    <Label :text="item.Name.Value" class="list-item" col="1"/>
-                  </GridLayout>
+                    <GridLayout columns="*, 4*" class="list-group-item">
+                        <Label v-if="item.RecentActivityType.List[0].Selected" class="fas person" :text="'fa-user' | fonticon" col="0" />
+                        <Label v-else class="fas company" :text="'fa-industry' | fonticon" col="0" />
+                        <Label :text="item.Name.Value" class="list-item" col="1"/>
+                    </GridLayout>
                 </v-template>
             </ListView>
         </StackLayout>
@@ -103,12 +107,34 @@
 </script>
 
 <style scoped lang="scss">
-    Label {
-        color: #492645;
+    .fas {
+        font-size: 30;
+        vertical-align: center;
+        text-align: center;
+    }
+
+    .person {
+        color: lightblue;
+    }
+
+    .company {
+        color: gray;
     }
 
     .list-group {
-        width: 90%;
         background: #eee;
+    }
+
+    .row {
+        border-bottom-width: 1;
+        border-color: #ddd;
+        color: #333;
+        height: 80;
+    }
+
+    .name {
+        font-size: 16;
+        vertical-align: center;
+        font-weight: bold;
     }
 </style>

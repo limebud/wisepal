@@ -1,6 +1,6 @@
 <template>
     <Page actionBarHidden="true">
-        <Image  src="res://logo" class="logo" />
+        <ActivityIndicator textAlignment="center" verticalAlignment="center" color="#ff9c00" busy="true"></ActivityIndicator>
     </Page>
 </template>
 

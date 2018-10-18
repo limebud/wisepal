@@ -14,7 +14,6 @@
 
       <ScrollView row="1" >
           <StackLayout class="files">
-              <!-- <Label class="hr-light" /> -->
               <GridLayout v-if="notes.length == 0 && recordings.length == 0" columns="*, 8*, *">
                   <Label text="Inga anteckningar eller inspelningar" col="1" textWrap="true" margin="5" color="#ccc"/>
               </GridLayout>

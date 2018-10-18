@@ -4,7 +4,7 @@
           <GridLayout columns="*, auto, *">
               <GridLayout col="1" class="searchBar" columns="*, auto">
                   <TextField col="0" hint="Sök..." returnKeyType="search" @submit="search" v-model="searchQuery" @focus="onFocus" @blur="onBlur" @textChange="searchQ" class="inputField"/>
-                  <TextField col="1" v-if="searchQuery.length > 0" class="fas emptyQuery" :text="'fa-times-circle' | fonticon" @tap="emptySearchQuery" />
+                  <TextField col="1" v-if="this.$store.getters.getSearchBarActive" class="fas emptyQuery" :text="'fa-times-circle' | fonticon" @tap="emptySearchQuery" borderRadius="100"/>
               </GridLayout>
               <Label class="fa menu" :text="'fa-bars' | fonticon" @tap="openDrawer" col="0" />
           </GridLayout>
@@ -15,9 +15,12 @@
             <Button text="Logga ut" @tap="logout" />
         </StackLayout>
 
-        <StackLayout ~mainContent class="mainStackLayout">
-            <SearchResults :searchQuery="searchQuery"/>
-        </StackLayout>
+        <GridLayout rows="*, auto" columns="*" ~mainContent class="mainStackLayout">
+            <GridLayout row="0" col="0" rowSpan="2" >
+                <Label text="Här är det tomt" verticalAlignment="center" textAlignment="center" fontSize="24" color="#888"/>
+            </GridLayout>
+            <SearchResults row="0" col="0" :searchQuery="searchQuery"/>
+        </GridLayout>
     </RadSideDrawer>
   </Page>
 </template>
@@ -96,6 +99,10 @@
 </script>
 
 <style scoped lang="scss">
+    Page {
+        background: #933f99;
+    }
+
     .fa {
       vertical-align: center;
       text-align: left;
