@@ -1,6 +1,8 @@
 <template>
     <Page loaded="pageLoaded" actionBarHidden="true">
-        <GridLayout rows="*, *, 2*">
+        <GridLayout rows="*, *, 2*" class="loginView">
+
+            <ActivityIndicator row="0" rowSpan="3" verticalAlignment="center" color="#ff9c00" :busy="busy"></ActivityIndicator>
 
             <StackLayout row="0" class="header">
                 <Image  src="res://logo" class="logo" />
@@ -11,9 +13,9 @@
             </StackLayout>
 
             <StackLayout row="2" class="form">
-                <TextField v-model="pin" hint="PIN" />
-                <TextField v-model="username" hint="Username" />
-                <TextField v-model="password" hint="Password" secure="true" @returnPress="login"/>
+                <TextField v-model="pin" hint="PIN"/>
+                <TextField v-model="username" hint="Username"/>
+                <TextField v-model="password" hint="Password" secure="true" @returnPress="login" returnKeyType="go"/>
                 <Button @tap="login">Logga in</Button>
             </StackLayout>
 
@@ -33,21 +35,27 @@
               pin: appSettings.getString("pin") || '',
               username: appSettings.getString("username") || '',
               password: 'admin',
+              busy: false
           }
       },
       methods: {
           login() {
-              let pin = this.pin
-              let username = this.username
-              let password = this.password
-              this.$store.dispatch('authRequest', { pin, username, password }).
-              then(() => {
-                  if (this.$store.getters.getToken) {
-                      this.$navigateTo(Startview, {
-                          clearHistory: true
-                      })
-                  }
-              })
+              if (this.busy == false) {
+                  this.busy = true
+                  let pin = this.pin
+                  let username = this.username
+                  let password = this.password
+                  this.$store.dispatch('authRequest', { pin, username, password }).
+                  then(() => {
+                      if (this.$store.getters.getToken) {
+                          this.$navigateTo(Startview, {
+                              clearHistory: true
+                          })
+                      } else {
+                          this.busy = false
+                      }
+                  })
+              }
           }
       }
   }
@@ -55,10 +63,16 @@
 
 
 <style scoped lang="scss">
+    ActivityIndicator {
+    }
+
     Page {
         background: #513270;
-        padding: 30;
         text-align: center;
+    }
+
+    .loginView {
+        padding: 30;
     }
 
     Textfield {

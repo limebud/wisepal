@@ -3,7 +3,7 @@
       <ActionBar>
           <GridLayout columns="*, auto, *">
               <GridLayout col="1" class="searchBar" columns="*, auto">
-                  <TextField col="0" hint="Sök..." @submit="search" v-model="searchQuery" @focus="onFocus" @blur="onBlur" class="inputField"/>
+                  <TextField col="0" hint="Sök..." returnKeyType="search" @submit="search" v-model="searchQuery" @focus="onFocus" @blur="onBlur" @textChange="searchQ" class="inputField"/>
                   <TextField col="1" v-if="searchQuery.length > 0" class="fas emptyQuery" :text="'fa-times-circle' | fonticon" @tap="emptySearchQuery" />
               </GridLayout>
               <Label class="fa menu" :text="'fa-bars' | fonticon" @tap="openDrawer" col="0" />
@@ -38,17 +38,11 @@
               id: ''
           }
       },
-      watch: {
-          searchQuery() {
-              var vm = this
-              setTimeout(() => {
-                  vm.search()
-              }, 200)
-          }
-      },
       methods: {
-          emptySearchQuery() {
-              this.searchQuery = ''
+          searchQ() {
+              setTimeout(() => {
+                  this.search()
+              }, 200)
           },
           search() {
               if (this.searchQuery.length > 1) {
@@ -86,18 +80,18 @@
           },
           onBlur() {
               this.$store.commit('setSearchBarActive', false)
-          }
-      },
-      components: {
-          SearchResults: SearchResults,
+              this.emptySearchQuery()
+          },
+          emptySearchQuery() {
+              this.searchQuery = ''
+          },
       },
       created() {
           this.$store.dispatch('recentVisit')
       },
-      mounted() {
-          this.emptySearchQuery()
-      }
-
+      components: {
+          SearchResults: SearchResults,
+      },
     }
 </script>
 
@@ -129,6 +123,7 @@
 
     .inputField {
         background: #fff;
+        border-radius: 10;
     }
 
     .emptyQuery {
