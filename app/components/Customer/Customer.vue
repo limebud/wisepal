@@ -27,7 +27,7 @@
               <GridLayout row="1" columns="*, *, *" class="tabs">
                   <FlexboxLayout flexDirection="column" justifyContent="center" col="0" @tap="component = 'customer-info'" :class="[component == 'customer-info' ? 'active' : 'none']" >
                       <Label class="fas icon" :text="'fa-address-card' | fonticon" verticalAlignment="center" />
-                      <Label v-if="component == 'customer-info'" text="Info" textAlignment="center" fontSize="12" verticalAlignment="center"/>
+                      <Label v-if="component == 'customer-info'" text="Kontakt" textAlignment="center" fontSize="12" verticalAlignment="center"/>
                   </FlexboxLayout>
                   <FlexboxLayout flexDirection="column" justifyContent="center" col="1"  @tap="component = 'customer-documents'" :class="[component == 'customer-documents' ? 'active' : 'none']" >
                       <Label class="fas icon" :text="'fa-file' | fonticon" verticalAlignment="center" />

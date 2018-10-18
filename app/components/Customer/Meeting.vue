@@ -14,21 +14,19 @@
 
       <ScrollView row="1" >
           <StackLayout class="files">
-              <Label text="Anteckningar" fontSize="20" color="#333" />
-              <Label class="hr-light" />
-              <GridLayout v-if="notes.length == 0" columns="*, 8*, *">
-                  <Label text="Inga anteckningar" col="1" textWrap="true" margin="5" color="#ccc"/>
+              <!-- <Label class="hr-light" /> -->
+              <GridLayout v-if="notes.length == 0 && recordings.length == 0" columns="*, 8*, *">
+                  <Label text="Inga anteckningar eller inspelningar" col="1" textWrap="true" margin="5" color="#ccc"/>
               </GridLayout>
-              <GridLayout v-else columns="*, 8*, *" v-for="note in notes">
-                  <Label col="1" :text="note.split('-')[1].split('.')[0]" @tap="readNote(note)" textAlignment="left" class="listItem"/>
+               <GridLayout columns="*, 4*" rows="*, *, *, *"  v-for="note in notes" class="row">
+                  <Label col="0" row="0" rowSpan="4" class="fas" :text="'fa-sticky-note' | fonticon" color="#FFDB24"/>
+                  <Label col="1" row="1" :text="note.split('-')[1].split('.')[0]" @tap="readNote(note)" textAlignment="left" class="title"/>
+                  <Label col="1" row="2" text="2018-10-12" class="date" />
               </GridLayout>
-              <Label text="Inspelningar" fontSize="20" color="#333" />
-              <Label class="hr-light" />
-              <GridLayout v-if="recordings.length == 0" columns="*, 8*, *">
-                  <Label text="Inga inspelningar" col="1" textWrap="true" margin="5" color="#ccc"/>
-              </GridLayout>
-              <GridLayout v-else columns="*, 8*, *" v-for="recording in recordings">
-                  <Label col="1" :text="recording.split('-')[2]" @tap="playRecording(recording)" textAlignment="left" class="listItem"/>
+              <GridLayout columns="*, 4*" rows="*,*,*,*" v-for="recording in recordings" class="row">
+                  <Label col="0" row="0" rowSpan="4" class="fas" :text="'fa-headphones' | fonticon" />
+                  <Label col="1" row="1" :text="recording.split('-')[2]" @tap="playRecording(recording)" textAlignment="left" class="title"/>
+                  <Label col="1" row="2" text="2018-10-12" class="date" />
               </GridLayout>
           </StackLayout>
       </ScrollView>
@@ -100,6 +98,13 @@
 </script>
 
 <style scoped lang="scss">
+.far,
+.fas {
+    font-size: 34;
+    vertical-align: center;
+    text-align: center;
+}
+
 .icons {
     margin: 20 0;
     justify-content: space-around;
@@ -124,8 +129,23 @@
 
 }
 
-.files {
-    padding: 10;
+.row {
+    border-bottom-width: 1;
+    border-color: #ddd;
+    color: #333;
+    height: 80;
+}
+
+.title {
+    font-size: 16;
+    vertical-align: center;
+    font-weight: bold;
+}
+
+.date {
+    color: #999;
+    font-size: 14;
+    vertical-align: center;
 }
 
 </style>
