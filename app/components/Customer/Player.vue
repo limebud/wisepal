@@ -8,13 +8,14 @@
             </StackLayout>
         </GridLayout>
     </ActionBar>
-  <GridLayout rows="*, *">
+
+  <GridLayout rows="*, 60">
       <Label row="0" :text="clock + ' / ' + trackDuration"  fontSize="30"/>
-      <FlexboxLayout row="1" justifyContent="space-around" verticalAlignment="center" color="#aaa">
-          <Label v-if="!playing" class="fas" :text="'fa-play-circle' | fonticon" fontSize="40" @tap="togglePlay" />
-          <Label v-else class="fas" :text="'fa-pause-circle' | fonticon" fontSize="40" @tap="togglePlay" />
-          <Label  class="fas" :text="'fa-stop' | fonticon" fontSize="40" @tap="stopRecording" />
-          <Label class="fas" :text="'fa-trash' | fonticon" fontSize="40" @tap="deleteRecording" />
+      <FlexboxLayout row="1" justifyContent="space-around" verticalAlignment="center" class="buttons">
+          <Label v-if="!playing" class="fas" :text="'fa-play' | fonticon" fontSize="34" @tap="togglePlay" color="#25a7de"/>
+          <Label v-else class="fas" :text="'fa-pause' | fonticon" fontSize="34" @tap="togglePlay" color="#25a7de"/>
+          <Label class="fas" :text="'fa-stop' | fonticon" fontSize="34" @tap="stopRecording" color="#bc1b27" />
+          <Label class="fas" :text="'fa-trash-alt' | fonticon" fontSize="34" @tap="deleteRecording" color="#bbb" />
       </FlexboxLayout>
   </GridLayout>
 </Page>
@@ -34,7 +35,7 @@
               seconds: 0,
               minutes: 0,
               hours: 0,
-              clock: '00:00:00',
+              clock: '00:00',
               done: false,
               durationInSec: 0,
               playtimeInSec: 0,
@@ -82,7 +83,7 @@
                   h = "0" + h
               }
 
-              this.trackDuration = h + ":" + m + ":" + s
+              this.trackDuration = h > 0 ? (h + ":" + m + ":" + s) : (m + ":" + s)
           },
           addTime() {
               this.playtimeInSec++
@@ -96,9 +97,14 @@
                   }
               }
 
-              this.clock = (this.hours ? (this.hours > 9 ? this.hours : "0" + this.hours) : "00") + ":" +
-                           (this.minutes ? (this.minutes > 9 ? this.minutes : "0" + this.minutes) : "00") + ":" +
-                           (this.seconds > 9 ? this.seconds : "0" + this.seconds);
+              if (this.hours > 0) {
+                  this.clock = (this.hours ? (this.hours > 9 ? this.hours : "0" + this.hours) : "00") + ":" +
+                  (this.minutes ? (this.minutes > 9 ? this.minutes : "0" + this.minutes) : "00") + ":" +
+                  (this.seconds > 9 ? this.seconds : "0" + this.seconds);
+              } else {
+                  this.clock = (this.minutes ? (this.minutes > 9 ? this.minutes : "0" + this.minutes) : "00") + ":" +
+                  (this.seconds > 9 ? this.seconds : "0" + this.seconds);
+              }
           },
           startTimer() {
               this.timer = setInterval(() => {
@@ -145,7 +151,7 @@
               this.playing = false
               this.playtimeInSec = 0
               this.timer = null
-              this.clock = '00:00:00'
+              this.clock = '00:00'
               this.seconds = 0
               this.minutes = 0
               this.hours = 0
@@ -158,13 +164,11 @@
 </script>
 
 <style scoped lang="scss">
-Page {
-    font-size: 40;
-    text-align: center;
-}
+
 
 Label {
     vertical-align: center;
     text-align: center;
 }
+
 </style>

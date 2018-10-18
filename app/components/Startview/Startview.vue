@@ -17,7 +17,7 @@
 
         <GridLayout rows="*, auto" columns="*" ~mainContent class="mainStackLayout">
             <GridLayout row="0" col="0" rowSpan="2" >
-                <Label text="Här är det tomt" verticalAlignment="center" textAlignment="center" fontSize="24" color="#888"/>
+                <Label text="Här är det tomt" verticalAlignment="center" textAlignment="center" fontSize="24" color="#555"/>
             </GridLayout>
             <SearchResults row="0" col="0" :searchQuery="searchQuery"/>
         </GridLayout>
@@ -99,9 +99,6 @@
 </script>
 
 <style scoped lang="scss">
-    Page {
-        background: #933f99;
-    }
 
     .fa {
       vertical-align: center;

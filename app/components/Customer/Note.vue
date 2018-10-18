@@ -9,12 +9,12 @@
         </GridLayout>
     </ActionBar>
 
-  <GridLayout rows="*, 8*, 2*" columns="*, 8*, *" >
-      <TextView v-model="text" row="1", col="1" class="textbox" verticalAlignment="center"/>
+  <GridLayout rows="*, 60" >
+      <TextView autocorrect="true" v-model="text" row="0" background="white"/>
 
-      <FlexboxLayout row="2" col="1" justifyContent="space-around" class="icons">
-          <Label col="0" class="fas icon" :text="'fa-save' | fonticon" fontSize="40" @tap="saveText" />
-          <Label v-if="file" col="1" class="fas icon" :text="'fa-trash' | fonticon" fontSize="40" @tap="deleteFile" />
+      <FlexboxLayout row="1" justifyContent="space-around">
+          <Label col="0" class="fas" :text="'fa-save' | fonticon" fontSize="34" @tap="saveText" color="#29b33c"/>
+          <Label v-if="savedFile" col="1" class="fas" :text="'fa-trash-alt' | fonticon" fontSize="34" color="#bbb" @tap="deleteFile" />
       </FlexboxLayout>
   </GridLayout>
 </Page>
@@ -27,15 +27,16 @@
 
 
   export default {
-      data() {
+        data() {
           return {
               text: '',
               folder: '',
               id: this.$store.getters.getCustomerInformation.Id.Value,
-              file: this.$store.getters.getReadFile ? this.$store.getters.getReadFile : null
+              file: this.$store.getters.getReadFile ? this.$store.getters.getReadFile : null,
+              savedFile: this.$store.getters.getReadFile ? true : false
           }
-      },
-      methods: {
+        },
+        methods: {
           saveText() {
               let defText = this.file ? this.file.name.split("-")[1].split('.')[0] : ''
               prompt({
@@ -52,43 +53,41 @@
                     }
                 })
           },
-          checkDuplicate() {
-              if (this.$store.getters.getNotes.includes(this.file.name)) {
-                  confirm({
-                      message: "Skriver över anteckning",
-                      okButtonText: "OK",
-                      cancelButtonText: "Ångra"
-                  })
-                  .then(res => {
-                      if (res) {
-                          this.saveAndExit()
-                      } else {
-                          return
-                      }
-                    })
-                } else {
-                    this.saveAndExit()
+        checkDuplicate() {
+            if (this.$store.getters.getNotes.includes(this.file.name)) {
+                confirm({
+                    message: "Skriver över anteckning",
+                    okButtonText: "OK",
+                    cancelButtonText: "Ångra"
+                })
+                .then(res => {
+                    if (res) {
+                        this.saveAndExit()
+                    }
+                })
+            } else {
+                this.saveAndExit()
+            }
+        },
+        saveAndExit() {
+            this.file.writeText(this.text)
+            this.$store.dispatch('getFiles', { id: this.id, folder: 'notes' })
+            this.$navigateBack()
+        },
+        deleteFile() {
+            confirm({
+                message: "Tar bort anteckningen",
+                okButtonText: "OK",
+                cancelButtonText: "Ångra"
+            })
+            .then(res => {
+                if (res) {
+                    this.$store.commit('removeNoteFromArray', this.file.name)
+                    this.file.remove()
+                    this.$navigateBack()
                 }
-            },
-            saveAndExit() {
-                this.file.writeText(this.text)
-                this.$store.dispatch('getFiles', { id: this.id, folder: 'notes' })
-                this.$navigateBack()
-            },
-          deleteFile() {
-              confirm({
-                  message: "Tar bort anteckningen",
-                  okButtonText: "OK",
-                  cancelButtonText: "Ångra"
-              })
-              .then(res => {
-                  if (res) {
-                      this.$store.commit('removeNoteFromArray', this.file.name)
-                      this.file.remove()
-                      this.$navigateBack()
-                  }
-              })
-          }
+             })
+         }
       },
       created() {
           this.folder = fs.knownFolders.currentApp().getFolder('notes/' + this.id)
@@ -115,21 +114,10 @@
         color: #aaa;
     }
 
-    TextView {
-        height: 100%;
-    }
-
     .icon {
         width: 30%;
         vertical-align: center;
         text-align: center;
         border-radius: 5;
-    }
-
-    .textbox {
-        border-width: 2;
-        border-color: #ddd;
-        border-radius: 10;
-        background: #fff;
     }
 </style>

@@ -17,15 +17,15 @@
               <GridLayout v-if="notes.length == 0 && recordings.length == 0" columns="*, 8*, *">
                   <Label text="Inga anteckningar eller inspelningar" col="1" textWrap="true" margin="5" color="#ccc"/>
               </GridLayout>
-               <GridLayout columns="*, 4*" rows="*, *, *, *"  v-for="note in notes" class="row">
-                  <Label col="0" row="0" rowSpan="4" class="fas" :text="'fa-sticky-note' | fonticon" color="#FFDB24"/>
-                  <Label col="1" row="1" :text="note.split('-')[1].split('.')[0]" @tap="readNote(note)" textAlignment="left" class="title"/>
-                  <Label col="1" row="2" text="2018-10-12" class="date" />
+               <GridLayout columns="*, 4*" rows="*, *, *, *"  v-for="note in notes" class="row" @tap="readNote(note)">
+                  <Label col="0" row="0" rowSpan="4" class="fas" :text="'fa-sticky-note' | fonticon" color="#ffdb24"/>
+                  <Label col="1" row="1" :text="note.split('-')[1].split('.')[0]"  textAlignment="left" class="title"/>
+                  <!-- <Label col="1" row="2" :text="note[1]" class="date" /> -->
               </GridLayout>
-              <GridLayout columns="*, 4*" rows="*,*,*,*" v-for="recording in recordings" class="row">
+              <GridLayout columns="*, 4*" rows="*,*,*,*" v-for="recording in recordings" class="row" @tap="playRecording(recording)">
                   <Label col="0" row="0" rowSpan="4" class="fas" :text="'fa-headphones' | fonticon" />
-                  <Label col="1" row="1" :text="recording.split('-')[2]" @tap="playRecording(recording)" textAlignment="left" class="title"/>
-                  <Label col="1" row="2" text="2018-10-12" class="date" />
+                  <Label col="1" row="1" :text="recording.split('-')[2]" textAlignment="left" class="title"/>
+                  <!-- <Label col="1" row="2" :text="note[1]" class="date" /> -->
               </GridLayout>
           </StackLayout>
       </ScrollView>

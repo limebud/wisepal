@@ -9,20 +9,17 @@
         </GridLayout>
     </ActionBar>
 
-  <GridLayout rows="*, *">
+  <GridLayout rows="*, 60">
 
-      <Label row="0" :text="clock" />
+      <Label row="0" :text="clock" fontSize="30"/>
 
-      <Label row="1" v-if="!status" class="fas" :text="'fa-circle' | fonticon" color="#fefafb" fontSize="200"/>
-      <Label row="1" v-if="!status" class="fas" :text="'fa-circle' | fonticon" color="#f6d9dE" fontSize="125"/>
-      <Label row="1" v-if="!status" class="fas" :text="'fa-circle' | fonticon" color="#ee3962" fontSize="50" @tap="startRecording"/>
+      <Label row="1" v-if="!status" class="fas" :text="'fa-circle' | fonticon" color="#bc1b27" fontSize="34" @tap="startRecording"/>
 
-      <Label row="1"  v-else-if="status === 'recording'" class="fas" :text="'fa-stop' | fonticon" color="red" fontSize="50" @tap="stopRecording" />
+      <Label row="1"  v-else-if="status === 'recording'" class="fas" :text="'fa-stop' | fonticon" color="#bc1b27" fontSize="34" @tap="stopRecording" />
 
       <FlexboxLayout row="1" v-else-if="status === 'recorded'" justifyContent="space-around" color="#aaa">
-          <Label class="fas" :text="'fa-save' | fonticon" @tap="saveRecording" />
-          <Label class="fas" :text="'fa-play-circle' | fonticon" @tap="playRecording" />
-          <Label class="fas" :text="'fa-trash' | fonticon" @tap="deleteRecording" />
+          <Label class="fas" :text="'fa-save' | fonticon" @tap="saveRecording" color="#29b33c" fontSize="34"/>
+          <Label class="fas" :text="'fa-trash-alt' | fonticon" @tap="deleteRecording" fontSize="34" color="#bbb"/>
       </FlexboxLayout>
 
   </GridLayout>
@@ -136,31 +133,6 @@
                   this.audioMeter = 0
               }
           },
-          playRecording() {
-              var player = new TNSPlayer()
-
-              var playerOptions = {
-                  audioFile: this.filename,
-                  loop: false,
-                  completeCallback: function() {
-                      console.log('finished playing')
-                  },
-                  errorCallback: function() {
-                      console.log(JSON.stringify(errorObject))
-                  },
-                  infoCallback: function() {
-                      console.log(JSON.stringify(args))
-                  }
-              }
-
-              player.playFromUrl(playerOptions)
-              .then((res) => {
-                  console.log(res)
-              })
-              .catch((err) => {
-                  console.log('Error -> ' + err)
-              })
-          },
           deleteRecording() {
                 confirm({
                   title: "Ta bort",
@@ -221,7 +193,6 @@
 
 <style scoped lang="scss">
 Page {
-    font-size: 40;
     text-align: center;
 }
 
