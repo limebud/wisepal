@@ -1,6 +1,8 @@
 import Vue from 'nativescript-vue'
 import Login from './components/Login/Login'
+import Startview from './components/Startview/Startview'
 
+import TestToken from './TestToken'
 import VueDevtools from 'nativescript-vue-devtools'
 import store from './store';
 import axios from 'axios'
@@ -25,6 +27,6 @@ if(TNS_ENV !== 'production') {
 Vue.config.silent = (TNS_ENV === 'production')
 
 new Vue({
-  store,
-  render: h => h('frame', [h(Login)])
+    store,
+    render: h => h('frame', [h(TestToken)])
 }).$start()

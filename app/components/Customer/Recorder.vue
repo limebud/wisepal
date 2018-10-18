@@ -53,12 +53,25 @@
               minutes: 0,
               hours: 0,
               clock: '00:00:00',
-              saveFileName: ''
+              saveFileName: '',
+              recorderOptions: '',
           }
       },
       created() {
           this.folder = fs.knownFolders.currentApp().getFolder('recordings/' + this.id)
           this.filename = this.folder.path + '/recording'
+          this.recorderOptions = {
+              filename: this.filename,
+              metering: true,
+
+              infoCallback: infoObject => {
+                console.log(JSON.stringify(infoObject));
+              },
+
+              errorCallback: errorObject => {
+                console.log(JSON.stringify(errorObject));
+              }
+          }
       },
       methods: {
           addTime() {
@@ -82,39 +95,32 @@
               }, 1000)
           },
           startRecording() {
+              this.recorder.requestRecordPermission()
+              .then(() => {
+                  if (this.recorder.hasRecordPermission()) {
+                      this.startTimer()
 
-              this.startTimer()
+                      application.android.on(application.AndroidApplication.activityBackPressedEvent, (args) => {
+                          args.cancel = true;
+                          alert("Det går för tillfället inte att backa ur en pågående inspelning.")
+                      });
 
-              application.android.on(application.AndroidApplication.activityBackPressedEvent, (args) => {
-                  args.cancel = true;
-                  alert("Det går för tillfället inte att backa ur en pågående inspelning.")
-              });
+                      this.status = 'recording'
 
-              this.status = 'recording'
-
-              let recorderOptions = {
-                  filename: this.filename,
-                  metering: true,
-
-                  infoCallback: infoObject => {
-                    console.log(JSON.stringify(infoObject));
-                  },
-
-                  errorCallback: errorObject => {
-                    console.log(JSON.stringify(errorObject));
+                      if (TNSRecorder.CAN_RECORD()) {
+                          this.isRecording = true
+                          this.recorder.start(this.recorderOptions)
+                          this.meterInterval = setInterval(() => {
+                              this.audioMeter = this.recorder.getMeters();
+                              console.log(this.audioMeter);
+                          }, 300);
+                      } else {
+                          alert("Enheten kan inte spela in ljud")
+                      }
+                  } else {
+                      console.log("nein")
                   }
-              }
-
-              if (TNSRecorder.CAN_RECORD()) {
-                  this.isRecording = true
-                  this.recorder.start(recorderOptions)
-                  this.meterInterval = setInterval(() => {
-                      this.audioMeter = this.recorder.getMeters();
-                      console.log(this.audioMeter);
-                  }, 300);
-              } else {
-                  alert("Enheten kan inte spela in ljud")
-              }
+              })
           },
           stopRecording() {
               if (this.isRecording) {
