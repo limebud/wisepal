@@ -15,7 +15,7 @@
           <Label v-if="!playing" class="fas" :text="'fa-play' | fonticon" fontSize="34" @tap="togglePlay" color="#25a7de"/>
           <Label v-else class="fas" :text="'fa-pause' | fonticon" fontSize="34" @tap="togglePlay" color="#25a7de"/>
           <Label class="fas" :text="'fa-stop' | fonticon" fontSize="34" @tap="stopRecording" color="#bc1b27" />
-          <Label class="fas" :text="'fa-trash-alt' | fonticon" fontSize="34" @tap="deleteRecording" color="#bbb" />
+          <Label class="fas" :text="'fa-times' | fonticon" fontSize="34" @tap="deleteRecording" color="#bbb" />
       </FlexboxLayout>
   </GridLayout>
 </Page>

@@ -13,8 +13,8 @@
       <TextView autocorrect="true" v-model="text" row="0" background="white"/>
 
       <FlexboxLayout row="1" justifyContent="space-around">
-          <Label col="0" class="fas" :text="'fa-save' | fonticon" fontSize="34" @tap="saveText" color="#29b33c"/>
-          <Label v-if="savedFile" col="1" class="fas" :text="'fa-trash-alt' | fonticon" fontSize="34" color="#bbb" @tap="deleteFile" />
+          <Label col="0" class="fas" :text="'fa-check' | fonticon" fontSize="34" @tap="saveText" color="#29b33c"/>
+          <Label v-if="savedFile" col="1" class="fas" :text="'fa-times' | fonticon" fontSize="34" color="#bbb" @tap="deleteFile" />
       </FlexboxLayout>
   </GridLayout>
 </Page>
