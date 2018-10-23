@@ -2,10 +2,6 @@
     <StackLayout>
         <ScrollView>
             <StackLayout>
-                <GridLayout columns="*, auto, *" rows="*, *">
-                    <Label row="0" col="1" :text="name" fontSize="24"/>
-                    <Label v-if="idNumber" row="1" col="1" textWrap="true" :text="idNumber" fontSize="18" textAlignment="center"/>
-                </GridLayout>
                 <GridLayout v-if="phoneNr" columns="*, 4*" rows="*, *, *, *" class="row">
                     <Label class="fa" row="0" rowSpan="4" :text="'fa-phone' | fonticon"  color="#29b33c" @tap="doCall(customerInfo.PhoneNumber.Value)" />
                     <Label text="Telefon" col="1" row="1" class="type" />
@@ -68,6 +64,7 @@
 </script>
 
 <style scoped lang="scss">
+
 .fa,
 .fas {
     font-size: 34;

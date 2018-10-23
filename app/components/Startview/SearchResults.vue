@@ -65,15 +65,6 @@
               }
 
               axios.all([
-                  axios.get('/Document/GetDocumentsByPartyId/', {
-                      params: {
-                          Id: this.id
-                      },
-                      headers: {
-                          'Authorization': this.$store.getters.getToken,
-                          'Culture': 'sv-se'
-                      }
-                  }),
                   axios.get(this.url, {
                       params: {
                           Id: this.id
@@ -90,13 +81,11 @@
                       }
                   })
               ])
-              .then(axios.spread((documentRes, personRes) => {
-                  this.$store.commit('setCustomerDocuments', documentRes.data.Result)
+              .then(axios.spread((personRes) => {
                   this.$store.commit('setCustomerInformation', personRes.data.Result)
                   this.$store.commit('setSearchResults', [])
                   this.$store.dispatch('recentVisit')
                   this.$navigateTo(Customer)
-
               }))
               .catch(error => {
                   console.log("Error: " + error.response.data.Message)

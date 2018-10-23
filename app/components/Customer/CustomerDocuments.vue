@@ -1,7 +1,7 @@
 <template>
       <ScrollView>
           <StackLayout>
-              <GridLayout columns="*, 4*" rows="*, *, *, *" class="row" v-for="doc in documents" key="doc">
+              <GridLayout columns="*, 4*" rows="*, *, *, *" class="row" v-for="(doc, index) in documents" :key="index">
                   <Label row="0" col="0" rowSpan="4" class="far" :text="'fa-file-alt' | fonticon" color="#509aaf"/>
                   <Label row="1" col="1" :text="doc.Title.Value" class="title"/>
                   <Label row="2" col="1" :text="doc.Date.Value" class="date"/>
@@ -11,14 +11,29 @@
 </template>
 
 <script>
+  import axios from 'axios'
   export default {
       name: "customer-documents",
       data() {
           return {
-              documents: this.$store.getters.getCustomerDocuments ? this.$store.getters.getCustomerDocuments : null
+              documents: null
           }
       },
       created() {
+          axios.get('/Document/GetDocumentsByPartyId/', {
+              params: {
+                  Id: this.$store.getters.getCustomerInformation.Id.Value
+              },
+              headers: {
+                  'Authorization': this.$store.getters.getToken,
+                  'Culture': 'sv-se'
+              }
+          })
+          .then(res => {
+              console.log(res.data.Result)
+              this.documents = res.data.Result
+          })
+
           this.documents = this.$store.getters.getCustomerDocuments
       }
     }

@@ -50,7 +50,6 @@
       },
       props: [ 'comp' ],
       created() {
-          console.log(this.comp)
           this.component = this.comp
       },
       components: {

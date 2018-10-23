@@ -17,15 +17,19 @@
 
           <GridLayout rows="*, auto" columns="*" ~mainContent class="mainStackLayout">
 
-          <GridLayout rows="*, 60">
+          <GridLayout rows="100, *, 60">
 
-              <StackLayout row="0">
-                  <keep-alive>
-                      <component :is="component" :customerInfo="customerInfo"/>
-                  </keep-alive>
+              <StackLayout row="0" class="heading" verticalAlignment="center">
+                  <Label :text="customerInfo.Name.Value" fontSize="24" textAlignment="center" />
+                  <Label v-if="customerInfo.SocialSecurityNumber" row="1" col="1" textWrap="true" :text="customerInfo.SocialSecurityNumber.Value" fontSize="16" textAlignment="center"/>
               </StackLayout>
+              <GridLayout row="1" rows="auto, *">
+                  <keep-alive row="1">
+                      <component :is="component" :customerInfo="customerInfo" :id="id"/>
+                  </keep-alive>
+              </GridLayout>
 
-              <GridLayout row="1" columns="*, *, *" class="tabs">
+              <GridLayout row="2" columns="*, *, *" class="tabs">
                   <FlexboxLayout flexDirection="column" justifyContent="center" col="0" @tap="component = 'customer-info'" :class="[component == 'customer-info' ? 'active' : 'none']" >
                       <Label class="fas icon" :text="'fa-address-card' | fonticon" verticalAlignment="center" />
                       <Label v-if="component == 'customer-info'" text="Kontakt" textAlignment="center" fontSize="12" verticalAlignment="center"/>
@@ -56,6 +60,9 @@
   import Startview from '../Startview/Startview.vue'
   import SearchResults from '../Startview/SearchResults'
   import Menu from '../SideDrawer/Menu.vue'
+  import * as application from 'tns-core-modules/application'
+
+
 
   export default {
       data() {
@@ -65,7 +72,7 @@
               activeClass: 'info',
               searchQuery: '',
               searchResults: this.$store.getters.getSearchResults,
-              id: ''
+              id: this.$store.getters.getCustomerInformation.Id.Value
           }
       },
       components: {
@@ -125,22 +132,30 @@
           emptySearchQuery() {
               this.searchQuery = ''
           },
+          dobedo() {
+              alert(this.id)
+          },
+      },
+      created() {
+          application.android.on(application.AndroidApplication.activityBackPressedEvent, (args) => {
+              this.$store.commit('emptyRecordedFiles')
+              this.$store.commit('emptyNotes')
+          });
       },
       beforeMount() {
-          console.log("mounted")
           this.$store.commit('emptyRecordedFiles')
           this.$store.commit('emptyNotes')
           // this.$store.commit('setCustomerInformation', [])
           // this.$store.commit('setCustomerDocuments', [])
-      },
-      destroyed() {
-          console.log("destroyed")
       }
-
   }
 </script>
 
 <style scoped lang="scss">
+    .heading {
+        margin: 10 0;
+    }
+
     .active {
         color: #ff9c00;
     }

@@ -103,8 +103,6 @@
                       } else {
                           alert("Enheten kan inte spela in ljud")
                       }
-                  } else {
-                      console.log("nein")
                   }
               })
           },
@@ -124,10 +122,9 @@
           },
           deleteRecording() {
                 confirm({
-                  title: "Ta bort",
-                  message: "Är du säker på att du vill ta bort inspelningen?",
-                  okButtonText: "Ja",
-                  cancelButtonText: "Nej"
+                  message: "Tar bort inspelning",
+                  okButtonText: "OK",
+                  cancelButtonText: "Ångra"
                 }).then(res => {
                     if (res) {
                         let file = this.folder.getFile("recording")

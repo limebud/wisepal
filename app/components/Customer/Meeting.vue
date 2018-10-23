@@ -10,6 +10,7 @@
           <StackLayout class="icon">
               <Label class="fa" :text="'fa-microphone' | fonticon" @tap="useRecorder"/>
           </StackLayout>
+
       </FlexboxLayout>
 
       <ScrollView row="1" >
@@ -43,20 +44,22 @@
   import WrapperNoteRecord from './WrapperNoteRecord.vue'
   export default {
       name: "meeting",
+
       data() {
           return {
               image: null,
-              recordings: this.$store.getters.getRecordedFiles,
-              notes: this.$store.getters.getNotes,
-              id: this.$store.getters.getCustomerInformation.Id.Value,
-              cameraFolder: '',
+              notes: this.$store.getters.getNotes ? this.$store.getters.getNotes : null,
+              recordings: this.$store.getters.getRecordedFiles ? this.$store.getters.getRecordedFiles : null,
+              
           }
       },
       created() {
-          this.cameraFolder = fs.knownFolders.currentApp().getFolder('images/' + this.id)
           this.$store.dispatch('getFiles', { id: this.id , folder: 'recordings' })
           this.$store.dispatch('getFiles', { id: this.id, folder: 'notes' })
       },
+      props: [
+         'id'
+      ],
       methods: {
           useCamera() {
               if (camera.isAvailable()) {
@@ -106,7 +109,7 @@
                   }
               })
           }
-    },
+    }
 }
 </script>
 
@@ -126,7 +129,8 @@
 }
 
 .icon {
-    width: 30%;
+    width: 100;
+    height: 100;
     vertical-align: center;
     text-align: center;
     background: linear-gradient(45deg, #509aaf, #7dd8c7);
