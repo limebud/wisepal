@@ -1,22 +1,23 @@
 <template>
   <Page loaded="pageLoaded">
-
       <ActionBar>
-          <GridLayout width="100%" columns="*, auto, *" rows=*, *>
-              <Label col="0" row="0" rowspan="2" class="fa" :text="'fa-bars' | fonticon" @tap="openDrawer"/>
-              <StackLayout col="1" row="0">
-                  <Label :text="customerInfo.Name.Value" class="name" />
-                  <Label v-if="customerInfo.SocialSecurityNumber" :text="customerInfo.SocialSecurityNumber.Value" fontSize="12" textAlignment="center"/>
-              </StackLayout>
+          <GridLayout columns="*, auto, *">
+              <GridLayout col="1" class="searchBar" columns="*, auto">
+                  <TextField col="0" hint="Sök..." returnKeyType="search" @submit="search" v-model="searchQuery" @focus="onFocus" @blur="onBlur" @textChange="searchQ" class="inputField"/>
+                  <TextField col="1" v-if="this.$store.getters.getSearchBarActive" class="fas emptyQuery" :text="'fa-times-circle' | fonticon" @tap="emptySearchQuery" borderRadius="100"/>
+              </GridLayout>
+              <Label class="fa menu" :text="'fa-bars' | fonticon" @tap="openDrawer" col="0" />
           </GridLayout>
       </ActionBar>
 
       <RadSideDrawer ref="drawer">
           <StackLayout ~drawerContent class="sideStackLayout">
-              <Button text="Logga ut" @tap="logout" />
+              <appMenu />
           </StackLayout>
 
-          <GridLayout rows="*, 60" ~mainContent class="mainStackLayout">
+          <GridLayout rows="*, auto" columns="*" ~mainContent class="mainStackLayout">
+
+          <GridLayout rows="*, 60">
 
               <StackLayout row="0">
                   <keep-alive>
@@ -40,6 +41,8 @@
               </GridLayout>
 
           </GridLayout>
+          <SearchResults row="0" col="0" :searchQuery="searchQuery"/>
+        </GridLayout>
       </RadSideDrawer>
   </Page>
 </template>
@@ -51,19 +54,26 @@
   import Meeting from './Meeting.vue'
   import Login from '../Login/Login.vue'
   import Startview from '../Startview/Startview.vue'
+  import SearchResults from '../Startview/SearchResults'
+  import Menu from '../SideDrawer/Menu.vue'
 
   export default {
       data() {
           return {
               customerInfo: this.$store.getters.getCustomerInformation,
               component: 'customer-info',
-              activeClass: 'info'
+              activeClass: 'info',
+              searchQuery: '',
+              searchResults: this.$store.getters.getSearchResults,
+              id: ''
           }
       },
       components: {
           'customer-info': CustomerInfo,
           'customer-documents': CustomerDocuments,
-          'meeting': Meeting
+          'meeting': Meeting,
+          'SearchResults': SearchResults,
+          'appMenu': Menu
       },
       methods: {
           openDrawer() {
@@ -77,33 +87,71 @@
               this.$navigateTo(Login, {
                   clearHistory: true
               })
-          }
+          },
+          goHome() {
+              this.$navigateTo(Startview)
+          },
+          searchQ() {
+              setTimeout(() => {
+                  this.search()
+              }, 200)
+          },
+          search() {
+              if (this.searchQuery.length > 1) {
+                  axios.get('/Broker/SearchParties/', {
+                      params: {
+                          searchQuery: this.searchQuery
+                      },
+                      headers: {
+                          'Authorization': this.$store.getters.getToken,
+                          'Culture': 'sv-se'
+                      }
+                  })
+                  .then(res => {
+                      this.$store.commit('setSearchResults', res.data.Result)
+                  })
+                  .catch(error => { console.log(error)})
+              } else {
+                  this.$store.commit('setSearchResults', [])
+              }
+          },
+          onFocus() {
+              this.$store.commit('setSearchBarActive', true)
+          },
+          onBlur() {
+              this.$store.commit('setSearchBarActive', false)
+              this.emptySearchQuery()
+          },
+          emptySearchQuery() {
+              this.searchQuery = ''
+          },
       },
-      destroyed() {
+      beforeMount() {
+          console.log("mounted")
           this.$store.commit('emptyRecordedFiles')
           this.$store.commit('emptyNotes')
-          this.$store.commit('setCustomerInformation', [])
-          this.$store.commit('setCustomerDocuments', [])
+          // this.$store.commit('setCustomerInformation', [])
+          // this.$store.commit('setCustomerDocuments', [])
       },
+      destroyed() {
+          console.log("destroyed")
+      }
+
   }
 </script>
 
 <style scoped lang="scss">
     .active {
         color: #ff9c00;
-        // border-top-color: #ff9c00;
-        // border-top-width: 2;
     }
 
     .icon {
         text-align: center;
         font-size: 24;
     }
-
-    .fa {
-      text-align: left;
-      vertical-align: center;
-      font-size: 25;
+    .tabs {
+        background: #513270;
+        color: #fff;
     }
 
     .name {
@@ -111,9 +159,30 @@
         width: 80%;
     }
 
-    .tabs {
-        background: #513270;
-        color: #fff;
+
+
+    .fa {
+        text-align: left;
+        vertical-align: center;
+        font-size: 25;
+    }
+
+    .searchBar {
+        width: 80%;
+        height: 40;
+        font-size: 16;
+        border-radius: 10;
+        background: #fff;
+        color: black;
+    }
+
+    .inputField {
+        background: #fff;
+        border-radius: 10;
+    }
+
+    .emptyQuery {
+        background: #fff;
     }
 
 </style>

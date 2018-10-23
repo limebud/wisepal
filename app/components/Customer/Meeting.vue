@@ -17,11 +17,11 @@
               <GridLayout v-if="notes.length == 0 && recordings.length == 0" columns="*, 8*, *">
                   <Label text="Inga anteckningar eller inspelningar" col="1" textWrap="true" margin="5" color="#ccc"/>
               </GridLayout>
-               <GridLayout columns="*, 4*" rows="*, *, *, *"  v-for="note in notes" class="row" @tap="readNote(note)">
+               <GridLayout columns="*, 4*" rows="*, *, *, *"  v-for="note in notes" class="row" :key="note" @tap="readNote(note)">
                   <Label col="0" row="0" rowSpan="4" class="fas" :text="'fa-sticky-note' | fonticon" color="#ffdb24"/>
                   <Label col="1" row="1" rowSpan="2" :text="note.split('-')[1].split('.')[0]"  textAlignment="left" class="title"/>
               </GridLayout>
-              <GridLayout columns="*, 4*" rows="*,*,*,*" v-for="recording in recordings" class="row" @tap="playRecording(recording)">
+              <GridLayout columns="*, 4*" rows="*,*,*,*" v-for="recording in recordings" class="row" :key="recording" @tap="playRecording(recording)">
                   <Label col="0" row="0" rowSpan="4" class="fas" :text="'fa-headphones' | fonticon" />
                   <Label col="1" row="1" rowSpan="2" :text="recording.split('-')[2]" textAlignment="left" class="title"/>
               </GridLayout>
@@ -40,7 +40,7 @@
   import Recorder from './Recorder.vue'
   import Player from './Player.vue'
   import Note from './Note.vue'
-
+  import WrapperNoteRecord from './WrapperNoteRecord.vue'
   export default {
       name: "meeting",
       data() {
@@ -74,21 +74,37 @@
               }
           },
           useRecorder() {
-              this.$navigateTo(Recorder)
+              this.$navigateTo(WrapperNoteRecord, {
+                  props: {
+                      comp: 'recorder'
+                  }
+              })
           },
           playRecording(filename) {
               this.$store.commit('setPlayFile', filename)
-              this.$navigateTo(Player)
+              this.$navigateTo(WrapperNoteRecord, {
+                  props: {
+                      comp: 'player'
+                  }
+              })
           },
           addNote() {
-              this.$navigateTo(Note)
+              this.$navigateTo(WrapperNoteRecord, {
+                  props: {
+                      comp: 'note'
+                  }
+              })
           },
           getFiles() {
               return
           },
           readNote(filename) {
               this.$store.commit('setReadFile', filename)
-              this.$navigateTo(Note)
+              this.$navigateTo(WrapperNoteRecord, {
+                  props: {
+                      comp: 'note'
+                  }
+              })
           }
     },
 }

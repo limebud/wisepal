@@ -16,7 +16,7 @@
                 <TextField v-model="pin" hint="PIN"/>
                 <TextField v-model="username" hint="Username"/>
                 <TextField v-model="password" hint="Password" secure="true" @returnPress="login" returnKeyType="go"/>
-                <Button @tap="login">Logga in</Button>
+                <Button @tap="login" class="loginButton">Logga in</Button>
             </StackLayout>
 
         </GridLayout>
@@ -63,8 +63,6 @@
 
 
 <style scoped lang="scss">
-    ActivityIndicator {
-    }
 
     Page {
         background: #513270;
@@ -96,5 +94,9 @@
     .welcome {
         font-size: 36;
         font-weight: bold;
+    }
+
+    .loginButton {
+        height: 48;
     }
 </style>
