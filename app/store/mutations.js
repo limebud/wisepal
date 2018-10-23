@@ -69,3 +69,11 @@ export const setSearchBarActive = (state, payload) => {
 export const setPartyType = (state, payload) => {
     state.partyType = payload
 }
+
+export const setTempId = (state, payload) => {
+    state.tempId = payload
+}
+
+export const setRecordingStatus = (state, payload) => {
+    state.recordingStatus = payload
+}

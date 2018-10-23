@@ -3,11 +3,11 @@
 
       <Label row="0" :text="clock" fontSize="30"/>
 
-      <Label row="1" v-if="!status" class="fas" :text="'fa-circle' | fonticon" color="#bc1b27" fontSize="34" @tap="startRecording"/>
+      <Label row="1" v-if="!this.$store.getters.getRecordingStatus" class="fas" :text="'fa-circle' | fonticon" color="#bc1b27" fontSize="34" @tap="startRecording"/>
 
-      <Label row="1"  v-else-if="status === 'recording'" class="fas" :text="'fa-stop' | fonticon" color="#bc1b27" fontSize="34" @tap="stopRecording" />
+      <Label row="1"  v-else-if="this.$store.getters.getRecordingStatus === 'recording'" class="fas" :text="'fa-stop' | fonticon" color="#bc1b27" fontSize="34" @tap="stopRecording" />
 
-      <FlexboxLayout row="1" v-else-if="status === 'recorded'" justifyContent="space-around" color="#aaa">
+      <FlexboxLayout row="1" v-else-if="this.$store.getters.getRecordingStatus === 'recorded'" justifyContent="space-around" color="#aaa">
           <Label class="fas" :text="'fa-check' | fonticon" @tap="saveRecording" color="#29b33c" fontSize="34"/>
           <Label class="fas" :text="'fa-times' | fonticon" @tap="deleteRecording" fontSize="34" color="#bbb"/>
       </FlexboxLayout>
@@ -31,8 +31,7 @@
               minutes: 0,
               hours: 0,
               clock: '00:00:00',
-              status: null,
-              id: this.$store.getters.getCustomerInformation.Id.Value,
+              id: this.$store.getters.getTempId,
               timer: null,
               audioMeter: 0,
               meterInterval: null,
@@ -45,6 +44,7 @@
       },
       created() {
           this.folder = fs.knownFolders.currentApp().getFolder('recordings/' + this.id)
+
           this.filename = this.folder.path + '/recording'
           this.recorderOptions = {
               filename: this.filename,
@@ -91,7 +91,7 @@
                           alert("Det går för tillfället inte att backa ur en pågående inspelning.")
                       });
 
-                      this.status = 'recording'
+                      this.$store.commit('setRecordingStatus', 'recording')
 
                       if (TNSRecorder.CAN_RECORD()) {
                           this.isRecording = true
@@ -108,7 +108,7 @@
           },
           stopRecording() {
               if (this.isRecording) {
-                  this.status = 'recorded'
+                  this.$store.commit('setRecordingStatus', 'recorded')
 
                   this.recorder.stop()
 
@@ -128,11 +128,13 @@
                 }).then(res => {
                     if (res) {
                         let file = this.folder.getFile("recording")
+                        Toast.makeText("Inspelningen borttagen", "long").show()
                         file.remove()
                         this.reset()
                     }
                 });
           },
+
           saveRecording() {
               prompt({
                   message: "Spara som...",
@@ -153,6 +155,7 @@
                           this.$store.commit('appendRecordedFiles', saveFile.name)
                           Toast.makeText("Inspelningen sparad", "long").show()
                           this.reset()
+                          this.$navigateBack()
                       }
                     }
                 })
@@ -162,7 +165,7 @@
           },
           reset() {
               application.android.off(application.AndroidApplication.activityBackPressedEvent)
-              this.status = null
+              this.$store.commit('setRecordingStatus', null)
               this.counter = 0
               this.timer = null
               this.clock = '00:00:00'
@@ -181,6 +184,7 @@
 Page {
     text-align: center;
 }
+
 
 Label {
     vertical-align: center;

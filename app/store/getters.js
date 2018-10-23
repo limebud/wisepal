@@ -41,3 +41,11 @@ export const getSearchBarActive = (state) => {
 export const getPartyType = (state) => {
     return state.partyType
 }
+
+export const getTempId = (state) => {
+    return state.tempId
+}
+
+export const getRecordingStatus = (state) => {
+    return state.recordingStatus
+}

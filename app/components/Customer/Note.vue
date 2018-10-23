@@ -10,17 +10,17 @@
 </template>
 
 
+
 <script>
   import * as fs from 'tns-core-modules/file-system'
   import * as dialogs from 'tns-core-modules/ui/dialogs'
-
 
   export default {
         data() {
           return {
               text: '',
               folder: '',
-              id: this.$store.getters.getCustomerInformation.Id.Value,
+              id: this.$store.getters.getTempId,
               file: this.$store.getters.getReadFile ? this.$store.getters.getReadFile : null,
               savedFile: this.$store.getters.getReadFile ? true : false
           }

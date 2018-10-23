@@ -17,6 +17,7 @@ const debug = process.env.NODE_ENV !== 'production';
 const store = new Vuex.Store({
   state: {
     token: appSettings.getString("token") || '',
+    tempId: '',
     customerDocuments: [],
     customerInformation: [],
     searchResults: [],
@@ -27,6 +28,7 @@ const store = new Vuex.Store({
     recentVisit: [],
     partyType: '',
     searchBarActive: false,
+    recordingStatus: null
   },
   mutations,
   getters,

@@ -1,5 +1,5 @@
 <template>
-  <GridLayout rows="*, 2*" >
+  <GridLayout rows="auto, *" >
       <FlexboxLayout row="0" class="icons">
           <StackLayout class="icon">
               <Label class="fa" :text="'fa-camera' | fonticon" @tap="useCamera" />
@@ -14,19 +14,19 @@
       </FlexboxLayout>
 
       <ScrollView row="1" >
-          <StackLayout class="files">
-              <GridLayout v-if="notes.length == 0 && recordings.length == 0" columns="*, 8*, *">
-                  <Label text="Inga anteckningar eller inspelningar" col="1" textWrap="true" margin="5" color="#ccc"/>
-              </GridLayout>
-               <GridLayout columns="*, 4*" rows="*, *, *, *"  v-for="note in notes" class="row" :key="note" @tap="readNote(note)">
-                  <Label col="0" row="0" rowSpan="4" class="fas" :text="'fa-sticky-note' | fonticon" color="#ffdb24"/>
-                  <Label col="1" row="1" rowSpan="2" :text="note.split('-')[1].split('.')[0]"  textAlignment="left" class="title"/>
-              </GridLayout>
-              <GridLayout columns="*, 4*" rows="*,*,*,*" v-for="recording in recordings" class="row" :key="recording" @tap="playRecording(recording)">
-                  <Label col="0" row="0" rowSpan="4" class="fas" :text="'fa-headphones' | fonticon" />
-                  <Label col="1" row="1" rowSpan="2" :text="recording.split('-')[2]" textAlignment="left" class="title"/>
-              </GridLayout>
-          </StackLayout>
+          <StackLayout>
+          <GridLayout v-if="notes.length == 0 && recordings.length == 0" columns="*, 8*, *">
+              <Label text="Inga anteckningar eller inspelningar" col="1" textWrap="true" margin="5" color="#ccc"/>
+          </GridLayout>
+           <GridLayout columns="*, 4*" rows="*, *, *, *"  v-for="note in notes" class="row" :key="note" @tap="readNote(note)">
+              <Label col="0" row="0" rowSpan="4" class="fas" :text="'fa-sticky-note' | fonticon" color="#ffdb24"/>
+              <Label col="1" row="1" rowSpan="2" :text="note.split('-')[1].split('.')[0]"  textAlignment="left" class="title"/>
+          </GridLayout>
+          <GridLayout columns="*, 4*" rows="*,*,*,*" v-for="recording in recordings" class="row" :key="recording" @tap="playRecording(recording)">
+              <Label col="0" row="0" rowSpan="4" class="fas" :text="'fa-headphones' | fonticon" />
+              <Label col="1" row="1" rowSpan="2" :text="recording.split('-')[2]" textAlignment="left" class="title"/>
+          </GridLayout>
+      </StackLayout>
       </ScrollView>
   </GridLayout>
 </template>
@@ -50,7 +50,6 @@
               image: null,
               notes: this.$store.getters.getNotes ? this.$store.getters.getNotes : null,
               recordings: this.$store.getters.getRecordedFiles ? this.$store.getters.getRecordedFiles : null,
-              
           }
       },
       created() {
@@ -77,6 +76,7 @@
               }
           },
           useRecorder() {
+              this.$store.commit('setTempId', this.id)
               this.$navigateTo(WrapperNoteRecord, {
                   props: {
                       comp: 'recorder'
@@ -84,6 +84,7 @@
               })
           },
           playRecording(filename) {
+              this.$store.commit('setTempId', this.id)
               this.$store.commit('setPlayFile', filename)
               this.$navigateTo(WrapperNoteRecord, {
                   props: {
@@ -92,6 +93,7 @@
               })
           },
           addNote() {
+              this.$store.commit('setTempId', this.id)
               this.$navigateTo(WrapperNoteRecord, {
                   props: {
                       comp: 'note'
@@ -102,6 +104,7 @@
               return
           },
           readNote(filename) {
+              this.$store.commit('setTempId', this.id)
               this.$store.commit('setReadFile', filename)
               this.$navigateTo(WrapperNoteRecord, {
                   props: {
@@ -112,6 +115,7 @@
     }
 }
 </script>
+
 
 <style scoped lang="scss">
 .far,

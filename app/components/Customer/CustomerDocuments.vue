@@ -14,6 +14,9 @@
   import axios from 'axios'
   export default {
       name: "customer-documents",
+      props: [
+          'id'
+      ],
       data() {
           return {
               documents: null
@@ -22,7 +25,7 @@
       created() {
           axios.get('/Document/GetDocumentsByPartyId/', {
               params: {
-                  Id: this.$store.getters.getCustomerInformation.Id.Value
+                  Id: this.id
               },
               headers: {
                   'Authorization': this.$store.getters.getToken,

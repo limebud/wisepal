@@ -56,40 +56,46 @@
               this.onItemTap()
           },
           onItemTap() {
-              if (this.partyType === "Person") {
-                  this.url = '/person/Get/'
-                  this.$store.commit('setPartyType', 'Person')
-              } else {
-                  this.url = '/company/Get'
-                  this.$store.commit('setPartyType', 'Company')
-              }
+              if (!this.$store.getters.getRecordingStatus)
+              {
+                  if (this.partyType === "Person") {
+                      this.url = '/person/Get/'
+                      this.$store.commit('setPartyType', 'Person')
+                  } else {
+                      this.url = '/company/Get'
+                      this.$store.commit('setPartyType', 'Company')
+                  }
 
-              axios.all([
-                  axios.get(this.url, {
-                      params: {
-                          Id: this.id
-                      },
-                      headers: {
-                          'Authorization': this.$store.getters.getToken,
-                          'Culture': 'sv-se',
-                      }
-                  }),
-                  axios.post('/Broker/SaveRecentVisit/?partyId=' + this.id, {}, {
-                      headers: {
-                          'Authorization': this.$store.getters.getToken,
-                          'Culture': 'sv-se',
-                      }
+                  axios.all([
+                      axios.get(this.url, {
+                          params: {
+                              Id: this.id
+                          },
+                          headers: {
+                              'Authorization': this.$store.getters.getToken,
+                              'Culture': 'sv-se',
+                          }
+                      }),
+                      axios.post('/Broker/SaveRecentVisit/?partyId=' + this.id, {}, {
+                          headers: {
+                              'Authorization': this.$store.getters.getToken,
+                              'Culture': 'sv-se',
+                          }
+                      })
+                  ])
+                  .then(axios.spread((personRes) => {
+                      this.$store.commit('setCustomerInformation', personRes.data.Result)
+                      this.$store.commit('setSearchResults', [])
+                      this.$store.dispatch('recentVisit')
+                      this.$navigateTo(Customer)
+                  }))
+                  .catch(error => {
+                      console.log("Error: " + error.response.data.Message)
                   })
-              ])
-              .then(axios.spread((personRes) => {
-                  this.$store.commit('setCustomerInformation', personRes.data.Result)
-                  this.$store.commit('setSearchResults', [])
-                  this.$store.dispatch('recentVisit')
-                  this.$navigateTo(Customer)
-              }))
-              .catch(error => {
-                  console.log("Error: " + error.response.data.Message)
-              })
+
+              } else {
+                  alert("Du måste avsluta inspelningen innan du kan lämna den")
+              }
           },
       }
   }

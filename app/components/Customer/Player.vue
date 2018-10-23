@@ -28,9 +28,9 @@
               done: false,
               durationInSec: 0,
               playtimeInSec: 0,
-              id: this.$store.getters.getCustomerInformation.Id.Value,
-              folder: '',
-              filepath: '',
+              id: this.$store.getters.getTempId,
+              folder: fs.knownFolders.currentApp().getFolder('recordings/' + this.$store.getters.getTempId),
+              filepath: fs.knownFolders.currentApp().getFolder('recordings/' + this.$store.getters.getTempId).path + '/' + this.$store.getters.getPlayFile,
               filename: this.$store.getters.getPlayFile,
               trackDuration: null,
               player: new TNSPlayer(),
@@ -38,8 +38,8 @@
           }
       },
       created() {
-          this.folder = fs.knownFolders.currentApp().getFolder('recordings/' + this.id)
-          this.filepath = this.folder.path + '/' + this.filename
+          // console.log(this.id)
+          // this.filepath = this.folder.path + '/' + this.filename
 
           this.player.initFromFile({
               audioFile: this.filepath,
@@ -129,7 +129,7 @@
                   cancelButtonText: "Ångra"
                 }).then(res => {
                     if (res) {
-                        let file = this.folder.getFile(this.$store.getters.getPlayFile)
+                        let file = this.folder.getFile(this.filename)
                         file.remove()
                         this.$store.commit('removeRecordingFromArray', this.filename)
                         this.$navigateBack()

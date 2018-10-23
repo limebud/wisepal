@@ -23,8 +23,8 @@
                   <Label :text="customerInfo.Name.Value" fontSize="24" textAlignment="center" />
                   <Label v-if="customerInfo.SocialSecurityNumber" row="1" col="1" textWrap="true" :text="customerInfo.SocialSecurityNumber.Value" fontSize="16" textAlignment="center"/>
               </StackLayout>
-              <GridLayout row="1" rows="auto, *">
-                  <keep-alive row="1">
+              <GridLayout row="1">
+                  <keep-alive >
                       <component :is="component" :customerInfo="customerInfo" :id="id"/>
                   </keep-alive>
               </GridLayout>
@@ -38,7 +38,7 @@
                       <Label class="fas icon" :text="'fa-file' | fonticon" verticalAlignment="center" />
                       <Label v-if="component == 'customer-documents'" text="Dokument" textAlignment="center" fontSize="12" verticalAlignment="center"/>
                   </FlexboxLayout>
-                  <FlexboxLayout flexDirection="column" justifyContent="center" col="2"  @tap="component = 'meeting'" :class="[component == 'meeting' ? 'active' : 'none']" >
+                  <FlexboxLayout flexDirection="column" justifyContent="center" col="2"  @tap="gotoMeeting" :class="[component == 'meeting' ? 'active' : 'none']" >
                       <Label class="fas icon" :text="'fa-users' | fonticon" verticalAlignment="center" />
                       <Label v-if="component == 'meeting'" text="Möte" textAlignment="center" fontSize="12" verticalAlignment="center"/>
                   </FlexboxLayout>
@@ -132,8 +132,9 @@
           emptySearchQuery() {
               this.searchQuery = ''
           },
-          dobedo() {
-              alert(this.id)
+          gotoMeeting() {
+              this.component = 'meeting'
+              this.$store.commit('setTempId', this.id)
           },
       },
       created() {
@@ -147,7 +148,7 @@
           this.$store.commit('emptyNotes')
           // this.$store.commit('setCustomerInformation', [])
           // this.$store.commit('setCustomerDocuments', [])
-      }
+      },
   }
 </script>
 
