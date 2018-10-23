@@ -87,6 +87,7 @@
         color: white;
     }
 
+
     .logo {
         width: 100;
     }
@@ -97,6 +98,6 @@
     }
 
     .loginButton {
-        height: 48;
+        height: 60;
     }
 </style>
