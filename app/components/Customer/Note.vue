@@ -14,6 +14,7 @@
 <script>
   import * as fs from 'tns-core-modules/file-system'
   import * as dialogs from 'tns-core-modules/ui/dialogs'
+  import * as bghttp from "nativescript-background-http"
 
   export default {
         data() {
@@ -22,7 +23,8 @@
               folder: '',
               id: this.$store.getters.getTempId,
               file: this.$store.getters.getReadFile ? this.$store.getters.getReadFile : null,
-              savedFile: this.$store.getters.getReadFile ? true : false
+              savedFile: this.$store.getters.getReadFile ? true : false,
+              session: null
           }
         },
         methods: {

@@ -17,7 +17,7 @@
 
           <GridLayout rows="*, auto" columns="*" ~mainContent class="mainStackLayout">
 
-          <GridLayout rows="100, *, 60">
+          <GridLayout rows="80, *, 60">
 
               <StackLayout row="0" class="heading" verticalAlignment="center">
                   <Label :text="customerInfo.Name.Value" fontSize="24" textAlignment="center" />
@@ -153,10 +153,6 @@
 </script>
 
 <style scoped lang="scss">
-    .heading {
-        margin: 10 0;
-    }
-
     .active {
         color: #ff9c00;
     }

@@ -32,6 +32,7 @@
 </template>
 
 
+
 <script>
   import * as fs from 'tns-core-modules/file-system'
   import * as Toast from 'nativescript-toast';
@@ -126,7 +127,6 @@
 }
 
 .icons {
-    margin: 20 0;
     justify-content: space-around;
     font-size: 40;
     color: #fff;
