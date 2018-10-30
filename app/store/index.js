@@ -1,6 +1,5 @@
 import Vue from 'nativescript-vue';
 import Vuex from 'vuex';
-import axios from 'axios';
 import * as fs from 'tns-core-modules/file-system'
 
 import * as Toast from 'nativescript-toast';

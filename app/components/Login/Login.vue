@@ -24,7 +24,6 @@
 </template>
 
 <script>
-  import axios from 'axios'
   import * as Toast from 'nativescript-toast';
   import * as appSettings from 'tns-core-modules/application-settings'
   import Startview from '../Startview/Startview'

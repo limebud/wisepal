@@ -20,7 +20,7 @@
           <GridLayout rows="80, *, 60">
 
               <StackLayout row="0" class="heading" verticalAlignment="center">
-                  <Label :text="customerInfo.Name.Value" fontSize="24" textAlignment="center" />
+                  <Label v-if="customerInfo.Name" :text="customerInfo.Name.Value" fontSize="24" textAlignment="center" />
                   <Label v-if="customerInfo.SocialSecurityNumber" row="1" col="1" textWrap="true" :text="customerInfo.SocialSecurityNumber.Value" fontSize="16" textAlignment="center"/>
               </StackLayout>
               <GridLayout row="1">
@@ -52,7 +52,6 @@
 </template>
 
 <script>
-  import axios from 'axios'
   import CustomerInfo from './CustomerInfo.vue'
   import CustomerDocuments from './CustomerDocuments.vue'
   import Meeting from './Meeting.vue'
@@ -67,12 +66,12 @@
   export default {
       data() {
           return {
-              customerInfo: this.$store.getters.getCustomerInformation,
+              customerInfo: this.$store.getters.getCustomerInformation || null,
               component: 'customer-info',
               activeClass: 'info',
               searchQuery: '',
               searchResults: this.$store.getters.getSearchResults,
-              id: this.$store.getters.getCustomerInformation.Id.Value
+              id: this.$store.getters.getCustomerInformation.Id.Value || null
           }
       },
       components: {
@@ -105,19 +104,9 @@
           },
           search() {
               if (this.searchQuery.length > 1) {
-                  axios.get('/Broker/SearchParties/', {
-                      params: {
-                          searchQuery: this.searchQuery
-                      },
-                      headers: {
-                          'Authorization': this.$store.getters.getToken,
-                          'Culture': 'sv-se'
-                      }
+                  this.$store.dispatch('search', {
+                      searchQuery: this.searchQuery
                   })
-                  .then(res => {
-                      this.$store.commit('setSearchResults', res.data.Result)
-                  })
-                  .catch(error => { console.log(error)})
               } else {
                   this.$store.commit('setSearchResults', [])
               }

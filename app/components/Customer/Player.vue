@@ -40,7 +40,7 @@
       created() {
           // console.log(this.id)
           // this.filepath = this.folder.path + '/' + this.filename
-
+          console.log(this.filepath)
           this.player.initFromFile({
               audioFile: this.filepath,
               loop: false,

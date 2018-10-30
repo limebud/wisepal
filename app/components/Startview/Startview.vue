@@ -26,7 +26,6 @@
 </template>
 
 <script>
-  import axios from 'axios'
   import Customer from '../Customer/Customer'
   import Login from '../Login/Login'
   import SearchResults from './SearchResults'
@@ -50,19 +49,9 @@
           },
           search() {
               if (this.searchQuery.length > 1) {
-                  axios.get('/Broker/SearchParties/', {
-                      params: {
-                          searchQuery: this.searchQuery
-                      },
-                      headers: {
-                          'Authorization': this.$store.getters.getToken,
-                          'Culture': 'sv-se'
-                      }
+                  this.$store.dispatch('search', {
+                      searchQuery: this.searchQuery
                   })
-                  .then(res => {
-                      this.$store.commit('setSearchResults', res.data.Result)
-                  })
-                  .catch(error => { console.log(error)})
               } else {
                   this.$store.commit('setSearchResults', [])
               }

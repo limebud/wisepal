@@ -22,7 +22,7 @@ axios.defaults.baseURL = 'https://webapitest.wisetalk.se/api'
 Vue.registerElement('RadSideDrawer', () => require('nativescript-ui-sidedrawer').RadSideDrawer)
 
 if(TNS_ENV !== 'production') {
-  Vue.use(VueDevtools, { host: '192.168.0.7' })
+  Vue.use(VueDevtools)
 }
 // Prints Vue logs when --env.production is *NOT* set while building
 Vue.config.silent = (TNS_ENV === 'production')

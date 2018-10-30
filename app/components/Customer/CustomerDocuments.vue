@@ -11,7 +11,6 @@
 </template>
 
 <script>
-  import axios from 'axios'
   export default {
       name: "customer-documents",
       props: [
@@ -23,21 +22,10 @@
           }
       },
       created() {
-          axios.get('/Document/GetDocumentsByPartyId/', {
-              params: {
-                  Id: this.id
-              },
-              headers: {
-                  'Authorization': this.$store.getters.getToken,
-                  'Culture': 'sv-se'
-              }
-          })
+          this.$store.dispatch('getDocuments', { id: this.id })
           .then(res => {
-              console.log(res.data.Result)
-              this.documents = res.data.Result
+              this.documents = this.$store.getters.getCustomerDocuments
           })
-
-          this.documents = this.$store.getters.getCustomerDocuments
       }
     }
 </script>

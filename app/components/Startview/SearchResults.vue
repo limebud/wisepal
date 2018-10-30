@@ -27,7 +27,6 @@
 </template>
 
 <script>
-  import axios from 'axios'
   import Customer from '../Customer/Customer'
 
   export default {
@@ -66,33 +65,15 @@
                       this.$store.commit('setPartyType', 'Company')
                   }
 
-                  axios.all([
-                      axios.get(this.url, {
-                          params: {
-                              Id: this.id
-                          },
-                          headers: {
-                              'Authorization': this.$store.getters.getToken,
-                              'Culture': 'sv-se',
-                          }
-                      }),
-                      axios.post('/Broker/SaveRecentVisit/?partyId=' + this.id, {}, {
-                          headers: {
-                              'Authorization': this.$store.getters.getToken,
-                              'Culture': 'sv-se',
-                          }
-                      })
-                  ])
-                  .then(axios.spread((personRes) => {
-                      this.$store.commit('setCustomerInformation', personRes.data.Result)
-                      this.$store.commit('setSearchResults', [])
-                      this.$store.dispatch('recentVisit')
-                      this.$navigateTo(Customer)
-                  }))
-                  .catch(error => {
-                      console.log("Error: " + error.response.data.Message)
+                  this.$store.dispatch('goToCustomer', {
+                      id: this.id,
+                      url: this.url
                   })
-
+                  .then(res => {
+                      this.$store.dispatch('recentVisit')
+                      this.$store.commit('setSearchResults', [])
+                      this.$navigateTo(Customer)
+                  })
               } else {
                   alert("Du måste avsluta inspelningen innan du kan lämna den")
               }
