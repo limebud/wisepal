@@ -1,6 +1,6 @@
 <template>
   <GridLayout rows="auto, *" >
-      <FlexboxLayout row="0" class="icons">
+      <FlexboxLayout row="0" class="icons white iconSize">
           <StackLayout class="icon">
               <Label class="fa" :text="'fa-camera' | fonticon" @tap="useCamera" />
           </StackLayout>
@@ -16,14 +16,14 @@
       <ScrollView row="1" >
           <StackLayout>
           <GridLayout v-if="notes.length == 0 && recordings.length == 0" columns="*, 8*, *">
-              <Label text="Inga anteckningar eller inspelningar" col="1" textWrap="true" margin="5" color="#ccc"/>
+              <Label class="gray" text="Inga anteckningar eller inspelningar" col="1" textWrap="true" margin="5"/>
           </GridLayout>
            <GridLayout columns="*, 4*" rows="*, *, *, *"  v-for="note in notes" class="row" :key="note" @tap="readNote(note)">
-              <Label col="0" row="0" rowSpan="4" class="fas" :text="'fa-sticky-note' | fonticon" color="#ffdb24"/>
+              <Label col="0" row="0" rowSpan="4" class="fas yellow iconSize" :text="'fa-sticky-note' | fonticon"/>
               <Label col="1" row="1" rowSpan="2" :text="note.split('-')[1].split('.')[0]"  textAlignment="left" class="title"/>
           </GridLayout>
           <GridLayout columns="*, 4*" rows="*,*,*,*" v-for="recording in recordings" class="row" :key="recording" @tap="playRecording(recording)">
-              <Label col="0" row="0" rowSpan="4" class="fas" :text="'fa-headphones' | fonticon" />
+              <Label col="0" row="0" rowSpan="4" class="fas iconSize" :text="'fa-headphones' | fonticon" />
               <Label col="1" row="1" rowSpan="2" :text="recording.split('-')[2]" textAlignment="left" class="title"/>
           </GridLayout>
       </StackLayout>
@@ -119,9 +119,7 @@
 
 
 <style scoped lang="scss">
-.far,
 .fas {
-    font-size: 34;
     vertical-align: center;
     text-align: center;
 }
@@ -129,7 +127,6 @@
 .icons {
     justify-content: space-around;
     font-size: 40;
-    color: #fff;
 }
 
 .icon {

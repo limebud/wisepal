@@ -4,7 +4,7 @@
           <GridLayout columns="*, auto, *">
               <GridLayout col="1" class="searchBar" columns="*, auto">
                   <TextField col="0" hint="Sök..." returnKeyType="search" @submit="search" v-model="searchQuery" @focus="onFocus" @blur="onBlur" @textChange="searchQ" class="inputField"/>
-                  <TextField col="1" v-if="this.$store.getters.getSearchBarActive" class="fas emptyQuery" :text="'fa-times-circle' | fonticon" @tap="emptySearchQuery" borderRadius="100"/>
+                  <TextField col="1" v-if="this.$store.getters.getSearchBarActive" class="fas emptyQuery" :text="'fa-times-circle' | fonticon" @tap="emptySearchQuery"/>
               </GridLayout>
               <Label class="fa menu" :text="'fa-bars' | fonticon" @tap="openDrawer" col="0" />
           </GridLayout>
@@ -19,7 +19,7 @@
 
           <GridLayout rows="80, *, 60">
 
-              <StackLayout row="0" class="heading" verticalAlignment="center">
+              <StackLayout row="0" class="heading vCenter">
                   <Label v-if="customerInfo.Name" :text="customerInfo.Name.Value" fontSize="24" textAlignment="center" />
                   <Label v-if="customerInfo.SocialSecurityNumber" row="1" col="1" textWrap="true" :text="customerInfo.SocialSecurityNumber.Value" fontSize="16" textAlignment="center"/>
               </StackLayout>
@@ -30,17 +30,17 @@
               </GridLayout>
 
               <GridLayout row="2" columns="*, *, *" class="tabs">
-                  <FlexboxLayout flexDirection="column" justifyContent="center" col="0" @tap="component = 'customer-info'" :class="[component == 'customer-info' ? 'active' : 'none']" >
-                      <Label class="fas icon" :text="'fa-address-card' | fonticon" verticalAlignment="center" />
-                      <Label v-if="component == 'customer-info'" text="Kontakt" textAlignment="center" fontSize="12" verticalAlignment="center"/>
+                  <FlexboxLayout flexDirection="column" justifyContent="center" col="0" @tap="component = 'customer-info'" :class="[component == 'customer-info' ? 'orange' : 'none']" >
+                      <Label class="fas icon vCenter" :text="'fa-address-card' | fonticon"/>
+                      <Label class="tabText vCenter" v-if="component == 'customer-info'" text="Kontakt" textAlignment="center" />
                   </FlexboxLayout>
-                  <FlexboxLayout flexDirection="column" justifyContent="center" col="1"  @tap="component = 'customer-documents'" :class="[component == 'customer-documents' ? 'active' : 'none']" >
-                      <Label class="fas icon" :text="'fa-file' | fonticon" verticalAlignment="center" />
-                      <Label v-if="component == 'customer-documents'" text="Dokument" textAlignment="center" fontSize="12" verticalAlignment="center"/>
+                  <FlexboxLayout flexDirection="column" justifyContent="center" col="1"  @tap="component = 'customer-documents'" :class="[component == 'customer-documents' ? 'orange' : 'none']" >
+                      <Label class="fas icon vCenter" :text="'fa-file' | fonticon"/>
+                      <Label class="tabText vCenter" v-if="component == 'customer-documents'" text="Dokument" textAlignment="center"/>
                   </FlexboxLayout>
-                  <FlexboxLayout flexDirection="column" justifyContent="center" col="2"  @tap="gotoMeeting" :class="[component == 'meeting' ? 'active' : 'none']" >
-                      <Label class="fas icon" :text="'fa-users' | fonticon" verticalAlignment="center" />
-                      <Label v-if="component == 'meeting'" text="Möte" textAlignment="center" fontSize="12" verticalAlignment="center"/>
+                  <FlexboxLayout flexDirection="column" justifyContent="center" col="2"  @tap="gotoMeeting" :class="[component == 'meeting' ? 'orange' : 'none']" >
+                      <Label class="fas icon vCenter" :text="'fa-users' | fonticon" />
+                      <Label class="tabText vCenter" v-if="component == 'meeting'" text="Möte" textAlignment="center"/>
                   </FlexboxLayout>
               </GridLayout>
 
@@ -52,17 +52,12 @@
 </template>
 
 <script>
+import * as application from 'tns-core-modules/application'
   import CustomerInfo from './CustomerInfo.vue'
   import CustomerDocuments from './CustomerDocuments.vue'
   import Meeting from './Meeting.vue'
-  import Login from '../Login/Login.vue'
-  import Startview from '../Startview/Startview.vue'
   import SearchResults from '../Startview/SearchResults'
   import Menu from '../SideDrawer/Menu.vue'
-  import * as application from 'tns-core-modules/application'
-
-
-
   export default {
       data() {
           return {
@@ -135,55 +130,23 @@
       beforeMount() {
           this.$store.commit('emptyRecordedFiles')
           this.$store.commit('emptyNotes')
-          // this.$store.commit('setCustomerInformation', [])
-          // this.$store.commit('setCustomerDocuments', [])
       },
   }
 </script>
 
 <style scoped lang="scss">
-    .active {
-        color: #ff9c00;
-    }
-
     .icon {
         text-align: center;
         font-size: 24;
+        vertical-align: center;
     }
+
     .tabs {
         background: #513270;
         color: #fff;
     }
 
-    .name {
-        text-align: center;
-        width: 80%;
+    .tabText {
+        font-size: 12;
     }
-
-
-
-    .fa {
-        text-align: left;
-        vertical-align: center;
-        font-size: 25;
-    }
-
-    .searchBar {
-        width: 80%;
-        height: 40;
-        font-size: 16;
-        border-radius: 10;
-        background: #fff;
-        color: black;
-    }
-
-    .inputField {
-        background: #fff;
-        border-radius: 10;
-    }
-
-    .emptyQuery {
-        background: #fff;
-    }
-
 </style>

@@ -2,9 +2,9 @@
       <ScrollView>
           <StackLayout>
               <GridLayout columns="*, 4*" rows="*, *, *, *" class="row" v-for="(doc, index) in documents" :key="index">
-                  <Label row="0" col="0" rowSpan="4" class="far" :text="'fa-file-alt' | fonticon" color="#509aaf"/>
-                  <Label row="1" col="1" :text="doc.Title.Value" class="title"/>
-                  <Label row="2" col="1" :text="doc.Date.Value" class="date"/>
+                  <Label row="0" col="0" rowSpan="4" class="far blue iconSize vCenter" :text="'fa-file-alt' | fonticon"/>
+                  <Label row="1" col="1" :text="doc.Title.Value" class="title vCenter"/>
+                  <Label row="2" col="1" :text="doc.Date.Value" class="date gray vCenter"/>
             </GridLayout>
     </StackLayout>
       </ScrollView>
@@ -37,24 +37,14 @@
         color: #333;
         height: 80;
     }
-
     .date {
-        color: #999;
         font-size: 14;
-        vertical-align: center;
     }
-
     .title {
         font-size: 16;
-        vertical-align: center;
         font-weight: bold;
     }
-
     .far {
-        font-size: 34;
-        vertical-align: center;
         text-align: center;
     }
-
-
 </style>

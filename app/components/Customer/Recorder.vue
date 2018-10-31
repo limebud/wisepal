@@ -3,13 +3,13 @@
 
       <Label row="0" :text="clock" fontSize="30"/>
 
-      <Label row="1" v-if="!this.$store.getters.getRecordingStatus" class="fas" :text="'fa-circle' | fonticon" color="#bc1b27" fontSize="34" @tap="startRecording"/>
+      <Label row="1" v-if="!this.$store.getters.getRecordingStatus" class="fas red iconSize" :text="'fa-circle' | fonticon" @tap="startRecording"/>
 
-      <Label row="1"  v-else-if="this.$store.getters.getRecordingStatus === 'recording'" class="fas" :text="'fa-stop' | fonticon" color="#bc1b27" fontSize="34" @tap="stopRecording" />
+      <Label row="1"  v-else-if="this.$store.getters.getRecordingStatus === 'recording'" class="fas red iconSize" :text="'fa-stop' | fonticon" @tap="stopRecording" />
 
-      <FlexboxLayout row="1" v-else-if="this.$store.getters.getRecordingStatus === 'recorded'" justifyContent="space-around" color="#aaa">
-          <Label class="fas" :text="'fa-check' | fonticon" @tap="saveRecording" color="#29b33c" fontSize="34"/>
-          <Label class="fas" :text="'fa-times' | fonticon" @tap="deleteRecording" fontSize="34" color="#bbb"/>
+      <FlexboxLayout row="1" v-else-if="this.$store.getters.getRecordingStatus === 'recorded'" justifyContent="space-around">
+          <Label class="fas green iconSize" :text="'fa-check' | fonticon" @tap="saveRecording"/>
+          <Label class="fas gray iconSize" :text="'fa-times' | fonticon" @tap="deleteRecording"/>
       </FlexboxLayout>
 
   </GridLayout>
@@ -19,7 +19,6 @@
 <script>
   import * as fs from 'tns-core-modules/file-system'
   import { AudioPlayerOptions, AudioRecorderOptions, TNSPlayer, TNSRecorder } from 'nativescript-audio'
-  import { Image } from "ui/image"
   import * as Toast from 'nativescript-toast'
   import * as application from "tns-core-modules/application"
   import * as dialogs from 'tns-core-modules/ui/dialogs'
@@ -113,8 +112,6 @@
                   this.recorder.stop()
 
                   clearInterval(this.timer)
-
-
                   clearInterval(this.meterInterval)
                   this.meterInterval = null
                   this.audioMeter = 0
@@ -134,7 +131,6 @@
                     }
                 });
           },
-
           saveRecording() {
               prompt({
                   message: "Spara som...",
@@ -154,7 +150,8 @@
                           saveFile.rename(this.saveFileName)
                           this.$store.commit('appendRecordedFiles', saveFile.name)
                           Toast.makeText("Inspelningen sparad", "long").show()
-                          this.reset()
+                          application.android.off(application.AndroidApplication.activityBackPressedEvent)
+                          this.$store.commit('setRecordingStatus', null)
                           this.$navigateBack()
                       }
                     }
@@ -163,16 +160,6 @@
                     console.log("Error: " + err)
                 })
           },
-          reset() {
-              application.android.off(application.AndroidApplication.activityBackPressedEvent)
-              this.$store.commit('setRecordingStatus', null)
-              this.counter = 0
-              this.timer = null
-              this.clock = '00:00:00'
-              this.seconds = 0
-              this.minutes = 0
-              this.hours = 0
-          }
       },
       destroyed() {
           this.recorder.dispose()

@@ -8,6 +8,72 @@
 
 // Global SCSS styling
 // @see https://docs.nativescript.org/ui/styling
+Page {
+    background: #fff;
+    color: #333;
+}
+
+ActionBar {
+    background: #513270;
+    color: #fff;
+    font-size: 20;
+}
+
+.searchBar {
+    width: 80%;
+    height: 40;
+    font-size: 16;
+    border-radius: 10;
+    background: #fff;
+    color: black;
+}
+
+.inputField {
+    background: #fff;
+    border-radius: 10;
+}
+
+.menu {
+  vertical-align: center;
+  text-align: left;
+  font-size: 25;
+}
+
+.green {
+    color: #29b33c;
+}
+
+.red {
+    color: #bc1b27;
+}
+
+.blue {
+    color: #25a7de;
+}
+
+.gray {
+    color: #bbb;
+}
+
+.yellow {
+    color: #ffdb24;
+}
+
+.white {
+    color: #fff;
+}
+
+.orange {
+    color: #ff9c00;
+}
+
+.iconSize {
+    font-size: 34;
+}
+
+.vCenter {
+    vertical-align: center;
+}
 
 .fa {
     font-family: FontAwesome, fontawesome-webfont;
@@ -25,13 +91,9 @@
     font-family: FontAwesome, fa-regular-400;
 }
 
-Page {
-    background: #fff;
-    color: #333;
-}
 
-ActionBar {
-    background: #513270;
-    color: #fff;
-    font-size: 20;
+
+.emptyQuery {
+    background: #fff;
+    border-radius: 100;
 }

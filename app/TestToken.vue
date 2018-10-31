@@ -1,6 +1,6 @@
 <template>
     <Page actionBarHidden="true">
-        <ActivityIndicator textAlignment="center" verticalAlignment="center" color="#ff9c00" busy="true"></ActivityIndicator>
+        <ActivityIndicator textAlignment="center" class="orange vCenter" busy="true"></ActivityIndicator>
     </Page>
 </template>
 

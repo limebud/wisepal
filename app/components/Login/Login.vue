@@ -2,7 +2,7 @@
     <Page loaded="pageLoaded" actionBarHidden="true">
         <GridLayout rows="*, *, 2*" class="loginView">
 
-            <ActivityIndicator row="0" rowSpan="3" verticalAlignment="center" color="#ff9c00" :busy="busy"></ActivityIndicator>
+            <ActivityIndicator row="0" rowSpan="3" class="orange vCenter" :busy="busy"></ActivityIndicator>
 
             <StackLayout row="0" class="header">
                 <Image  src="res://logo" class="logo" />
@@ -33,7 +33,7 @@
           return {
               pin: appSettings.getString("pin") || '',
               username: appSettings.getString("username") || '',
-              password: 'admin',
+              password: '',
               busy: false
           }
       },

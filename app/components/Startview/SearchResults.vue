@@ -12,7 +12,7 @@
             </ListView>
         </StackLayout>
         <StackLayout v-if="this.$store.getters.getSearchBarActive && searchQuery.length <= 1">
-            <Label text="Senast besökta" color="gray" background="#eee" textAlignment="center"/>
+            <Label text="Senast besökta" class="gray" background="#eee" textAlignment="center"/>
             <ListView class="list-group" for="item in this.$store.getters.getRecentVisit" @itemTap="goToRecent" >
                 <v-template>
                     <GridLayout columns="*, 4*" class="list-group-item">

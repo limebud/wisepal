@@ -3,9 +3,10 @@ import * as Toast from 'nativescript-toast';
 import * as fs from 'tns-core-modules/file-system'
 import * as appSettings from 'tns-core-modules/application-settings'
 
+axios.defaults.baseURL = 'https://webapitest.wisetalk.se/api'
 
 export const authRequest = ({commit}, auth) => {
-    axios.get('https://webapitest.wisetalk.se/api/Account/BrokerLogin/', {
+    axios.get('/Account/BrokerLogin/', {
         params: {
             pin: auth.pin,
             username: auth.username,
@@ -30,7 +31,7 @@ export const authRequest = ({commit}, auth) => {
 }
 
 export const recentVisit = async ({commit, state}) => {
-    await axios.get('https://webapitest.wisetalk.se/api/Broker/GetRecentVisit', {
+    await axios.get('/Broker/GetRecentVisit', {
         headers: {
             'Authorization': state.token,
             'Culture': 'sv-se'
@@ -47,6 +48,7 @@ export const recentVisit = async ({commit, state}) => {
         console.log("Error: " + err)
     })
 }
+
 
 export const goToCustomer = async ({commit, state}, payload) => {
     await axios.all([

@@ -4,7 +4,7 @@
           <GridLayout columns="*, auto, *">
               <GridLayout col="1" class="searchBar" columns="*, auto">
                   <TextField col="0" hint="Sök..." returnKeyType="search" @submit="search" v-model="searchQuery" @focus="onFocus" @blur="onBlur" @textChange="searchQ" class="inputField"/>
-                  <TextField col="1" v-if="this.$store.getters.getSearchBarActive" class="fas emptyQuery" :text="'fa-times-circle' | fonticon" @tap="emptySearchQuery" borderRadius="100"/>
+                  <TextField col="1" v-if="this.$store.getters.getSearchBarActive" class="fas emptyQuery" :text="'fa-times-circle' | fonticon" @tap="emptySearchQuery" />
               </GridLayout>
               <Label class="fa menu" :text="'fa-bars' | fonticon" @tap="openDrawer" col="0" />
           </GridLayout>
@@ -14,7 +14,6 @@
           <StackLayout ~drawerContent class="sideStackLayout">
               <appMenu />
           </StackLayout>
-
 
           <GridLayout rows="*, auto" ~mainContent class="mainStackLayout">
               <StackLayout row="0" rowSpan="2" >
@@ -92,28 +91,4 @@
 </script>
 
 <style scoped lang="scss">
-.fa {
-  vertical-align: center;
-  text-align: left;
-  font-size: 25;
-}
-
-.searchBar {
-    width: 80%;
-    height: 40;
-    font-size: 16;
-    border-radius: 10;
-    background: #fff;
-    color: black;
-}
-
-.inputField {
-    background: #fff;
-    border-radius: 10;
-}
-
-.emptyQuery {
-    background: #fff;
-}
-
 </style>

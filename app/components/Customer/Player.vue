@@ -1,14 +1,15 @@
 <template>
   <GridLayout rows="*, 60">
       <Label row="0" :text="clock + ' / ' + trackDuration"  fontSize="30"/>
-      <FlexboxLayout row="1" justifyContent="space-around" verticalAlignment="center" class="buttons">
-          <Label v-if="!playing" class="fas" :text="'fa-play' | fonticon" fontSize="34" @tap="togglePlay" color="#25a7de"/>
-          <Label v-else class="fas" :text="'fa-pause' | fonticon" fontSize="34" @tap="togglePlay" color="#25a7de"/>
-          <Label class="fas" :text="'fa-stop' | fonticon" fontSize="34" @tap="stopRecording" color="#bc1b27" />
-          <Label class="fas" :text="'fa-times' | fonticon" fontSize="34" @tap="deleteRecording" color="#bbb" />
+      <FlexboxLayout row="1" justifyContent="space-around" class="buttons vCenter">
+          <Label v-if="!playing" class="fas blue iconSize" :text="'fa-play' | fonticon" @tap="togglePlay"/>
+          <Label v-else class="fas blue iconSize" :text="'fa-pause' | fonticon" @tap="togglePlay"/>
+          <Label class="fas red iconSize" :text="'fa-stop' | fonticon" @tap="stopRecording" />
+          <Label class="fas gray iconSize" :text="'fa-times' | fonticon" @tap="deleteRecording"/>
       </FlexboxLayout>
   </GridLayout>
 </template>
+
 
 
 <script>
@@ -38,9 +39,6 @@
           }
       },
       created() {
-          // console.log(this.id)
-          // this.filepath = this.folder.path + '/' + this.filename
-          console.log(this.filepath)
           this.player.initFromFile({
               audioFile: this.filepath,
               loop: false,

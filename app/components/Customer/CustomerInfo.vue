@@ -2,26 +2,26 @@
     <StackLayout>
         <ScrollView>
             <StackLayout>
-                <GridLayout v-if="phoneNr" columns="*, 4*" rows="*, *, *, *" class="row">
-                    <Label class="fa" row="0" rowSpan="4" :text="'fa-phone' | fonticon"  color="#29b33c" @tap="doCall(customerInfo.PhoneNumber.Value)" />
+                <GridLayout v-if="phoneNr" columns="*, 4*" rows="*, *, *, *" class="row iconSize">
+                    <Label class="fa green" row="0" rowSpan="4" :text="'fa-phone' | fonticon" @tap="doCall(customerInfo.PhoneNumber.Value)" />
                     <Label text="Telefon" col="1" row="1" class="type" />
                     <Label :text="phoneNr" col="1" row="2" class="value"/>
                 </GridLayout>
-                <GridLayout v-if="phoneNrWork" columns="*, 4*" rows="*, *, *, *" class="row" >
-                    <Label class="fa" row="0" rowSpan="4" :text="'fa-phone' | fonticon" color="#29b33c" @tap="doCall(customerInfo.PhoneNumberWork.Value)" />
+                <GridLayout v-if="phoneNrWork" columns="*, 4*" rows="*, *, *, *" class="row iconSize" >
+                    <Label class="fa green" row="0" rowSpan="4" :text="'fa-phone' | fonticon" @tap="doCall(customerInfo.PhoneNumberWork.Value)" />
                     <Label text="Telefon, arbete" col="1" row="1" class="type"/>
                     <Label :text="phoneNrWork" col="1" row="2" class="value"/>
                 </GridLayout>
-                <GridLayout v-if="streetAddress" columns="*, 4*" rows="*, auto, *" class="row">
-                    <Label class="fas" col="0" row="0" rowSpan="3" :text="'fa-map-marker-alt' | fonticon" color="#bc1b27" @tap="showMap"/>
+                <GridLayout v-if="streetAddress" columns="*, 4*" rows="*, auto, *" class="row iconSize">
+                    <Label class="fas red" col="0" row="0" rowSpan="3" :text="'fa-map-marker-alt' | fonticon" @tap="showMap"/>
                     <StackLayout row="1" col="1">
                         <Label text="Adress" class="type"/>
                         <Label :text="streetAddress" class="value" />
                         <Label :text="postnummer + ' ' + postort" class="value" />
                     </StackLayout>
                 </GridLayout>
-                <GridLayout v-if="email" columns="*, 4*" rows="*, *, *, *" class="row" >
-                    <Label class="fas" col="0" row="0" rowSpan="4" :text="'fa-envelope' | fonticon" color="#25a7de"/>
+                <GridLayout v-if="email" columns="*, 4*" rows="*, *, *, *" class="row iconSize" >
+                    <Label class="fas blue" col="0" row="0" rowSpan="4" :text="'fa-envelope' | fonticon"/>
                     <Label text="Epost" col="1" row="1" class="type" />
                     <Label :text="email" col="1" row="2" class="value"/>
                 </GridLayout>
@@ -67,7 +67,6 @@
 
 .fa,
 .fas {
-    font-size: 34;
     vertical-align: center;
     text-align: center;
 }
