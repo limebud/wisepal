@@ -14,8 +14,8 @@
 
             <StackLayout row="2" class="form">
                 <TextField v-model="pin" hint="PIN"/>
-                <TextField v-model="username" hint="Username"/>
-                <TextField v-model="password" hint="Password" secure="true" @returnPress="login" returnKeyType="go"/>
+                <TextField v-model="username" hint="Användarnamn"/>
+                <TextField v-model="password" hint="Lösenord" secure="true" @returnPress="login" returnKeyType="go"/>
                 <Button @tap="login" class="loginButton">Logga in</Button>
             </StackLayout>
 

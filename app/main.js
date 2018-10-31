@@ -1,8 +1,4 @@
 import Vue from 'nativescript-vue'
-import Login from './components/Login/Login.vue'
-import Startview from './components/Startview/Startview'
-
-
 import TestToken from './components/Login/TestToken'
 import VueDevtools from 'nativescript-vue-devtools'
 import store from './store';
