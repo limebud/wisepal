@@ -27,7 +27,4 @@
 </script>
 
 <style scoped>
-Page {
-    background: blue;
-    color: #fff;
-}
+</style>

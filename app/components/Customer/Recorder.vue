@@ -22,7 +22,6 @@
   import * as Toast from 'nativescript-toast'
   import * as application from "tns-core-modules/application"
   import * as dialogs from 'tns-core-modules/ui/dialogs'
-
   export default {
       data() {
           return {
@@ -43,16 +42,13 @@
       },
       created() {
           this.folder = fs.knownFolders.currentApp().getFolder('recordings/' + this.id)
-
           this.filename = this.folder.path + '/recording'
           this.recorderOptions = {
               filename: this.filename,
               metering: true,
-
               infoCallback: infoObject => {
                 console.log(JSON.stringify(infoObject));
               },
-
               errorCallback: errorObject => {
                 console.log(JSON.stringify(errorObject));
               }
@@ -69,7 +65,6 @@
                       this.hours++;
                   }
               }
-
               this.clock = (this.hours ? (this.hours > 9 ? this.hours : "0" + this.hours) : "00") + ":" +
                            (this.minutes ? (this.minutes > 9 ? this.minutes : "0" + this.minutes) : "00") + ":" +
                            (this.seconds > 9 ? this.seconds : "0" + this.seconds);
@@ -84,14 +79,11 @@
               .then(() => {
                   if (this.recorder.hasRecordPermission()) {
                       this.startTimer()
-
                       application.android.on(application.AndroidApplication.activityBackPressedEvent, (args) => {
                           args.cancel = true;
                           alert("Det går för tillfället inte att backa ur en pågående inspelning.")
                       });
-
                       this.$store.commit('setRecordingStatus', 'recording')
-
                       if (TNSRecorder.CAN_RECORD()) {
                           this.isRecording = true
                           this.recorder.start(this.recorderOptions)
@@ -108,9 +100,7 @@
           stopRecording() {
               if (this.isRecording) {
                   this.$store.commit('setRecordingStatus', 'recorded')
-
                   this.recorder.stop()
-
                   clearInterval(this.timer)
                   clearInterval(this.meterInterval)
                   this.meterInterval = null
@@ -141,9 +131,7 @@
                 }).then(res => {
                   if (res.result) {
                       this.saveFileName = this.id + '-recording-' + res.text
-
                       let saveFile = this.folder.getFile("recording")
-
                       if (this.$store.getters.getRecordedFiles.includes(this.saveFileName)) {
                           alert("Det finns redan en inspelning med det namnet")
                       } else {
@@ -171,17 +159,12 @@
 Page {
     text-align: center;
 }
-
-
 Label {
     vertical-align: center;
     text-align: center;
 }
-
 FlexboxLayout {
     vertical-align: center;
     text-align: center;
 }
-
-
 </style>

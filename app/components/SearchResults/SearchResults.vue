@@ -46,15 +46,15 @@
           goToRecent(event) {
               this.id = event.item.PartyId.Value
               this.partyType = event.item.RecentActivityType.List[0].Selected ? "Person" : "Company"
-              this.onItemTap()
+              this.goToCustomer()
 
           },
           goToSearch(event) {
               this.id = event.item.Id.Value
               this.partyType = event.item.PartyType.Value
-              this.onItemTap()
+              this.goToCustomer()
           },
-          onItemTap() {
+          goToCustomer() {
               if (!this.$store.getters.getRecordingStatus)
               {
                   if (this.partyType === "Person") {
