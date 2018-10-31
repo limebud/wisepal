@@ -31,7 +31,7 @@
   import Meeting from './Meeting.vue'
   import Login from '../Login/Login.vue'
   import Startview from '../Startview/Startview.vue'
-  import SearchResults from '../Startview/SearchResults'
+  import SearchResults from '../SearchResults/SearchResults'
   import Note from './Note.vue'
   import Recorder from './Recorder.vue'
   import Player from './Player.vue'

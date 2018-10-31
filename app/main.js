@@ -1,9 +1,9 @@
 import Vue from 'nativescript-vue'
-import Login from './components/Login/Login'
+import Login from './components/Login/Login.vue'
 import Startview from './components/Startview/Startview'
 
 
-import TestToken from './TestToken'
+import TestToken from './components/Login/TestToken'
 import VueDevtools from 'nativescript-vue-devtools'
 import store from './store';
 import {TNSFontIcon, fonticon} from 'nativescript-fonticon';

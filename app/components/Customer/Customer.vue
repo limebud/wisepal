@@ -56,7 +56,7 @@ import * as application from 'tns-core-modules/application'
   import CustomerInfo from './CustomerInfo.vue'
   import CustomerDocuments from './CustomerDocuments.vue'
   import Meeting from './Meeting.vue'
-  import SearchResults from '../Startview/SearchResults'
+  import SearchResults from '../SearchResults/SearchResults'
   import Menu from '../SideDrawer/Menu.vue'
   export default {
       data() {

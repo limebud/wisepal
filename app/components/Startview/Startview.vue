@@ -28,7 +28,7 @@
 <script>
   import Customer from '../Customer/Customer'
   import Login from '../Login/Login'
-  import SearchResults from './SearchResults'
+  import SearchResults from '../SearchResults/SearchResults'
   import Menu from '../SideDrawer/Menu.vue'
 
 

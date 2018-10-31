@@ -5,8 +5,8 @@
 </template>
 
 <script>
-  import Login from './components/Login/Login'
-  import Startview from './components/Startview/Startview'
+  import Login from './Login'
+  import Startview from '../Startview/Startview'
 
   export default {
       beforeCreate() {
